@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "812067313674",
+    "project_id": "database-emarket",
+    "storage_bucket": "database-emarket.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812067313674:android:6f3d0102299f86d739a7f3",
+        "android_client_info": {
+          "package_name": "com.example.emarket_buyer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "812067313674-l6j03f50v7egn7lthl09rn8bv42ln1s3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe1Wi7kaHuU8tBQ7k2a3f0rc3U7QCTgPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "812067313674-l6j03f50v7egn7lthl09rn8bv42ln1s3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812067313674:android:00e321d4adbbc6b239a7f3",
+        "android_client_info": {
+          "package_name": "com.example.emarket_seller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "812067313674-l6j03f50v7egn7lthl09rn8bv42ln1s3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe1Wi7kaHuU8tBQ7k2a3f0rc3U7QCTgPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "812067313674-l6j03f50v7egn7lthl09rn8bv42ln1s3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
