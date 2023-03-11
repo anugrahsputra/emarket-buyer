@@ -62,7 +62,8 @@ class AuthController extends GetxController {
       Get.find<BuyerController>().buyer =
           await Database().getBuyer(credential.user!.uid);
       Get.find<BuyerController>().update();
-
+      Get.find<ProductController>().update();
+      debugPrint(credential.toString());
       Get.back();
       loading.value = false;
     } catch (e) {

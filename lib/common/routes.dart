@@ -20,6 +20,10 @@ class Routes {
       page: () => const Profilepage(),
     ),
     GetPage(
+      name: '/checkout-page',
+      page: () => ChekcoutPage(),
+    ),
+    GetPage(
       name: '/signin',
       page: () => SigninPage(),
     ),

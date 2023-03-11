@@ -43,6 +43,29 @@ class Cartpage extends StatelessWidget {
                         ),
                       ),
                       direction: DismissDirection.endToStart,
+                      confirmDismiss: (direction) async {
+                        return await Get.dialog(
+                          AlertDialog(
+                            title: const Text('Hapus Produk'),
+                            content: const Text(
+                                'Apakah anda yakin ingin menghapus produk ini?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Get.back(result: false);
+                                },
+                                child: const Text('Tidak'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Get.back(result: true);
+                                },
+                                child: const Text('Ya'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                       onDismissed: (direction) {
                         cartController.removeProduct(
                             cartController.cartProducts[index].productId);
@@ -126,7 +149,9 @@ class Cartpage extends StatelessWidget {
                     0,
                   ),
             child: FilledButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed('/checkout-page');
+              },
               icon: const Icon(Icons.shopping_cart_checkout),
               label: const Text('Checkout'),
             ),

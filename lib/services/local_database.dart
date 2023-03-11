@@ -74,4 +74,9 @@ class LocalDatabase {
       whereArgs: [productId],
     );
   }
+
+  deleteProduct() async {
+    final db = await database;
+    await db!.delete(_tblCart);
+  }
 }

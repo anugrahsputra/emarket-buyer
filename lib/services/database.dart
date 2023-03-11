@@ -53,4 +53,27 @@ class Database {
         .map((snapshot) =>
             snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
   }
+
+  // cart
+
+  // checkout
+  Future<void> newCheckout(CheckoutModel checkout, String id) {
+    return _firestore
+        .collection('buyers')
+        .doc(id)
+        .collection('checkout')
+        .doc()
+        .set(checkout.toMap());
+  }
+
+  Stream<List<CheckoutModel>> fetchCheckout(String id) {
+    return _firestore
+        .collection('buyers')
+        .doc(id)
+        .collection('checkout')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => CheckoutModel.fromSnapshot(doc))
+            .toList());
+  }
 }

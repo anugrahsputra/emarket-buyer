@@ -31,13 +31,15 @@ dependencies:
   cloud_firestore: ^4.4.3
   cupertino_icons: ^1.0.2
   equatable: ^2.0.5
-  firebase_auth: ^4.2.8
+  firebase_auth: ^4.2.10
   firebase_core: ^2.6.1
   flutter:
     sdk: flutter
   get: ^4.6.5
   google_fonts: ^4.0.3
+  intl: ^0.17.0
   sqflite: ^2.2.5
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_lints: ^2.0.0
