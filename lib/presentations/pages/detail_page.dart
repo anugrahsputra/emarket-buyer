@@ -241,7 +241,7 @@ class DetailPage extends StatelessWidget {
                     imageUrl: product.imageUrl,
                   ),
                 );
-                debugPrint('Cart: ${cartController.cartProducts}');
+                debugPrint('Cart: ${cartController.cartProducts.length}');
               },
               icon: const Icon(
                 Icons.shopping_bag,

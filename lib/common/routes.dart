@@ -24,6 +24,10 @@ class Routes {
       page: () => ChekcoutPage(),
     ),
     GetPage(
+      name: '/order-success-page',
+      page: () => OrderSuccessPage(),
+    ),
+    GetPage(
       name: '/signin',
       page: () => SigninPage(),
     ),

@@ -25,7 +25,7 @@ class BuyerController extends GetxController {
     fetchBuyer();
   }
 
-  void fetchBuyer() async {
+  fetchBuyer() async {
     try {
       loading.value = true;
       final User user = FirebaseAuth.instance.currentUser!;

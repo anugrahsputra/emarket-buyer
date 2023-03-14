@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emarket_buyer/models/buyer_model.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +12,7 @@ import 'controller.dart';
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Rxn<User> _firebaseUser = Rxn<User>();
+  StreamSubscription<QuerySnapshot>? checkoutSubscription;
   final loading = false.obs;
 
   User? get user => _firebaseUser.value;
@@ -86,6 +90,7 @@ class AuthController extends GetxController {
       if (_auth.currentUser != null) {
         await _auth.signOut();
         Get.find<BuyerController>().clear();
+        checkoutSubscription?.cancel();
       }
       // Get.find<ProductController>().clearProducts();
     } catch (e, stackTrace) {

@@ -10,10 +10,10 @@ class Product extends Equatable {
   final String category;
   final String description;
   final String imageUrl;
-  int price;
-  int quantity;
+  final int price;
+  final int quantity;
 
-  Product({
+  const Product({
     required this.id,
     required this.sellerId,
     required this.name,

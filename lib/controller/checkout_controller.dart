@@ -39,6 +39,7 @@ class CheckoutController extends GetxController {
     String id = Get.find<AuthController>().user!.uid;
     final newCheckout = CheckoutModel(
       id: uuid.v1(),
+      note: checkoutModel.note,
       displayName: checkoutModel.displayName,
       isProcessing: false,
       isDelivered: false,

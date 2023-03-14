@@ -7,7 +7,7 @@ class ProductController extends GetxController {
   final Database database = Database();
   RxBool loading = false.obs;
 
-  var product = <Product>[].obs;
+  final product = RxList<Product>([]);
 
   @override
   void onInit() {

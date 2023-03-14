@@ -11,10 +11,12 @@ class CheckoutModel extends Equatable {
   final List<CartModel> cart;
   final int total;
   final String date;
+  final String note;
   const CheckoutModel({
     this.id,
     this.isProcessing = false,
     this.isDelivered = false,
+    this.note = '',
     required this.displayName,
     required this.cart,
     required this.total,
@@ -23,6 +25,7 @@ class CheckoutModel extends Equatable {
 
   CheckoutModel copyWith({
     String? id,
+    String? note,
     bool? isProcessing,
     bool? isDelivered,
     String? displayName,
@@ -32,6 +35,7 @@ class CheckoutModel extends Equatable {
   }) {
     return CheckoutModel(
       id: id ?? this.id,
+      note: note ?? this.note,
       isProcessing: isProcessing ?? this.isProcessing,
       isDelivered: isDelivered ?? this.isDelivered,
       displayName: displayName ?? this.displayName,
@@ -44,6 +48,7 @@ class CheckoutModel extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'note': note,
       'displayName': displayName,
       'isProcessing': isProcessing,
       'isDelivered': isDelivered,
@@ -56,6 +61,7 @@ class CheckoutModel extends Equatable {
   factory CheckoutModel.fromSnapshot(DocumentSnapshot map) {
     return CheckoutModel(
       id: map['id'],
+      note: map['note'] ?? '',
       displayName: map['displayName'] ?? '',
       isProcessing: map['isProcessing'] ?? false,
       isDelivered: map['isDelivered'] ?? false,
@@ -70,6 +76,7 @@ class CheckoutModel extends Equatable {
     return [
       displayName,
       isProcessing,
+      note,
       isDelivered,
       cart,
       total,

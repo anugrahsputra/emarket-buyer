@@ -2,6 +2,7 @@ export 'pages/cart_page.dart';
 export 'pages/checkout_page.dart';
 export 'pages/home_page.dart';
 export 'pages/main_page.dart';
+export 'pages/order_success_page.dart';
 export 'pages/profile_page.dart';
 export 'pages/signin_in_page.dart';
 export 'pages/signup_page.dart';

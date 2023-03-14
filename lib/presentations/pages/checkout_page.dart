@@ -3,105 +3,316 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class ChekcoutPage extends StatelessWidget {
   ChekcoutPage({Key? key}) : super(key: key);
 
   final CheckoutController checkoutController = Get.put(CheckoutController());
   final CartController cartController = Get.put(CartController());
-  final BuyerController buyerController = Get.find<BuyerController>();
+  final BuyerController buyerController = Get.put(BuyerController());
   final AuthController auth = Get.put(AuthController());
+  final TextEditingController noteController = TextEditingController();
   Database database = Database();
 
   @override
   Widget build(BuildContext context) {
-    return GetX<BuyerController>(
-      init: buyerController,
-      initState: (_) async {
-        buyerController.buyer = await database.getBuyer(auth.user!.uid);
-      },
-      builder: (_) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Checkout'),
-          ),
-          body: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Checkout'),
+      ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 10,
             ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+            ),
+            color: ColorScheme.fromSeed(seedColor: const Color(0xffa1cca5))
+                .background,
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Total',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                      style: GoogleFonts.roboto(
+                        fontSize: 18,
                       ),
                     ),
+                    const Spacer(),
                     Text(
-                      'Rp. ${cartController.total}',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                      'Rp. ${cartController.total.toInt()}',
+                      style: GoogleFonts.roboto(
+                        fontSize: 18,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Total Bayar',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    Text(
+                      'Ongkir',
+                      style: GoogleFonts.roboto(
+                        fontSize: 18,
                       ),
                     ),
+                    const Spacer(),
                     Text(
-                      'Rp. ${cartController.total}',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                      'Gratis',
+                      style: GoogleFonts.roboto(
+                        fontSize: 18,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () async {
-                    buyerController.fetchBuyer();
-                    checkoutController.newCheckout(
-                      CheckoutModel(
-                        displayName: buyerController.buyer.displayName,
-                        cart: cartController.cartProducts,
-                        total: cartController.total.toInt(),
-                        date: checkoutController.formattedDate.value,
+                const Divider(),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 10,
+              bottom: 20,
+            ),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Rp. ${cartController.total.toInt()}',
+                        style: GoogleFonts.roboto(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    );
-                    await Get.dialog(
-                      const AlertDialog(
-                        title: Text('Hapus Produk'),
-                        content: Text('Berhasil dipesan'),
+                      Text(
+                        'Pesanan anda (${cartController.cartProducts.length} item)',
+                        style: GoogleFonts.roboto(fontSize: 12),
                       ),
-                    );
-                    cartController.cartProducts.clear();
-                    cartController.update();
-                    Get.back();
-                  },
-                  child: const Text('Bayar'),
+                    ],
+                  ),
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: 160,
+                  height: 60,
+                  child: FilledButton(
+                    onPressed: () async {
+                      await checkoutController.newCheckout(
+                        CheckoutModel(
+                          displayName: buyerController.buyer.displayName,
+                          cart: cartController.cartProducts,
+                          note: noteController.text,
+                          total: cartController.total.toInt(),
+                          date: DateFormat.yMMMMd().format(DateTime.now()),
+                        ),
+                      );
+                      Get.toNamed('/order-success-page');
+                    },
+                    child: const Text('Pesan Sekarang'),
+                  ),
                 ),
               ],
             ),
           ),
-        );
-      },
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
+          color: ColorScheme.fromSeed(seedColor: const Color(0xffa1cca5))
+              .background,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Dikirim ke',
+                style: GoogleFonts.roboto(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 24,
+                    backgroundImage: NetworkImage(
+                      buyerController.buyer.photoUrl,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        buyerController.buyer.displayName,
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '083812130044',
+                        style: GoogleFonts.roboto(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Text(
+                'Alamat Delivery',
+                style: GoogleFonts.roboto(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Perumahan Grand Simpang Asri, Sukamanah',
+                    style: GoogleFonts.roboto(
+                      fontSize: 16,
+                    ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.my_location_rounded,
+                      color: Colors.green,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Text(
+                'Catatan',
+                style: GoogleFonts.roboto(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: noteController,
+                decoration: InputDecoration(
+                  hintText: 'Jangan terlalu pedas',
+                  prefixIcon: const Icon(Icons.note_alt_sharp),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                      style: BorderStyle.none,
+                      width: 0,
+                    ),
+                  ),
+                  filled: true,
+                ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              Text(
+                'Item keranjang',
+                style: GoogleFonts.roboto(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: cartController.cartProducts.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  cartController.cartProducts[index].imageUrl,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                cartController.cartProducts[index].name,
+                                style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 18,
+                              ),
+                              Text(
+                                'Rp. ${cartController.cartProducts[index].price}',
+                                style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          Text(
+                            '${cartController.cartProducts[index].quantity}x',
+                            style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
