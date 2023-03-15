@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 class CheckoutModel extends Equatable {
   final String? id;
   final String buyerId;
+  final String sellerId;
   final String displayName;
   final bool isProcessing;
   final bool isDelivered;
@@ -16,6 +17,7 @@ class CheckoutModel extends Equatable {
   const CheckoutModel({
     this.id,
     this.buyerId = '',
+    this.sellerId = '',
     this.isProcessing = false,
     this.isDelivered = false,
     this.note = '',
@@ -28,6 +30,7 @@ class CheckoutModel extends Equatable {
   CheckoutModel copyWith({
     String? id,
     String? buyerId,
+    String? sellerId,
     String? note,
     bool? isProcessing,
     bool? isDelivered,
@@ -39,6 +42,7 @@ class CheckoutModel extends Equatable {
     return CheckoutModel(
       id: id ?? this.id,
       buyerId: buyerId ?? this.buyerId,
+      sellerId: sellerId ?? this.sellerId,
       note: note ?? this.note,
       isProcessing: isProcessing ?? this.isProcessing,
       isDelivered: isDelivered ?? this.isDelivered,
@@ -53,6 +57,7 @@ class CheckoutModel extends Equatable {
     return {
       'id': id,
       'buyerId': buyerId,
+      'sellerId': sellerId,
       'note': note,
       'displayName': displayName,
       'isProcessing': isProcessing,
@@ -67,6 +72,7 @@ class CheckoutModel extends Equatable {
     return CheckoutModel(
       id: map['id'],
       buyerId: map['buyerId'],
+      sellerId: map['sellerId'],
       note: map['note'] ?? '',
       displayName: map['displayName'] ?? '',
       isProcessing: map['isProcessing'] ?? false,
@@ -81,6 +87,7 @@ class CheckoutModel extends Equatable {
   List<Object> get props {
     return [
       buyerId,
+      sellerId,
       displayName,
       isProcessing,
       note,

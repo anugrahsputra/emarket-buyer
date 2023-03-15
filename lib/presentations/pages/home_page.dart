@@ -3,7 +3,7 @@ import 'package:emarket_buyer/presentations/pages/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/controller.dart';
+import '../controller/controller.dart';
 import '../widget/product_card_widget.dart';
 
 class Homepage extends StatelessWidget {
@@ -40,7 +40,7 @@ class Homepage extends StatelessWidget {
           return ListView.builder(
             itemCount: productController.product.length,
             itemBuilder: (context, index) {
-              final defaultSeller = const SellerModel();
+              const defaultSeller = SellerModel();
               final product = productController.product[index];
               final seller = sellerController.seller.firstWhere(
                 (element) => element.id == product.sellerId,

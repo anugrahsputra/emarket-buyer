@@ -1,5 +1,5 @@
-import 'package:emarket_buyer/controller/controller.dart';
 import 'package:emarket_buyer/models/model.dart';
+import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:emarket_buyer/services/local_database.dart';
 import 'package:get/get.dart';
@@ -11,6 +11,7 @@ class CheckoutController extends GetxController {
   final LocalDatabase localDatabase = LocalDatabase();
   final BuyerController buyerController = Get.find<BuyerController>();
   final BuyerModel buyer = const BuyerModel();
+  final SellerModel seller = const SellerModel();
   RxBool isLoading = false.obs;
   var uuid = const Uuid();
   DateTime date = DateTime.now();
@@ -37,18 +38,33 @@ class CheckoutController extends GetxController {
 
   newCheckout(CheckoutModel checkoutModel) async {
     String id = Get.find<AuthController>().user!.uid;
-    final newCheckout = CheckoutModel(
-      id: uuid.v1(),
-      buyerId: id,
-      note: checkoutModel.note,
-      displayName: checkoutModel.displayName,
-      isProcessing: false,
-      isDelivered: false,
-      date: checkoutModel.date,
-      cart: checkoutModel.cart,
-      total: checkoutModel.total,
-    );
-    await database.newCheckout(newCheckout, id);
+    Map<String, List<CartModel>> cartToSeller = {};
+    for (CartModel cart in checkoutModel.cart) {
+      String sellerId = cart.sellerId;
+      if (!cartToSeller.containsKey(sellerId)) {
+        cartToSeller[sellerId] = [];
+      }
+      cartToSeller[sellerId]!.add(cart);
+    }
+    for (String sellerId in cartToSeller.keys) {
+      List<CartModel> sellerCart = cartToSeller[sellerId]!;
+
+      int total =
+          sellerCart.fold(0, (sum, cart) => sum + cart.price * cart.quantity);
+      final newCheckout = CheckoutModel(
+        id: uuid.v1(),
+        buyerId: id,
+        sellerId: sellerId,
+        note: checkoutModel.note,
+        displayName: checkoutModel.displayName,
+        isProcessing: false,
+        isDelivered: false,
+        date: checkoutModel.date,
+        cart: cartToSeller[sellerId]!,
+        total: total,
+      );
+      await database.newCheckout(newCheckout, id);
+    }
     await localDatabase.deleteProduct();
     update();
   }

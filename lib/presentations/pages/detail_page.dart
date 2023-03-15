@@ -1,5 +1,5 @@
-import 'package:emarket_buyer/controller/controller.dart';
 import 'package:emarket_buyer/models/model.dart';
+import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -217,21 +217,6 @@ class DetailPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                ScaffoldMessenger.of(Get.context!).showSnackBar(
-                  SnackBar(
-                    content: Center(
-                      child: Text(
-                        '${product.name} berhasil ditambahkan',
-                      ),
-                    ),
-                    behavior: SnackBarBehavior.floating,
-                    margin: const EdgeInsets.all(50),
-                    duration: const Duration(milliseconds: 1500),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                );
                 cartController.addProduct(
                   CartModel(
                     sellerId: seller.id,
@@ -240,6 +225,24 @@ class DetailPage extends StatelessWidget {
                     price: product.price,
                     storeName: seller.storeName,
                     imageUrl: product.imageUrl,
+                  ),
+                );
+                final addedProduct = cartController.cartProducts.last;
+                ScaffoldMessenger.of(Get.context!).showSnackBar(
+                  SnackBar(
+                    content: Center(
+                      child: Text(
+                        addedProduct != null
+                            ? '${addedProduct.name} berhasil ditambahkan'
+                            : 'Gagal menambahkan produk',
+                      ),
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    margin: const EdgeInsets.all(50),
+                    duration: const Duration(milliseconds: 1500),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                 );
                 debugPrint('Cart: ${cartController.cartProducts.length}');

@@ -1,7 +1,7 @@
 import 'package:emarket_buyer/services/database.dart';
 import 'package:get/get.dart';
 
-import '../models/model.dart';
+import '../../models/model.dart';
 
 class ProductController extends GetxController {
   final Database database = Database();

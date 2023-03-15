@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:emarket_buyer/controller/product_controller.dart';
+import 'package:emarket_buyer/presentations/controller/product_controller.dart';
 import 'package:emarket_buyer/models/product_model.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:flutter/material.dart';

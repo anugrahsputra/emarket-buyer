@@ -1,5 +1,5 @@
-import 'package:emarket_buyer/controller/controller.dart';
 import 'package:emarket_buyer/models/model.dart';
+import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -288,7 +288,7 @@ class ChekcoutPage extends StatelessWidget {
                                 height: 18,
                               ),
                               Text(
-                                'Rp. ${cartController.cartProducts[index].price}',
+                                'Rp. ${cartController.cartProducts[index].price * cartController.cartProducts[index].quantity}',
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
                                 ),
