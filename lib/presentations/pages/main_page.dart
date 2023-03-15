@@ -1,5 +1,5 @@
 import 'package:badges/badges.dart' as badges;
-import 'package:emarket_buyer/controller/controller.dart';
+import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
