@@ -1,4 +1,5 @@
 import 'package:emarket_buyer/controller/controller.dart';
+import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +30,10 @@ class OrderSuccessPage extends StatelessWidget {
             const SizedBox(height: 20),
             FilledButton(
               onPressed: () {
-                Get.offNamedUntil('/main-page', (route) => false);
+                Get.offAll(
+                  () => MainPage(initialIndex: 0),
+                  predicate: (route) => false,
+                );
                 cartController.cartProducts.clear();
                 cartController.update();
               },

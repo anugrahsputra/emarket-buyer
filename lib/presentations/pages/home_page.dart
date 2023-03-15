@@ -40,7 +40,7 @@ class Homepage extends StatelessWidget {
           return ListView.builder(
             itemCount: productController.product.length,
             itemBuilder: (context, index) {
-              const defaultSeller = SellerModel();
+              final defaultSeller = const SellerModel();
               final product = productController.product[index];
               final seller = sellerController.seller.firstWhere(
                 (element) => element.id == product.sellerId,

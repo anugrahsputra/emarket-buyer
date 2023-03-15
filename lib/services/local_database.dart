@@ -28,6 +28,7 @@ class LocalDatabase {
           CREATE TABLE $_tblCart (
             name TEXT NOT NULL,
             imageUrl TEXT NOT NULL,
+            sellerId TEXT NOT NULL,
             productId TEXT NOT NULL,
             price INTEGER NOT NULL,
             storeName TEXT NOT NULL,

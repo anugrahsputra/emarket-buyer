@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class SellerModel extends Equatable {
-  final String? id;
+  final String id;
   final String displayName;
   final String storeName;
   final String email;
   final String photoUrl;
   const SellerModel({
-    this.id,
+    this.id = '',
     this.displayName = '',
     this.storeName = '',
     this.email = '',

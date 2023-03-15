@@ -55,7 +55,9 @@ class Root extends GetWidget<AuthController> {
         Get.put<BuyerController>(BuyerController());
       },
       builder: (_) {
-        return controller.user?.uid != null ? MainPage() : SigninPage();
+        return controller.user?.uid != null
+            ? MainPage(initialIndex: 0)
+            : SigninPage();
       },
     );
   }

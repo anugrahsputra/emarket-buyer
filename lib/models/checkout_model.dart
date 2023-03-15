@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 class CheckoutModel extends Equatable {
   final String? id;
+  final String buyerId;
   final String displayName;
   final bool isProcessing;
   final bool isDelivered;
@@ -14,6 +15,7 @@ class CheckoutModel extends Equatable {
   final String note;
   const CheckoutModel({
     this.id,
+    this.buyerId = '',
     this.isProcessing = false,
     this.isDelivered = false,
     this.note = '',
@@ -25,6 +27,7 @@ class CheckoutModel extends Equatable {
 
   CheckoutModel copyWith({
     String? id,
+    String? buyerId,
     String? note,
     bool? isProcessing,
     bool? isDelivered,
@@ -35,6 +38,7 @@ class CheckoutModel extends Equatable {
   }) {
     return CheckoutModel(
       id: id ?? this.id,
+      buyerId: buyerId ?? this.buyerId,
       note: note ?? this.note,
       isProcessing: isProcessing ?? this.isProcessing,
       isDelivered: isDelivered ?? this.isDelivered,
@@ -48,6 +52,7 @@ class CheckoutModel extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'buyerId': buyerId,
       'note': note,
       'displayName': displayName,
       'isProcessing': isProcessing,
@@ -61,6 +66,7 @@ class CheckoutModel extends Equatable {
   factory CheckoutModel.fromSnapshot(DocumentSnapshot map) {
     return CheckoutModel(
       id: map['id'],
+      buyerId: map['buyerId'],
       note: map['note'] ?? '',
       displayName: map['displayName'] ?? '',
       isProcessing: map['isProcessing'] ?? false,
@@ -74,6 +80,7 @@ class CheckoutModel extends Equatable {
   @override
   List<Object> get props {
     return [
+      buyerId,
       displayName,
       isProcessing,
       note,

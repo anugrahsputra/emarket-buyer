@@ -6,7 +6,9 @@ import 'package:get/get.dart';
 
 class MainPage extends StatelessWidget {
   static const String routeName = '/main-page';
-  MainPage({Key? key}) : super(key: key);
+  MainPage({Key? key, required this.initialIndex}) : super(key: key);
+
+  final int initialIndex;
 
   final BottomNavbarController controller = Get.put(BottomNavbarController());
 

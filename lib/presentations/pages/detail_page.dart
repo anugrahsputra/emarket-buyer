@@ -234,6 +234,7 @@ class DetailPage extends StatelessWidget {
                 );
                 cartController.addProduct(
                   CartModel(
+                    sellerId: seller.id,
                     name: product.name,
                     productId: product.id,
                     price: product.price,
