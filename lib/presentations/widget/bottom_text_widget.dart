@@ -21,7 +21,7 @@ class BottomTextWidget extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text: text1,
-          style: GoogleFonts.roboto(
+          style: GoogleFonts.poppins(
             color: const Color(0xff8A8D9F),
             fontWeight: FontWeight.w400,
             fontSize: 12,
@@ -29,7 +29,7 @@ class BottomTextWidget extends StatelessWidget {
           children: [
             TextSpan(
                 text: ' $text2',
-                style: GoogleFonts.roboto(
+                style: GoogleFonts.poppins(
                   color: const Color(0xff212529),
                   fontWeight: FontWeight.w600,
                   fontSize: 12,

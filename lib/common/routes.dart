@@ -14,12 +14,16 @@ class Routes {
       page: () => Homepage(),
     ),
     GetPage(
-      name: '/order-page',
+      name: '/cart-page',
       page: () => Cartpage(),
     ),
     GetPage(
       name: '/profile-page',
       page: () => const Profilepage(),
+    ),
+    GetPage(
+      name: '/order-history-page',
+      page: () => OrderHistoryPage(),
     ),
     GetPage(
       name: '/checkout-page',

@@ -13,6 +13,9 @@ class CheckoutController extends GetxController {
   final BuyerModel buyer = const BuyerModel();
   final SellerModel seller = const SellerModel();
   RxBool isLoading = false.obs;
+  RxBool isCancelled = false.obs;
+  final isDelivered = false.obs;
+  RxBool isProcessing = false.obs;
   var uuid = const Uuid();
   DateTime date = DateTime.now();
   RxString formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
@@ -57,8 +60,9 @@ class CheckoutController extends GetxController {
         sellerId: sellerId,
         note: checkoutModel.note,
         displayName: checkoutModel.displayName,
-        isProcessing: false,
-        isDelivered: false,
+        isProcessing: checkoutModel.isProcessing,
+        isDelivered: isDelivered.value,
+        isCancelled: isCancelled.value,
         date: checkoutModel.date,
         cart: cartToSeller[sellerId]!,
         total: total,
@@ -66,6 +70,24 @@ class CheckoutController extends GetxController {
       await database.newCheckout(newCheckout, id);
     }
     await localDatabase.deleteProduct();
+    update();
+  }
+
+  updateCheckoutStatusDelivered(CheckoutModel checkoutId, bool value) async {
+    await database.updateCheckoutStatus(checkoutId, 'isDelivered', value);
+    isDelivered.value = value;
+    update();
+  }
+
+  updateCheckoutStatusProcessing(CheckoutModel checkoutId, bool value) async {
+    await database.updateCheckoutStatus(checkoutId, 'isProcessing', value);
+    isProcessing.value = value;
+    update();
+  }
+
+  updateCheckoutStatusCancelled(CheckoutModel checkoutId, bool value) async {
+    await database.updateCheckoutStatus(checkoutId, 'isCancelled', value);
+    isCancelled.value = value;
     update();
   }
 }

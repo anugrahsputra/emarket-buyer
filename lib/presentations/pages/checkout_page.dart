@@ -42,14 +42,14 @@ class ChekcoutPage extends StatelessWidget {
                   children: [
                     Text(
                       'Total',
-                      style: GoogleFonts.roboto(
+                      style: GoogleFonts.poppins(
                         fontSize: 18,
                       ),
                     ),
                     const Spacer(),
                     Text(
                       'Rp. ${cartController.total.toInt()}',
-                      style: GoogleFonts.roboto(
+                      style: GoogleFonts.poppins(
                         fontSize: 18,
                       ),
                     ),
@@ -59,14 +59,14 @@ class ChekcoutPage extends StatelessWidget {
                   children: [
                     Text(
                       'Ongkir',
-                      style: GoogleFonts.roboto(
+                      style: GoogleFonts.poppins(
                         fontSize: 18,
                       ),
                     ),
                     const Spacer(),
                     Text(
                       'Gratis',
-                      style: GoogleFonts.roboto(
+                      style: GoogleFonts.poppins(
                         fontSize: 18,
                       ),
                     ),
@@ -92,14 +92,14 @@ class ChekcoutPage extends StatelessWidget {
                     children: [
                       Text(
                         'Rp. ${cartController.total.toInt()}',
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.poppins(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         'Pesanan anda (${cartController.cartProducts.length} item)',
-                        style: GoogleFonts.roboto(fontSize: 12),
+                        style: GoogleFonts.poppins(fontSize: 12),
                       ),
                     ],
                   ),
@@ -140,7 +140,7 @@ class ChekcoutPage extends StatelessWidget {
             children: [
               Text(
                 'Dikirim ke',
-                style: GoogleFonts.roboto(
+                style: GoogleFonts.poppins(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -164,14 +164,14 @@ class ChekcoutPage extends StatelessWidget {
                     children: [
                       Text(
                         buyerController.buyer.displayName,
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         '083812130044',
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.poppins(
                           fontSize: 16,
                         ),
                       ),
@@ -184,7 +184,7 @@ class ChekcoutPage extends StatelessWidget {
               ),
               Text(
                 'Alamat Delivery',
-                style: GoogleFonts.roboto(
+                style: GoogleFonts.poppins(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -193,8 +193,8 @@ class ChekcoutPage extends StatelessWidget {
                 children: [
                   Text(
                     'Perumahan Grand Simpang Asri, Sukamanah',
-                    style: GoogleFonts.roboto(
-                      fontSize: 16,
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
                     ),
                   ),
                   const Spacer(),
@@ -210,7 +210,7 @@ class ChekcoutPage extends StatelessWidget {
               const SizedBox(height: 15),
               Text(
                 'Catatan',
-                style: GoogleFonts.roboto(
+                style: GoogleFonts.poppins(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -238,7 +238,7 @@ class ChekcoutPage extends StatelessWidget {
               ),
               Text(
                 'Item keranjang',
-                style: GoogleFonts.roboto(
+                style: GoogleFonts.poppins(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -279,7 +279,7 @@ class ChekcoutPage extends StatelessWidget {
                             children: [
                               Text(
                                 cartController.cartProducts[index].name,
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -289,7 +289,7 @@ class ChekcoutPage extends StatelessWidget {
                               ),
                               Text(
                                 'Rp. ${cartController.cartProducts[index].price * cartController.cartProducts[index].quantity}',
-                                style: GoogleFonts.roboto(
+                                style: GoogleFonts.poppins(
                                   fontSize: 16,
                                 ),
                               ),
@@ -298,7 +298,7 @@ class ChekcoutPage extends StatelessWidget {
                           const Spacer(),
                           Text(
                             '${cartController.cartProducts[index].quantity}x',
-                            style: GoogleFonts.roboto(
+                            style: GoogleFonts.poppins(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),

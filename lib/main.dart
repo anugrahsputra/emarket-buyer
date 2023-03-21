@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: const Color(0xffa1cca5),
-        textTheme: GoogleFonts.robotoTextTheme(),
+        textTheme: GoogleFonts.poppinsTextTheme(),
         filledButtonTheme: FilledButtonThemeData(
           style: ButtonStyle(
             shape: MaterialStateProperty.all(

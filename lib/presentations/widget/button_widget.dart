@@ -19,7 +19,7 @@ class ButtonWidget extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           title,
-          style: GoogleFonts.roboto(
+          style: GoogleFonts.poppins(
             fontSize: 16,
             fontWeight: FontWeight.w400,
           ),

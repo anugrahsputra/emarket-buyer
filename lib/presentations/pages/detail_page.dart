@@ -67,7 +67,7 @@ class DetailPage extends StatelessWidget {
                         ),
                         Text(
                           'Rp. ${product.price}',
-                          style: GoogleFonts.roboto(
+                          style: GoogleFonts.poppins(
                             fontSize: 16,
                           ),
                         ),
@@ -227,7 +227,9 @@ class DetailPage extends StatelessWidget {
                     imageUrl: product.imageUrl,
                   ),
                 );
-                final addedProduct = cartController.cartProducts.last;
+                final addedProduct = cartController.cartProducts.isNotEmpty
+                    ? cartController.cartProducts.last
+                    : null;
                 ScaffoldMessenger.of(Get.context!).showSnackBar(
                   SnackBar(
                     content: Center(

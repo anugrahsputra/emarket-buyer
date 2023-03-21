@@ -121,14 +121,14 @@ class Cartpage extends StatelessWidget {
             children: [
               Text(
                 'Total:',
-                style: GoogleFonts.roboto(
+                style: GoogleFonts.poppins(
                   fontSize: 18,
                 ),
               ),
               const SizedBox(width: 5),
               Text(
                 'Rp. ${cartController.total.value}',
-                style: GoogleFonts.roboto(
+                style: GoogleFonts.poppins(
                   fontSize: 18,
                 ),
               ),

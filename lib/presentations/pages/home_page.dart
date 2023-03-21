@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/pages/detail_page.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class Homepage extends StatelessWidget {
   final AuthController controller = Get.put(AuthController());
   final ProductController productController = Get.put(ProductController());
   final SellerController sellerController = Get.put(SellerController());
+  final CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +22,28 @@ class Homepage extends StatelessWidget {
         title: const Text('Homepage'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              controller.signOut();
+            icon: Obx(
+              () => badges.Badge(
+                badgeContent: Text(
+                  cartController.cartProducts.length.toString(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                showBadge:
+                    cartController.cartProducts.isNotEmpty ? true : false,
+                badgeAnimation: const badges.BadgeAnimation.rotation(
+                  animationDuration: Duration(seconds: 1),
+                  colorChangeAnimationDuration: Duration(seconds: 1),
+                  loopAnimation: false,
+                  curve: Curves.fastOutSlowIn,
+                  colorChangeAnimationCurve: Curves.easeInCubic,
+                ),
+                child: const Icon(Icons.shopping_bag_rounded),
+              ),
+            ),
+            onPressed: () {
+              Get.toNamed('/cart-page');
             },
-          )
+          ),
         ],
       ),
       body: Obx(() {

@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart' as badges;
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
@@ -11,56 +10,40 @@ class MainPage extends StatelessWidget {
   final int initialIndex;
 
   final BottomNavbarController controller = Get.put(BottomNavbarController());
+  final CheckoutController checkoutController = Get.put(CheckoutController());
 
   final List<Widget> pageList = [
     Homepage(),
-    Cartpage(),
+    OrderHistoryPage(),
     const Profilepage(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final CartController cartController = Get.put(CartController());
-    final List<BottomNavigationBarItem> bottomNavBarItems = [
-      const BottomNavigationBarItem(
+    final List<NavigationDestination> navBarDestination = [
+      const NavigationDestination(
         icon: Icon(Icons.home),
-        label: 'Home',
+        label: 'Beranda',
       ),
-      BottomNavigationBarItem(
-        icon: Obx(
-          () => badges.Badge(
-            badgeContent: Text(
-              cartController.cartProducts.length.toString(),
-              style: const TextStyle(color: Colors.white),
-            ),
-            showBadge: cartController.cartProducts.isNotEmpty ? true : false,
-            badgeAnimation: const badges.BadgeAnimation.rotation(
-              animationDuration: Duration(seconds: 1),
-              colorChangeAnimationDuration: Duration(seconds: 1),
-              loopAnimation: false,
-              curve: Curves.fastOutSlowIn,
-              colorChangeAnimationCurve: Curves.easeInCubic,
-            ),
-            child: const Icon(Icons.shopping_cart),
-          ),
-        ),
-        label: 'Cart',
+      const NavigationDestination(
+        icon: Icon(Icons.receipt_long),
+        label: 'Riwayat',
       ),
-      const BottomNavigationBarItem(
+      const NavigationDestination(
         icon: Icon(Icons.person),
-        label: 'Profile',
+        label: 'Profil',
       ),
     ];
     return GetBuilder<BottomNavbarController>(
       builder: (_) {
         return Scaffold(
           body: pageList[controller.tabIndex.value],
-          bottomNavigationBar: BottomNavigationBar(
-            items: bottomNavBarItems,
-            currentIndex: controller.tabIndex.value,
-            onTap: (index) {
+          bottomNavigationBar: NavigationBar(
+            destinations: navBarDestination,
+            onDestinationSelected: (index) {
               controller.changedTabIndex(index);
             },
+            selectedIndex: controller.tabIndex.value,
           ),
         );
       },

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 
 class CheckoutModel extends Equatable {
   final String? id;
@@ -10,6 +9,7 @@ class CheckoutModel extends Equatable {
   final String displayName;
   final bool isProcessing;
   final bool isDelivered;
+  final bool isCancelled;
   final List<CartModel> cart;
   final int total;
   final String date;
@@ -20,6 +20,7 @@ class CheckoutModel extends Equatable {
     this.sellerId = '',
     this.isProcessing = false,
     this.isDelivered = false,
+    this.isCancelled = false,
     this.note = '',
     required this.displayName,
     required this.cart,
@@ -34,6 +35,7 @@ class CheckoutModel extends Equatable {
     String? note,
     bool? isProcessing,
     bool? isDelivered,
+    bool? isCancelled,
     String? displayName,
     List<CartModel>? cart,
     int? total,
@@ -45,6 +47,7 @@ class CheckoutModel extends Equatable {
       sellerId: sellerId ?? this.sellerId,
       note: note ?? this.note,
       isProcessing: isProcessing ?? this.isProcessing,
+      isCancelled: isCancelled ?? this.isCancelled,
       isDelivered: isDelivered ?? this.isDelivered,
       displayName: displayName ?? this.displayName,
       cart: cart ?? this.cart,
@@ -61,6 +64,7 @@ class CheckoutModel extends Equatable {
       'note': note,
       'displayName': displayName,
       'isProcessing': isProcessing,
+      'isCancelled': isCancelled,
       'isDelivered': isDelivered,
       'cart': cart.map((x) => x.toMap()).toList(),
       'total': total,
@@ -77,9 +81,10 @@ class CheckoutModel extends Equatable {
       displayName: map['displayName'] ?? '',
       isProcessing: map['isProcessing'] ?? false,
       isDelivered: map['isDelivered'] ?? false,
+      isCancelled: map['isCancelled'] ?? false,
       cart: List<CartModel>.from(map['cart']?.map((x) => CartModel.fromMap(x))),
       total: map['total']?.toInt() ?? 0,
-      date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+      date: map['date'],
     );
   }
 
@@ -90,8 +95,9 @@ class CheckoutModel extends Equatable {
       sellerId,
       displayName,
       isProcessing,
-      note,
       isDelivered,
+      isCancelled,
+      note,
       cart,
       total,
       date,

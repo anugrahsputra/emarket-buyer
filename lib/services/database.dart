@@ -76,4 +76,31 @@ class Database {
             .map((doc) => CheckoutModel.fromSnapshot(doc))
             .toList());
   }
+
+  Stream<List<CheckoutModel>> fetchCheckoutIsdone(String id, bool isDone) {
+    return _firestore
+        .collection('buyers')
+        .doc(id)
+        .collection('checkout')
+        .where('isDelivered', isEqualTo: isDone)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => CheckoutModel.fromSnapshot(doc))
+            .toList());
+  }
+
+  Future<void> updateCheckoutStatus(
+    CheckoutModel checkout,
+    String field,
+    bool newValue,
+  ) async {
+    return _firestore
+        .collection('buyers')
+        .doc(checkout.buyerId)
+        .collection('checkout')
+        .where('id', isEqualTo: checkout.id)
+        .get()
+        .then((querySnaphot) =>
+            querySnaphot.docs.first.reference.update({field: newValue}));
+  }
 }
