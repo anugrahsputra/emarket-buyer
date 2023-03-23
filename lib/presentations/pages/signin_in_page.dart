@@ -39,7 +39,7 @@ class SigninPage extends GetWidget<AuthController> {
                           Fields(
                             controller: passwordController,
                             obscureText: true,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.visiblePassword,
                             hintText: 'Password',
                             prefixIcon: const Icon(
                               Icons.lock,

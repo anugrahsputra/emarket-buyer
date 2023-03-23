@@ -15,7 +15,7 @@ class MainPage extends StatelessWidget {
   final List<Widget> pageList = [
     Homepage(),
     OrderHistoryPage(),
-    const Profilepage(),
+    Profilepage(),
   ];
 
   @override

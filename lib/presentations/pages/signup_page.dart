@@ -7,6 +7,9 @@ class SignUpPage extends GetWidget<AuthController> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+
+  final LocationController locationController = Get.put(LocationController());
 
   SignUpPage({super.key});
 
@@ -55,6 +58,18 @@ class SignUpPage extends GetWidget<AuthController> {
                             height: 15,
                           ),
                           Fields(
+                            controller: phoneNumberController,
+                            keyboardType: TextInputType.phone,
+                            hintText: 'Nomor Telepon',
+                            prefixIcon: const Icon(
+                              Icons.phone,
+                              color: Color(0xff495057),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Fields(
                             controller: passwordController,
                             obscureText: true,
                             keyboardType: TextInputType.emailAddress,
@@ -68,13 +83,15 @@ class SignUpPage extends GetWidget<AuthController> {
                             height: 10,
                           ),
                           ButtonWidget(
-                            onPressed: () {
+                            onPressed: () async {
                               controller.createBuyer(
                                 nameController.text,
                                 emailController.text,
                                 'https://ui-avatars.com/api/?name=${nameController.text}',
                                 passwordController.text,
+                                phoneNumberController.text,
                               );
+                              await locationController.getCurrentLocation();
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                             title: 'Daftar',

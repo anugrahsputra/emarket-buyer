@@ -19,7 +19,7 @@ class Routes {
     ),
     GetPage(
       name: '/profile-page',
-      page: () => const Profilepage(),
+      page: () => Profilepage(),
     ),
     GetPage(
       name: '/order-history-page',
@@ -28,6 +28,10 @@ class Routes {
     GetPage(
       name: '/checkout-page',
       page: () => ChekcoutPage(),
+    ),
+    GetPage(
+      name: '/location-page',
+      page: () => const ChangeLocationPage(),
     ),
     GetPage(
       name: '/order-success-page',

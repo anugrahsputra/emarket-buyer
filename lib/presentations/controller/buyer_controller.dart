@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,6 +36,22 @@ class BuyerController extends GetxController {
       print(e);
     } finally {
       loading.value = false;
+    }
+  }
+
+  updateUserLocation(LocationModel location, String address) async {
+    try {
+      buyer = buyer.copyWith(location: location, address: address);
+      await database.updateUserLocation(
+        buyer,
+        location,
+        'location',
+        location.toMap(),
+      );
+      await database.updateUserAddress(buyer, 'address', address);
+    } catch (e) {
+      log('Error updating buyer location: $e');
+      rethrow;
     }
   }
 }

@@ -1,4 +1,5 @@
 export 'pages/cart_page.dart';
+export 'pages/change_location_page.dart';
 export 'pages/checkout_page.dart';
 export 'pages/home_page.dart';
 export 'pages/main_page.dart';

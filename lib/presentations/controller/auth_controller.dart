@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emarket_buyer/models/buyer_model.dart';
+import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import 'controller.dart';
@@ -12,6 +14,7 @@ import 'controller.dart';
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Rxn<User> _firebaseUser = Rxn<User>();
+
   StreamSubscription<QuerySnapshot>? checkoutSubscription;
   final loading = false.obs;
 
@@ -24,22 +27,37 @@ class AuthController extends GetxController {
   }
 
   void createBuyer(String displayName, String email, String photoUrl,
-      String password) async {
+      String password, String phoneNumber) async {
     try {
       loading.value = true;
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
         email: email.trim(),
         password: password,
       );
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      LocationModel location = LocationModel(
+        latitude: position.latitude,
+        longitude: position.longitude,
+      );
+
+      String address = await Get.find<LocationController>()
+          .getAddressFromLatLng(location.latitude, location.longitude);
+
       BuyerModel buyer = BuyerModel(
         id: credential.user!.uid,
         displayName: displayName,
+        phoneNumber: phoneNumber,
+        location: location,
+        address: address,
         email: email,
         photoUrl: photoUrl,
       );
+      log(buyer.location.toString());
       if (await Database().createNewBuyer(buyer)) {
         Get.find<BuyerController>().buyer = buyer;
         Get.find<ProductController>().update();
+        Get.find<LocationController>().update();
         Get.back();
       }
       loading.value = false;
@@ -63,6 +81,7 @@ class AuthController extends GetxController {
       loading.value = true;
       UserCredential credential = await _auth.signInWithEmailAndPassword(
           email: email.trim(), password: password);
+
       Get.find<BuyerController>().buyer =
           await Database().getBuyer(credential.user!.uid);
       Get.find<BuyerController>().update();

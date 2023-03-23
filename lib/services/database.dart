@@ -31,6 +31,31 @@ class Database {
     }
   }
 
+  // Future<LocationModel> newAddress(LocationModel location, String id) async {
+  //   try {
+  //     await _firestore
+  //         .collection('buyers')
+  //         .doc(id)
+  //         .collection('address')
+  //         .doc()
+  //         .set(location.toMap());
+  //     return location;
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //     return const LocationModel();
+  //   }
+  // }
+
+  // Stream<List<LocationModel>> getAddress(String id) {
+  //   return _firestore
+  //       .collection('buyers')
+  //       .doc(id)
+  //       .collection('address')
+  //       .snapshots()
+  //       .map((snapshot) =>
+  //           snapshot.docs.map((doc) => LocationModel.fromMap(doc)).toList());
+  // }
+
   // seller
   Stream<List<SellerModel>> fetchAllSellers() {
     return _firestore.collection('sellers').snapshots().map((snapshot) =>
@@ -102,5 +127,21 @@ class Database {
         .get()
         .then((querySnaphot) =>
             querySnaphot.docs.first.reference.update({field: newValue}));
+  }
+
+  Future<void> updateUserLocation(BuyerModel buyer, LocationModel location,
+      String field, dynamic newValue) async {
+    return _firestore
+        .collection('buyers')
+        .doc(buyer.id)
+        .update({field: newValue});
+  }
+
+  Future<void> updateUserAddress(
+      BuyerModel buyer, String field, dynamic newValue) async {
+    return _firestore
+        .collection('buyers')
+        .doc(buyer.id)
+        .update({field: newValue});
   }
 }

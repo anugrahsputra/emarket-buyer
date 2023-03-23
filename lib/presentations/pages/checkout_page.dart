@@ -12,9 +12,10 @@ class ChekcoutPage extends StatelessWidget {
   final CheckoutController checkoutController = Get.put(CheckoutController());
   final CartController cartController = Get.put(CartController());
   final BuyerController buyerController = Get.put(BuyerController());
+  final LocationController locationController = Get.put(LocationController());
   final AuthController auth = Get.put(AuthController());
   final TextEditingController noteController = TextEditingController();
-  Database database = Database();
+  final Database database = Database();
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +171,7 @@ class ChekcoutPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '083812130044',
+                        buyerController.buyer.phoneNumber,
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                         ),
@@ -191,15 +192,22 @@ class ChekcoutPage extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text(
-                    'Perumahan Grand Simpang Asri, Sukamanah',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                    ),
-                  ),
+                  Obx(() {
+                    return SizedBox(
+                      width: 250,
+                      child: Text(
+                        buyerController.buyer.address,
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  }),
                   const Spacer(),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed('/location-page');
+                    },
                     icon: const Icon(
                       Icons.my_location_rounded,
                       color: Colors.green,

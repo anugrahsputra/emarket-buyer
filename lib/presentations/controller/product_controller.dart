@@ -24,4 +24,10 @@ class ProductController extends GetxController {
     product.bindStream(database.fetchAllProducts());
     update();
   }
+
+  @override
+  void dispose() {
+    product.close();
+    super.dispose();
+  }
 }

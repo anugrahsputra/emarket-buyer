@@ -16,33 +16,43 @@ class OrderHistoryPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Riwayat Pesanan'),
       ),
-      body: Obx(
-        () {
-          return ListView.builder(
-            itemCount: checkoutController.checkout.length,
-            itemBuilder: (context, index) {
-              const defaultSeller = SellerModel();
-              final checkout = checkoutController.checkout[index];
-              final seller = sellerController.seller.firstWhere(
-                (element) => element.id == checkout.sellerId,
-                orElse: () => defaultSeller,
-              );
-              return GestureDetector(
-                onTap: () {
-                  Get.to(
-                    () => OrderDetailPage(
-                      checkout: checkoutController.checkout[index],
-                      seller: seller,
-                    ),
-                  );
-                },
-                child: OrderHistoryWidget(
-                  seller: seller,
-                  checkout: checkoutController.checkout[index],
-                ),
-              );
-            },
-          );
+      body: GetBuilder<CheckoutController>(
+        init: checkoutController,
+        initState: (_) {
+          checkoutController.fetchCheckout();
+        },
+        builder: (controller) {
+          if (controller.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: checkoutController.checkout.length,
+              itemBuilder: (context, index) {
+                const defaultSeller = SellerModel();
+                final checkout = checkoutController.checkout[index];
+                final seller = sellerController.seller.firstWhere(
+                  (element) => element.id == checkout.sellerId,
+                  orElse: () => defaultSeller,
+                );
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(
+                      () => OrderDetailPage(
+                        checkout: checkoutController.checkout[index],
+                        seller: seller,
+                      ),
+                    );
+                  },
+                  child: OrderHistoryWidget(
+                    seller: seller,
+                    checkout: checkoutController.checkout[index],
+                  ),
+                );
+              },
+            );
+          }
         },
       ),
     );

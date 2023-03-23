@@ -31,7 +31,7 @@ class CartController extends GetxController {
           increaseQuantity(cartProducts.indexOf(element));
           break;
         } else {
-          bool replaceItem = await _showBottomSheet();
+          bool replaceItem = await _showBottomSheet(cartModel);
           if (replaceItem) {
             cartProducts.remove(element);
             await _localDatabase.deleteProduct();
@@ -47,7 +47,7 @@ class CartController extends GetxController {
           element.productId != cartModel.productId);
 
       if (hasItemsFromOtherSeller) {
-        bool replaceItem = await _showBottomSheet();
+        bool replaceItem = await _showBottomSheet(cartModel);
         if (replaceItem) {
           var itemToRemove = cartProducts.firstWhere((element) =>
               element.sellerId != cartModel.sellerId &&
@@ -118,7 +118,7 @@ class CartController extends GetxController {
     update();
   }
 
-  _showBottomSheet() async {
+  _showBottomSheet(CartModel cart) async {
     return await Get.bottomSheet(
       Container(
         decoration: const BoxDecoration(
@@ -165,9 +165,9 @@ class CartController extends GetxController {
                     Get.back(result: true);
                     ScaffoldMessenger.of(Get.context!).showSnackBar(
                       SnackBar(
-                        content: const Center(
+                        content: Center(
                           child: Text(
-                            'Berhasil ditambahkan',
+                            '${cart.name} Berhasil ditambahkan',
                           ),
                         ),
                         behavior: SnackBarBehavior.floating,

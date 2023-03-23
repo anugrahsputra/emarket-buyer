@@ -1,7 +1,11 @@
+import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Profilepage extends StatelessWidget {
-  const Profilepage({Key? key}) : super(key: key);
+  Profilepage({Key? key}) : super(key: key);
+
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -9,8 +13,13 @@ class Profilepage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profil'),
       ),
-      body: const Center(
-        child: Text('Profil'),
+      body: Center(
+        child: FilledButton(
+          child: const Text('Sign Out'),
+          onPressed: () async {
+            authController.signOut();
+          },
+        ),
       ),
     );
   }
