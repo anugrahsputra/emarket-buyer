@@ -1,14 +1,16 @@
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/services/local_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
-  final LocalDatabase _localDatabase = LocalDatabase();
+  final _localDatabase = LocalDatabase();
   final cartProducts = RxList<CartModel>([]);
 
   final total = RxInt(0);
   final itemPrice = RxInt(0);
+  RxBool isExist = false.obs;
 
   @override
   void onInit() {
@@ -23,11 +25,10 @@ class CartController extends GetxController {
   }
 
   addProduct(CartModel cartModel) async {
-    bool isExist = false;
     for (var element in cartProducts) {
       if (element.productId == cartModel.productId) {
         if (element.sellerId == cartModel.sellerId) {
-          isExist = true;
+          isExist.value = true;
           increaseQuantity(cartProducts.indexOf(element));
           break;
         } else {
@@ -41,7 +42,7 @@ class CartController extends GetxController {
       }
     }
 
-    if (!isExist) {
+    if (!isExist.value) {
       bool hasItemsFromOtherSeller = cartProducts.any((element) =>
           element.sellerId != cartModel.sellerId &&
           element.productId != cartModel.productId);
@@ -58,7 +59,7 @@ class CartController extends GetxController {
           return;
         }
       }
-
+      Fluttertoast.showToast(msg: '${cartModel.name} berhasil ditambahkan');
       await _localDatabase.insertProduct(cartModel);
       await getCartProducts();
     }
@@ -163,21 +164,8 @@ class CartController extends GetxController {
                 FilledButton(
                   onPressed: () {
                     Get.back(result: true);
-                    ScaffoldMessenger.of(Get.context!).showSnackBar(
-                      SnackBar(
-                        content: Center(
-                          child: Text(
-                            '${cart.name} Berhasil ditambahkan',
-                          ),
-                        ),
-                        behavior: SnackBarBehavior.floating,
-                        margin: const EdgeInsets.all(50),
-                        duration: const Duration(milliseconds: 1500),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    );
+                    Fluttertoast.showToast(
+                        msg: '${cart.name} berhasil ditambahkan');
                   },
                   child: const Text('Ganti'),
                 ),

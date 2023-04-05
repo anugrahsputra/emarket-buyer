@@ -22,6 +22,11 @@ class OrderHistoryPage extends StatelessWidget {
           checkoutController.fetchCheckout();
         },
         builder: (controller) {
+          if (controller.checkout.isEmpty) {
+            return const Center(
+              child: Text('Anda belum memesan apapun!'),
+            );
+          }
           if (controller.isLoading.value) {
             return const Center(
               child: CircularProgressIndicator(),

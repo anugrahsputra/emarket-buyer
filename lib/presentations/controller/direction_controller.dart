@@ -1,0 +1,34 @@
+import 'dart:developer';
+
+import 'package:emarket_buyer/services/direction_repo.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+class DirectionController extends GetxController {
+  final _directionRepo = DirectionRepo();
+
+  final origin = const LatLng(0, 0).obs;
+  final destination = const LatLng(0, 0).obs;
+  final distance = 0.obs;
+  final duration = 0.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    getDuration();
+  }
+
+  getDuration() async {
+    try {
+      final response = await _directionRepo.getDirections(
+        origin: origin.value,
+        destination: destination.value,
+      );
+
+      distance.value = response.distance;
+      duration.value = response.duration;
+    } catch (e) {
+      log('dircontroller: $e');
+    }
+  }
+}

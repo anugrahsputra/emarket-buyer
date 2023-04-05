@@ -18,7 +18,6 @@ class _ChangeLocationPageState extends State<ChangeLocationPage> {
   final buyerController = Get.find<BuyerController>();
   final locationController = Get.find<LocationController>();
 
-  final _formKey = GlobalKey<FormState>();
   late GoogleMapController mapController;
   StreamSubscription<Position>? positionStream;
 

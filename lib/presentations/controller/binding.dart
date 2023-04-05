@@ -13,5 +13,6 @@ class Binding extends Bindings {
     Get.lazyPut(() => LocationController(), fenix: true);
     Get.lazyPut(() => CartController(), fenix: true);
     Get.lazyPut(() => CheckoutController(), fenix: true);
+    Get.lazyPut(() => DirectionController(), fenix: true);
   }
 }

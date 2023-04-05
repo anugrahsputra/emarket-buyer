@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:emarket_buyer/models/model.dart';
@@ -6,7 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 class LocationController extends GetxController {
-  final Geolocator geolocator = Geolocator();
+  Geolocator geolocator = Geolocator();
   late Rx<LocationModel> location;
 
   Position? currentPosition;
@@ -44,7 +45,7 @@ class LocationController extends GetxController {
     }
     try {
       await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+          desiredAccuracy: LocationAccuracy.bestForNavigation);
     } catch (e) {
       return Future.error('Location service are disbled.');
     }
@@ -78,6 +79,27 @@ class LocationController extends GetxController {
       }
     } catch (e) {
       return "Error getting address: $e";
+    }
+  }
+
+  Future<void> getCurrentPosition() async {
+    try {
+      await checkPermission();
+      const LocationSettings locationSettings = LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 100,
+      );
+      Geolocator.getPositionStream(
+        locationSettings: locationSettings,
+      ).listen((Position position) {
+        currentPosition = position;
+        location.value = LocationModel(
+          latitude: position.latitude,
+          longitude: position.longitude,
+        );
+      });
+    } catch (e) {
+      log(e.toString());
     }
   }
 }

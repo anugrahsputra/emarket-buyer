@@ -26,8 +26,13 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-  void createBuyer(String displayName, String email, String photoUrl,
-      String password, String phoneNumber) async {
+  void signUp(
+    String displayName,
+    String email,
+    String photoUrl,
+    String password,
+    String phoneNumber,
+  ) async {
     try {
       loading.value = true;
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
@@ -35,7 +40,7 @@ class AuthController extends GetxController {
         password: password,
       );
       Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+          desiredAccuracy: LocationAccuracy.bestForNavigation);
       LocationModel location = LocationModel(
         latitude: position.latitude,
         longitude: position.longitude,

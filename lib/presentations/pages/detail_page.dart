@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
@@ -192,69 +194,30 @@ class DetailPage extends StatelessWidget {
           vertical: 20,
           horizontal: 20,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: FilledButton.tonalIcon(
-                style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all(
-                    const Size(170, 50),
-                  ),
-                ),
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.shopping_cart_checkout_rounded,
-                ),
-                label: const Text('Beli'),
-              ),
+        child: FilledButton.icon(
+          style: ButtonStyle(
+            fixedSize: MaterialStateProperty.all(
+              const Size(170, 50),
             ),
-            const SizedBox(width: 5),
-            FilledButton.icon(
-              style: ButtonStyle(
-                fixedSize: MaterialStateProperty.all(
-                  const Size(170, 50),
-                ),
+          ),
+          onPressed: () {
+            cartController.addProduct(
+              CartModel(
+                sellerId: seller.id,
+                name: product.name,
+                productId: product.id,
+                price: product.price,
+                storeName: seller.storeName,
+                imageUrl: product.imageUrl,
               ),
-              onPressed: () {
-                cartController.addProduct(
-                  CartModel(
-                    sellerId: seller.id,
-                    name: product.name,
-                    productId: product.id,
-                    price: product.price,
-                    storeName: seller.storeName,
-                    imageUrl: product.imageUrl,
-                  ),
-                );
-                final addedProduct = cartController.cartProducts.isNotEmpty
-                    ? cartController.cartProducts.last
-                    : null;
-                ScaffoldMessenger.of(Get.context!).showSnackBar(
-                  SnackBar(
-                    content: Center(
-                      child: Text(
-                        addedProduct != null
-                            ? '${addedProduct.name} berhasil ditambahkan'
-                            : 'Gagal menambahkan produk',
-                      ),
-                    ),
-                    behavior: SnackBarBehavior.floating,
-                    margin: const EdgeInsets.all(50),
-                    duration: const Duration(milliseconds: 1500),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                );
-                debugPrint('Cart: ${cartController.cartProducts.length}');
-              },
-              icon: const Icon(
-                Icons.shopping_bag,
-              ),
-              label: const Text('Masukan Keranjang'),
-            ),
-          ],
+            );
+
+            log('Cart: ${cartController.cartProducts.length}');
+          },
+          icon: const Icon(
+            Icons.shopping_bag,
+          ),
+          label: const Text('Masukan Keranjang'),
         ),
       ),
     );

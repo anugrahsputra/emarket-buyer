@@ -1,39 +1,42 @@
+import 'dart:developer';
+
 import 'package:emarket_buyer/models/model.dart';
+import 'package:emarket_buyer/presentations/controller/controller.dart';
+import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OrderDetailPage extends StatelessWidget {
-  const OrderDetailPage(
-      {super.key, required this.checkout, required this.seller});
+  OrderDetailPage({super.key, required this.checkout, required this.seller});
 
   final CheckoutModel checkout;
   final SellerModel seller;
+  final BuyerController buyerController = Get.put(BuyerController());
+  final SellerController sellerController = Get.put(SellerController());
+  final DirectionController directionController =
+      Get.put(DirectionController());
 
   @override
   Widget build(BuildContext context) {
+    directionController.origin.value = LatLng(
+        buyerController.buyer.location.latitude,
+        buyerController.buyer.location.longitude);
+    directionController.destination.value =
+        LatLng(seller.location.latitude, seller.location.longitude);
+
+    log('origin: ${directionController.origin.value}');
+    log('destination: ${directionController.destination.value}');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detail Pesanan'),
       ),
       body: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.all(24),
-            height: 420,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: const Center(
-              child: Text(
-                'maps',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+          MapWIdget(
+            buyer: buyerController.buyer,
+            seller: seller,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -94,10 +97,12 @@ class OrderDetailPage extends StatelessWidget {
                       fontSize: 16, fontWeight: FontWeight.w500),
                 ),
                 const Spacer(),
-                Text(
-                  '20 menit',
-                  style: GoogleFonts.poppins(
-                      fontSize: 16, fontWeight: FontWeight.w500),
+                Obx(
+                  () => Text(
+                    '${directionController.duration.value} menit',
+                    style: GoogleFonts.poppins(
+                        fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ],
             ),

@@ -84,7 +84,7 @@ class SignUpPage extends GetWidget<AuthController> {
                           ),
                           ButtonWidget(
                             onPressed: () async {
-                              controller.createBuyer(
+                              controller.signUp(
                                 nameController.text,
                                 emailController.text,
                                 'https://ui-avatars.com/api/?name=${nameController.text}',

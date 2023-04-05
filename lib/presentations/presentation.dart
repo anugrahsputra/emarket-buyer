@@ -15,6 +15,7 @@ export 'widget/cart_card_widget.dart';
 export 'widget/expanded_text_widget.dart';
 export 'widget/fields_widget.dart';
 export 'widget/loading_widget.dart';
+export 'widget/map_widget.dart';
 export 'widget/order_history_widget.dart';
 export 'widget/product_card_widget.dart';
 export 'widget/recommend_card_widget.dart';

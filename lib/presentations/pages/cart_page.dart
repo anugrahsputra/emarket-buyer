@@ -1,6 +1,7 @@
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -68,16 +69,11 @@ class Cartpage extends StatelessWidget {
                       },
                       onDismissed: (direction) {
                         cartController.removeProduct(
-                            cartController.cartProducts[index].productId);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
+                          cartController.cartProducts[index].productId,
+                        );
+                        Fluttertoast.showToast(
+                          msg:
                               '${cartController.cartProducts[index].name} berhasil dihapus',
-                            ),
-                            behavior: SnackBarBehavior.floating,
-                            margin: const EdgeInsets.all(50),
-                            duration: const Duration(milliseconds: 1500),
-                          ),
                         );
                       },
                       child: CartCard(
