@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -79,6 +81,26 @@ class Database {
             snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
   }
 
+  Future<bool?> updateProduct(
+    String sellerId,
+    String productId,
+    String field,
+    dynamic value,
+  ) async {
+    try {
+      await _firestore
+          .collection('sellers')
+          .doc(sellerId)
+          .collection('products')
+          .doc(productId)
+          .update({field: value});
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
+  }
+
   // cart
 
   // checkout
@@ -89,6 +111,21 @@ class Database {
         .collection('checkout')
         .doc()
         .set(checkout.toMap());
+  }
+
+  Future<CheckoutModel> getCheckout(String id) async {
+    try {
+      DocumentSnapshot snapshot = await _firestore
+          .collection('buyers')
+          .doc(id)
+          .collection('checkout')
+          .doc()
+          .get();
+      return CheckoutModel.fromSnapshot(snapshot);
+    } catch (e) {
+      debugPrint(e.toString());
+      return const CheckoutModel();
+    }
   }
 
   Stream<List<CheckoutModel>> fetchCheckout(String id) {
@@ -143,5 +180,9 @@ class Database {
         .collection('buyers')
         .doc(buyer.id)
         .update({field: newValue});
+  }
+
+  void dispose() {
+    _firestore.terminate();
   }
 }

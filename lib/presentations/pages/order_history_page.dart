@@ -22,7 +22,7 @@ class OrderHistoryPage extends StatelessWidget {
           checkoutController.fetchCheckout();
         },
         builder: (controller) {
-          if (controller.checkout.isEmpty) {
+          if (controller.checkouts.isEmpty) {
             return const Center(
               child: Text('Anda belum memesan apapun!'),
             );
@@ -33,27 +33,17 @@ class OrderHistoryPage extends StatelessWidget {
             );
           } else {
             return ListView.builder(
-              itemCount: checkoutController.checkout.length,
+              itemCount: checkoutController.checkouts.length,
               itemBuilder: (context, index) {
                 const defaultSeller = SellerModel();
-                final checkout = checkoutController.checkout[index];
+                final checkout = checkoutController.checkouts[index];
                 final seller = sellerController.seller.firstWhere(
                   (element) => element.id == checkout.sellerId,
                   orElse: () => defaultSeller,
                 );
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(
-                      () => OrderDetailPage(
-                        checkout: checkoutController.checkout[index],
-                        seller: seller,
-                      ),
-                    );
-                  },
-                  child: OrderHistoryWidget(
-                    seller: seller,
-                    checkout: checkoutController.checkout[index],
-                  ),
+                return OrderHistoryWidget(
+                  seller: seller,
+                  checkout: checkoutController.checkouts[index],
                 );
               },
             );

@@ -2,6 +2,7 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:emarket_buyer/services/local_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -19,12 +20,17 @@ class CheckoutController extends GetxController {
   var uuid = const Uuid();
   DateTime date = DateTime.now();
   RxString formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
+  final Rx<CheckoutModel> checkout = const CheckoutModel().obs;
+  CheckoutModel get checkoutValue => checkout.value;
 
-  final checkout = RxList<CheckoutModel>([]);
+  set checkoutValue(CheckoutModel value) => checkout.value = value;
+
+  final checkouts = RxList<CheckoutModel>([]);
 
   @override
   void onInit() {
     fetchCheckout();
+    getCheckout();
     super.onInit();
   }
 
@@ -33,9 +39,15 @@ class CheckoutController extends GetxController {
     update();
   }
 
+  getCheckout() async {
+    final User user = FirebaseAuth.instance.currentUser!;
+    checkoutValue = await database.getCheckout(user.uid);
+    update();
+  }
+
   fetchCheckout() async {
     String id = Get.find<AuthController>().user!.uid;
-    checkout.bindStream(database.fetchCheckout(id));
+    checkouts.bindStream(database.fetchCheckout(id));
     update();
   }
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
@@ -212,7 +210,7 @@ class DetailPage extends StatelessWidget {
               ),
             );
 
-            log('Cart: ${cartController.cartProducts.length}');
+            debugPrint('Cart: ${cartController.cartProducts.length}');
           },
           icon: const Icon(
             Icons.shopping_bag,

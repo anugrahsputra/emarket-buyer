@@ -22,10 +22,10 @@ class CheckoutModel extends Equatable {
     this.isDelivered = false,
     this.isCancelled = false,
     this.note = '',
-    required this.displayName,
-    required this.cart,
-    required this.total,
-    required this.date,
+    this.displayName = '',
+    this.cart = const [],
+    this.total = 0,
+    this.date = '',
   });
 
   CheckoutModel copyWith({

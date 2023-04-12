@@ -22,7 +22,11 @@ class CartCard extends StatelessWidget {
     return Container(
       height: 110,
       margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(
+        left: 10,
+        top: 10,
+        bottom: 10,
+      ),
       decoration: BoxDecoration(
         color: const Color(0xffdee2e6),
         borderRadius: BorderRadius.circular(10),
@@ -48,7 +52,7 @@ class CartCard extends StatelessWidget {
               Text(
                 cartModel.name,
                 style: GoogleFonts.poppins(
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -76,11 +80,12 @@ class CartCard extends StatelessWidget {
                 icon: const Icon(
                   Icons.remove,
                 ),
+                iconSize: 20,
               ),
               Text(
                 cartModel.quantity.toString(),
                 style: GoogleFonts.poppins(
-                  fontSize: 25,
+                  fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -89,6 +94,7 @@ class CartCard extends StatelessWidget {
                 icon: const Icon(
                   Icons.add,
                 ),
+                iconSize: 20,
               )
             ],
           )

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +26,10 @@ class _MapWIdgetState extends State<MapWIdget> {
 
   @override
   Widget build(BuildContext context) {
-    log('buyer latitude: ${widget.buyer.location.latitude}');
-    log('buyer longtitude: ${widget.buyer.location.longitude}');
-    log('seller latittude: ${widget.seller.location.latitude}');
-    log('seller latittude: ${widget.seller.location.longitude}');
+    debugPrint('buyer latitude: ${widget.buyer.location.latitude}');
+    debugPrint('buyer longtitude: ${widget.buyer.location.longitude}');
+    debugPrint('seller latittude: ${widget.seller.location.latitude}');
+    debugPrint('seller latittude: ${widget.seller.location.longitude}');
     return Container(
       margin: const EdgeInsets.all(24),
       height: 420,

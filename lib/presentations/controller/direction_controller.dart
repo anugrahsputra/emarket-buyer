@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:emarket_buyer/services/direction_repo.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -28,7 +27,7 @@ class DirectionController extends GetxController {
       distance.value = response.distance;
       duration.value = response.duration;
     } catch (e) {
-      log('dircontroller: $e');
+      debugPrint('dircontroller: $e');
     }
   }
 }

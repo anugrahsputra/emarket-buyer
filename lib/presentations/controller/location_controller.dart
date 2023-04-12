@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:emarket_buyer/models/model.dart';
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -61,7 +61,7 @@ class LocationController extends GetxController {
         longitude: position.longitude,
       );
     } catch (e) {
-      log(e.toString());
+      debugPrint(e.toString());
     }
   }
 
@@ -99,7 +99,7 @@ class LocationController extends GetxController {
         );
       });
     } catch (e) {
-      log(e.toString());
+      debugPrint(e.toString());
     }
   }
 }

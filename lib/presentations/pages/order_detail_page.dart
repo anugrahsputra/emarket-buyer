@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
@@ -26,8 +24,8 @@ class OrderDetailPage extends StatelessWidget {
     directionController.destination.value =
         LatLng(seller.location.latitude, seller.location.longitude);
 
-    log('origin: ${directionController.origin.value}');
-    log('destination: ${directionController.destination.value}');
+    debugPrint('origin: ${directionController.origin.value}');
+    debugPrint('destination: ${directionController.destination.value}');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detail Pesanan'),

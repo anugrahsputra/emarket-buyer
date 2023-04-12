@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emarket_buyer/models/model.dart';
+import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:emarket_buyer/services/database.dart';
+import 'package:emarket_buyer/services/local_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,6 +16,7 @@ import 'controller.dart';
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Rxn<User> _firebaseUser = Rxn<User>();
+  LocalDatabase localDatabase = LocalDatabase();
 
   StreamSubscription<QuerySnapshot>? checkoutSubscription;
   final loading = false.obs;
@@ -58,12 +61,12 @@ class AuthController extends GetxController {
         email: email,
         photoUrl: photoUrl,
       );
-      log(buyer.location.toString());
+      debugPrint(buyer.location.toString());
       if (await Database().createNewBuyer(buyer)) {
         Get.find<BuyerController>().buyer = buyer;
         Get.find<ProductController>().update();
         Get.find<LocationController>().update();
-        Get.back();
+        Get.off(() => MainPage(initialIndex: 0));
       }
       loading.value = false;
     } catch (e) {
@@ -92,7 +95,7 @@ class AuthController extends GetxController {
       Get.find<BuyerController>().update();
       Get.find<ProductController>().update();
       debugPrint(credential.toString());
-      Get.back();
+      Get.off(() => MainPage(initialIndex: 0));
       loading.value = false;
     } catch (e) {
       loading.value = false;
@@ -115,6 +118,11 @@ class AuthController extends GetxController {
         await _auth.signOut();
         Get.find<BuyerController>().clear();
         checkoutSubscription?.cancel();
+        await localDatabase.deleteProduct();
+        Database().dispose();
+        Get.delete<CartController>();
+        Get.offNamed('/signin');
+        await AndroidAlarmManager.cancel(1);
       }
       // Get.find<ProductController>().clearProducts();
     } catch (e, stackTrace) {

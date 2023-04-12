@@ -1,3 +1,5 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:emarket_buyer/helper/helper.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/services/local_database.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:get/get.dart';
 class CartController extends GetxController {
   final _localDatabase = LocalDatabase();
   final cartProducts = RxList<CartModel>([]);
+  final localNotificationHelper = LocalNotificationHelper();
 
   final total = RxInt(0);
   final itemPrice = RxInt(0);
@@ -21,7 +24,26 @@ class CartController extends GetxController {
   getCartProducts() async {
     cartProducts.assignAll(await _localDatabase.getAllProducts());
     getTotal();
+    cartNotif();
     update();
+  }
+
+  cartNotif() async {
+    if (cartProducts.isNotEmpty) {
+      debugPrint('Notification active');
+      return await AndroidAlarmManager.periodic(
+        const Duration(seconds: 10),
+        1,
+        BackgroundService.callback,
+        exact: true,
+        wakeup: true,
+        startAt: DateTime.now(),
+      );
+    } else {
+      debugPrint('Notification inactive');
+
+      return await AndroidAlarmManager.cancel(1);
+    }
   }
 
   addProduct(CartModel cartModel) async {
@@ -59,6 +81,7 @@ class CartController extends GetxController {
           return;
         }
       }
+
       Fluttertoast.showToast(msg: '${cartModel.name} berhasil ditambahkan');
       await _localDatabase.insertProduct(cartModel);
       await getCartProducts();

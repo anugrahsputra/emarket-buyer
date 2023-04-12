@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BuyerController extends GetxController {
@@ -33,7 +32,7 @@ class BuyerController extends GetxController {
       final User user = FirebaseAuth.instance.currentUser!;
       buyer = await database.getBuyer(user.uid);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     } finally {
       loading.value = false;
     }
@@ -50,7 +49,7 @@ class BuyerController extends GetxController {
       );
       await database.updateUserAddress(buyer, 'address', address);
     } catch (e) {
-      log('Error updating buyer location: $e');
+      debugPrint('Error updating buyer location: $e');
       rethrow;
     }
   }
