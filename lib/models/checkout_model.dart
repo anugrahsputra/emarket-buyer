@@ -16,16 +16,16 @@ class CheckoutModel extends Equatable {
   final String note;
   const CheckoutModel({
     this.id,
-    this.buyerId = '',
-    this.sellerId = '',
-    this.isProcessing = false,
-    this.isDelivered = false,
-    this.isCancelled = false,
-    this.note = '',
-    this.displayName = '',
-    this.cart = const [],
-    this.total = 0,
-    this.date = '',
+    required this.buyerId,
+    required this.sellerId,
+    required this.displayName,
+    required this.isProcessing,
+    required this.isDelivered,
+    required this.isCancelled,
+    required this.cart,
+    required this.total,
+    required this.date,
+    required this.note,
   });
 
   CheckoutModel copyWith({

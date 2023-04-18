@@ -43,14 +43,14 @@ class ChekcoutPage extends StatelessWidget {
                   children: [
                     Text(
                       'Total',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 18,
                       ),
                     ),
                     const Spacer(),
                     Text(
                       'Rp. ${cartController.total.toInt()}',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 18,
                       ),
                     ),
@@ -60,14 +60,14 @@ class ChekcoutPage extends StatelessWidget {
                   children: [
                     Text(
                       'Ongkir',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 18,
                       ),
                     ),
                     const Spacer(),
                     Text(
                       'Gratis',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 18,
                       ),
                     ),
@@ -93,14 +93,14 @@ class ChekcoutPage extends StatelessWidget {
                     children: [
                       Text(
                         'Rp. ${cartController.total.toInt()}',
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.plusJakartaSans(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         'Pesanan anda (${cartController.cartProducts.length} item)',
-                        style: GoogleFonts.poppins(fontSize: 12),
+                        style: GoogleFonts.plusJakartaSans(fontSize: 12),
                       ),
                     ],
                   ),
@@ -113,6 +113,11 @@ class ChekcoutPage extends StatelessWidget {
                     onPressed: () async {
                       await checkoutController.newCheckout(
                         CheckoutModel(
+                          buyerId: auth.user!.uid,
+                          sellerId: checkoutController.seller.id,
+                          isProcessing: checkoutController.isProcessing.value,
+                          isDelivered: checkoutController.isDelivered.value,
+                          isCancelled: checkoutController.isCancelled.value,
                           displayName: buyerController.buyer.displayName,
                           cart: cartController.cartProducts,
                           note: noteController.text,
@@ -141,7 +146,7 @@ class ChekcoutPage extends StatelessWidget {
             children: [
               Text(
                 'Dikirim ke',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -165,14 +170,14 @@ class ChekcoutPage extends StatelessWidget {
                     children: [
                       Text(
                         buyerController.buyer.displayName,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.plusJakartaSans(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         buyerController.buyer.phoneNumber,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.plusJakartaSans(
                           fontSize: 16,
                         ),
                       ),
@@ -185,7 +190,7 @@ class ChekcoutPage extends StatelessWidget {
               ),
               Text(
                 'Alamat Delivery',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -197,7 +202,7 @@ class ChekcoutPage extends StatelessWidget {
                       width: 250,
                       child: Text(
                         buyerController.buyer.address,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.plusJakartaSans(
                           fontSize: 14,
                         ),
                       ),
@@ -218,7 +223,7 @@ class ChekcoutPage extends StatelessWidget {
               const SizedBox(height: 15),
               Text(
                 'Catatan',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -246,7 +251,7 @@ class ChekcoutPage extends StatelessWidget {
               ),
               Text(
                 'Item keranjang',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -287,7 +292,7 @@ class ChekcoutPage extends StatelessWidget {
                             children: [
                               Text(
                                 cartController.cartProducts[index].name,
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.plusJakartaSans(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -297,7 +302,7 @@ class ChekcoutPage extends StatelessWidget {
                               ),
                               Text(
                                 'Rp. ${cartController.cartProducts[index].price * cartController.cartProducts[index].quantity}',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.plusJakartaSans(
                                   fontSize: 16,
                                 ),
                               ),
@@ -306,7 +311,7 @@ class ChekcoutPage extends StatelessWidget {
                           const Spacer(),
                           Text(
                             '${cartController.cartProducts[index].quantity}x',
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.plusJakartaSans(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),

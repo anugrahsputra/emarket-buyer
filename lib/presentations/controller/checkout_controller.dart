@@ -2,7 +2,6 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:emarket_buyer/services/local_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -15,33 +14,22 @@ class CheckoutController extends GetxController {
   final SellerModel seller = const SellerModel();
   RxBool isLoading = false.obs;
   RxBool isCancelled = false.obs;
-  final isDelivered = false.obs;
+  RxBool isDelivered = false.obs;
   RxBool isProcessing = false.obs;
   var uuid = const Uuid();
   DateTime date = DateTime.now();
   RxString formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
-  final Rx<CheckoutModel> checkout = const CheckoutModel().obs;
-  CheckoutModel get checkoutValue => checkout.value;
-
-  set checkoutValue(CheckoutModel value) => checkout.value = value;
 
   final checkouts = RxList<CheckoutModel>([]);
 
   @override
   void onInit() {
     fetchCheckout();
-    getCheckout();
     super.onInit();
   }
 
   void setLoading(bool value) {
     isLoading.value = value;
-    update();
-  }
-
-  getCheckout() async {
-    final User user = FirebaseAuth.instance.currentUser!;
-    checkoutValue = await database.getCheckout(user.uid);
     update();
   }
 
@@ -53,6 +41,7 @@ class CheckoutController extends GetxController {
 
   newCheckout(CheckoutModel checkoutModel) async {
     String id = Get.find<AuthController>().user!.uid;
+
     Map<String, List<CartModel>> cartToSeller = {};
     for (CartModel cart in checkoutModel.cart) {
       String sellerId = cart.sellerId;
@@ -67,7 +56,7 @@ class CheckoutController extends GetxController {
       int total =
           sellerCart.fold(0, (sum, cart) => sum + cart.price * cart.quantity);
       final newCheckout = CheckoutModel(
-        id: uuid.v1(),
+        id: uuid.v4(),
         buyerId: id,
         sellerId: sellerId,
         note: checkoutModel.note,

@@ -18,11 +18,11 @@ class BackgroundService {
 
   factory BackgroundService() => _instance ?? BackgroundService._internal();
 
+  @pragma('vm:entry-point')
   void initializeIsolate() {
     IsolateNameServer.registerPortWithName(port.sendPort, _isolateName);
   }
 
-  @pragma('vm:entry-point')
   static Future<void> callback() async {
     debugPrint('Notification coming');
     final LocalNotificationHelper notificationHelper =

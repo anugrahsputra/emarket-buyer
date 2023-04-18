@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: const Color(0xffa1cca5),
-        textTheme: GoogleFonts.poppinsTextTheme(),
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(),
         filledButtonTheme: FilledButtonThemeData(
           style: ButtonStyle(
             shape: MaterialStateProperty.all(

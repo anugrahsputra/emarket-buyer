@@ -19,7 +19,7 @@ class ButtonWidget extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           title,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.plusJakartaSans(
             fontSize: 16,
             fontWeight: FontWeight.w400,
           ),

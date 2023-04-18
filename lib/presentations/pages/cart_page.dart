@@ -117,14 +117,14 @@ class Cartpage extends StatelessWidget {
             children: [
               Text(
                 'Total:',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 18,
                 ),
               ),
               const SizedBox(width: 5),
               Text(
                 'Rp. ${cartController.total.value}',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 18,
                 ),
               ),

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emarket_buyer/common/formatter.dart';
 import 'package:emarket_buyer/models/model.dart';
-import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:emarket_buyer/services/local_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -55,7 +55,7 @@ class AuthController extends GetxController {
       BuyerModel buyer = BuyerModel(
         id: credential.user!.uid,
         displayName: displayName,
-        phoneNumber: phoneNumber,
+        phoneNumber: Formatter.phoneFormat(phoneNumber),
         location: location,
         address: address,
         email: email,
@@ -66,7 +66,7 @@ class AuthController extends GetxController {
         Get.find<BuyerController>().buyer = buyer;
         Get.find<ProductController>().update();
         Get.find<LocationController>().update();
-        Get.off(() => MainPage(initialIndex: 0));
+        Get.offNamedUntil('/main-page', (route) => false);
       }
       loading.value = false;
     } catch (e) {
@@ -95,7 +95,7 @@ class AuthController extends GetxController {
       Get.find<BuyerController>().update();
       Get.find<ProductController>().update();
       debugPrint(credential.toString());
-      Get.off(() => MainPage(initialIndex: 0));
+      Get.offNamedUntil('/main-page', (route) => false);
       loading.value = false;
     } catch (e) {
       loading.value = false;
@@ -121,7 +121,7 @@ class AuthController extends GetxController {
         await localDatabase.deleteProduct();
         Database().dispose();
         Get.delete<CartController>();
-        Get.offNamed('/signin');
+        Get.offNamedUntil('/signin', (route) => false);
         await AndroidAlarmManager.cancel(1);
       }
       // Get.find<ProductController>().clearProducts();

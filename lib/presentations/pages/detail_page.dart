@@ -67,7 +67,7 @@ class DetailPage extends StatelessWidget {
                         ),
                         Text(
                           'Rp. ${product.price}',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.plusJakartaSans(
                             fontSize: 16,
                           ),
                         ),

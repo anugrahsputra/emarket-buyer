@@ -109,23 +109,8 @@ class Database {
         .collection('buyers')
         .doc(id)
         .collection('checkout')
-        .doc()
+        .doc(checkout.id)
         .set(checkout.toMap());
-  }
-
-  Future<CheckoutModel> getCheckout(String id) async {
-    try {
-      DocumentSnapshot snapshot = await _firestore
-          .collection('buyers')
-          .doc(id)
-          .collection('checkout')
-          .doc()
-          .get();
-      return CheckoutModel.fromSnapshot(snapshot);
-    } catch (e) {
-      debugPrint(e.toString());
-      return const CheckoutModel();
-    }
   }
 
   Stream<List<CheckoutModel>> fetchCheckout(String id) {

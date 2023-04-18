@@ -1,7 +1,8 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:emarket_buyer/presentations/controller/product_controller.dart';
+import 'package:emarket_buyer/common/formatter.dart';
 import 'package:emarket_buyer/models/product_model.dart';
+import 'package:emarket_buyer/presentations/controller/product_controller.dart';
 import 'package:emarket_buyer/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,7 +61,7 @@ class ProductCard extends StatelessWidget {
                         height: 15,
                       ),
                       Text(
-                        'Rp. ${product.price}',
+                        Formatter.priceFormat(product.price),
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,

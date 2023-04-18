@@ -51,21 +51,21 @@ class CartCard extends StatelessWidget {
             children: [
               Text(
                 cartModel.name,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               Text(
                 cartModel.storeName,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.plusJakartaSans(
                   fontWeight: FontWeight.w400,
                 ),
               ),
               const SizedBox(height: 25),
               Text(
                 'Rp. ${cartModel.price * cartModel.quantity}',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
@@ -84,7 +84,7 @@ class CartCard extends StatelessWidget {
               ),
               Text(
                 cartModel.quantity.toString(),
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),

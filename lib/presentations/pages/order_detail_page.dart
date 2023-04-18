@@ -91,14 +91,14 @@ class OrderDetailPage extends StatelessWidget {
               children: [
                 Text(
                   'Estimasi Waktu Sampai: ',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.plusJakartaSans(
                       fontSize: 16, fontWeight: FontWeight.w500),
                 ),
                 const Spacer(),
                 Obx(
                   () => Text(
                     '${directionController.duration.value} menit',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.plusJakartaSans(
                         fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),

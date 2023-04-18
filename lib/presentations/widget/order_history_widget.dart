@@ -1,5 +1,8 @@
 import 'package:emarket_buyer/models/model.dart';
+import 'package:emarket_buyer/presentations/controller/controller.dart';
+import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OrderHistoryWidget extends StatelessWidget {
@@ -14,7 +17,16 @@ class OrderHistoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CheckoutController checkoutController = Get.put(CheckoutController());
     return GestureDetector(
+      onTap: () {
+        if (checkout.isProcessing) {
+          Get.to(() => OrderDetailPage(
+                checkout: checkout,
+                seller: seller,
+              ));
+        }
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 24,
@@ -37,7 +49,7 @@ class OrderHistoryWidget extends StatelessWidget {
                   children: [
                     Text(
                       checkout.date,
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 14,
                       ),
                     ),
@@ -47,7 +59,7 @@ class OrderHistoryWidget extends StatelessWidget {
                         : checkout.isDelivered
                             ? Text(
                                 'Sudah diterima',
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.plusJakartaSans(
                                   fontSize: 14,
                                 ),
                               )
@@ -58,7 +70,7 @@ class OrderHistoryWidget extends StatelessWidget {
                 ),
                 Text(
                   seller.storeName,
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.plusJakartaSans(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -88,19 +100,19 @@ class OrderHistoryWidget extends StatelessWidget {
                         ),
                         title: Text(
                           checkout.cart[index].name,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.plusJakartaSans(
                             fontSize: 14,
                           ),
                         ),
                         subtitle: Text(
                           checkout.cart[index].price.toString(),
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.plusJakartaSans(
                             fontSize: 14,
                           ),
                         ),
                         trailing: Text(
                           checkout.cart[index].quantity.toString(),
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.plusJakartaSans(
                             fontSize: 14,
                           ),
                         ),
