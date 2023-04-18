@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailPage extends StatelessWidget {
   OrderDetailPage({super.key, required this.checkout, required this.seller});
@@ -66,7 +67,12 @@ class OrderDetailPage extends StatelessWidget {
                 ),
                 const Spacer(),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final int index = checkout.cart
+                        .indexWhere((element) => element.sellerId == seller.id);
+                    launchWhatsapp(seller.phoneNumber,
+                        'Halo, tadi saya memesan ${checkout.cart[index].name} item dari toko ${seller.storeName} di eMarket. Mohon konfirmasi pesanan saya. Terima kasih.');
+                  },
                   icon: Container(
                     height: 50,
                     width: 50,
@@ -108,5 +114,13 @@ class OrderDetailPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void launchWhatsapp(String phoneNumber, String message) async {
+    String url = "whatsapp://send?phone=$phoneNumber&text=$message";
+
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    }
   }
 }
