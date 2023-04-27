@@ -71,16 +71,7 @@ class AuthController extends GetxController {
       loading.value = false;
     } catch (e) {
       loading.value = false;
-      Get.snackbar(
-        "Error creating Account",
-        'Mohon Diisi Dengan Benar',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xff343a40),
-        colorText: const Color(0xfff8f9fa),
-        duration: const Duration(seconds: 3),
-        forwardAnimationCurve: Curves.easeOutBack,
-        margin: const EdgeInsets.all(15),
-      );
+      snackbar('Kesalahan Registrasi', 'Mohon cek kembali data anda');
     }
   }
 
@@ -99,31 +90,20 @@ class AuthController extends GetxController {
       loading.value = false;
     } catch (e) {
       loading.value = false;
-      Get.snackbar(
-        "Error signing in",
-        "check your email and password",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xff343a40),
-        colorText: const Color(0xfff8f9fa),
-        duration: const Duration(seconds: 3),
-        forwardAnimationCurve: Curves.easeInOut,
-        margin: const EdgeInsets.all(15),
-      );
+      snackbar('Kesalahan Login', 'Mohon cek email dan password anda');
     }
   }
 
   void signOut() async {
     try {
-      if (_auth.currentUser != null) {
-        await _auth.signOut();
-        Get.find<BuyerController>().clear();
-        checkoutSubscription?.cancel();
-        await localDatabase.deleteProduct();
-        Database().dispose();
-        Get.delete<CartController>();
-        Get.offNamedUntil('/signin', (route) => false);
-        await AndroidAlarmManager.cancel(1);
-      }
+      await _auth.signOut();
+      Get.find<BuyerController>().clear();
+      checkoutSubscription?.cancel();
+      await localDatabase.deleteProduct();
+      Database().dispose();
+      Get.delete<CartController>();
+      Get.offNamedUntil('/signin', (route) => false);
+      await AndroidAlarmManager.cancel(1);
       // Get.find<ProductController>().clearProducts();
     } catch (e, stackTrace) {
       debugPrint('Error signing out: $e');
@@ -134,6 +114,19 @@ class AuthController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+
+  snackbar(String title, String message) {
+    return Get.snackbar(
+      title,
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: const Color(0xff343a40),
+      colorText: const Color(0xfff8f9fa),
+      duration: const Duration(seconds: 3),
+      forwardAnimationCurve: Curves.easeInOut,
+      margin: const EdgeInsets.all(15),
+    );
   }
 
   @override

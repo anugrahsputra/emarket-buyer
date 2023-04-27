@@ -1,11 +1,13 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:emarket_buyer/models/model.dart';
+import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/pages/detail_page.dart';
+import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/controller.dart';
-import '../widget/product_card_widget.dart';
+// *note: Need a better UX for this page
+// todo: Make a list of Sellers instead of a list of Products
 
 class Homepage extends StatelessWidget {
   Homepage({Key? key}) : super(key: key);

@@ -70,8 +70,10 @@ class OrderDetailPage extends StatelessWidget {
                   onPressed: () async {
                     final int index = checkout.cart
                         .indexWhere((element) => element.sellerId == seller.id);
-                    launchWhatsapp(seller.phoneNumber,
-                        'Halo, tadi saya memesan ${checkout.cart[index].name} item dari toko ${seller.storeName} di eMarket. Mohon konfirmasi pesanan saya. Terima kasih.');
+                    launchWhatsapp(
+                      seller.phoneNumber,
+                      'Halo ${seller.displayName}, tadi saya memesan ${checkout.cart[index].name} item dari toko ${seller.storeName} di eMarket. Mohon konfirmasi pesanan saya.\n \n Terima kasih.',
+                    );
                   },
                   icon: Container(
                     height: 50,

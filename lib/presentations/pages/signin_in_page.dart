@@ -55,7 +55,7 @@ class SigninPage extends GetWidget<AuthController> {
                               );
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
-                            title: 'Daftar',
+                            title: 'Masuk',
                           ),
                         ],
                       ),

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../common/formatter.dart';
+
 class CartCard extends StatelessWidget {
   CartCard({
     super.key,
@@ -64,7 +66,7 @@ class CartCard extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               Text(
-                'Rp. ${cartModel.price * cartModel.quantity}',
+                Formatter.priceFormat(cartModel.price * cartModel.quantity),
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
