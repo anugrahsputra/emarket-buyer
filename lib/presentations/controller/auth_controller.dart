@@ -61,6 +61,8 @@ class AuthController extends GetxController {
         email: email,
         photoUrl: photoUrl,
       );
+      await _auth.currentUser!.updateDisplayName(displayName);
+      await _auth.currentUser!.updatePhotoURL(photoUrl);
       debugPrint(buyer.location.toString());
       if (await Database().createNewBuyer(buyer)) {
         Get.find<BuyerController>().buyer = buyer;
