@@ -18,7 +18,6 @@ class BackgroundService {
 
   factory BackgroundService() => _instance ?? BackgroundService._internal();
 
-  @pragma('vm:entry-point')
   void initializeIsolate() {
     IsolateNameServer.registerPortWithName(port.sendPort, _isolateName);
   }
