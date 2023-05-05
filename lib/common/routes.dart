@@ -38,6 +38,12 @@ class Routes {
       page: () => OrderSuccessPage(),
     ),
     GetPage(
+      name: '/edit-profile-page',
+      page: () => EditProfilePage(
+        buyer: Get.arguments,
+      ),
+    ),
+    GetPage(
       name: '/signin',
       page: () => SigninPage(),
     ),

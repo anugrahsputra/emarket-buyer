@@ -1,6 +1,7 @@
 export 'pages/cart_page.dart';
 export 'pages/change_location_page.dart';
 export 'pages/checkout_page.dart';
+export 'pages/edit_profil_page.dart';
 export 'pages/main_page.dart';
 export 'pages/mainpage/home_page.dart';
 export 'pages/mainpage/order_history_page.dart';

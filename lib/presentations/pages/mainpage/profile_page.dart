@@ -34,7 +34,12 @@ class Profilepage extends StatelessWidget {
                   const SizedBox(height: 25),
                   title('Pengaturan Akun'),
                   buildMenuCard([
-                    cards('Profil', Icons.person, () {}),
+                    cards('Profil', Icons.person, () {
+                      Get.toNamed(
+                        '/edit-profile-page',
+                        arguments: buyerController.buyer,
+                      );
+                    }),
                     const Divider(
                       height: 0,
                       thickness: 1,

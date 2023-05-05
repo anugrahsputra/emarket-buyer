@@ -33,6 +33,17 @@ class Database {
     }
   }
 
+  Future<bool?> updateBuyerInfo(
+      String buyerId, Map<String, dynamic> data) async {
+    try {
+      await _firestore.collection('buyers').doc(buyerId).update(data);
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
+  }
+
   // seller
   Stream<List<SellerModel>> fetchAllSellers() {
     return _firestore.collection('sellers').snapshots().map((snapshot) =>
