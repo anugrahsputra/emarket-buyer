@@ -39,6 +39,7 @@ dependencies:
   firebase_auth: ^4.2.10
   firebase_core: ^2.6.1
   firebase_messaging: ^14.4.0
+  firebase_storage: ^11.1.2
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.0
@@ -49,6 +50,7 @@ dependencies:
   get: ^4.6.5
   google_fonts: ^4.0.3
   google_maps_flutter: ^2.1.1
+  image_picker: ^0.8.7+4
   intl: ^0.17.0
   material_design_icons_flutter: ^6.0.7096
   rxdart: ^0.27.7

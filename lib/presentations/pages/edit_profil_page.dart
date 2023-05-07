@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
+import 'package:emarket_buyer/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +11,7 @@ class EditProfilePage extends StatelessWidget {
   EditProfilePage({Key? key, required this.buyer}) : super(key: key);
 
   final BuyerModel buyer;
+  Storage storage = Storage();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -26,9 +30,23 @@ class EditProfilePage extends StatelessWidget {
         child: Column(
           children: [
             Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: NetworkImage(buyer.photoUrl),
+              child: GestureDetector(
+                child: Obx(() {
+                  final newProPic = buyerController.newProfilePicture.value;
+                  return newProPic != null
+                      ? CircleAvatar(
+                          radius: 50,
+                          backgroundImage: FileImage(File(newProPic.path)),
+                        )
+                      : CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              NetworkImage(buyerController.buyer.photoUrl),
+                        );
+                }),
+                onTap: () {
+                  buyerController.selectNewProfilePicture();
+                },
               ),
             ),
             const SizedBox(height: 20),
@@ -74,24 +92,26 @@ class EditProfilePage extends StatelessWidget {
             ),
             const Spacer(),
             ButtonWidget(
-              onPressed: () {
-                if (nameController.text.isNotEmpty ||
-                    phoneController.text.isNotEmpty ||
-                    addressController.text.isNotEmpty) {
-                  Map<String, dynamic> data = {
-                    'displayName': nameController.text.isNotEmpty
-                        ? nameController.text
-                        : buyer.displayName,
-                    'phoneNumber': phoneController.text.isNotEmpty
-                        ? phoneController.text
-                        : buyer.phoneNumber,
-                    'address': addressController.text.isNotEmpty
-                        ? addressController.text
-                        : buyer.address,
-                  };
-                  buyerController.updateUserInfo(data);
-                }
-                Get.back();
+              onPressed: () async {
+                Map<String, dynamic> data = {
+                  'displayName': nameController.text.isNotEmpty
+                      ? nameController.text
+                      : buyer.displayName,
+                  'phoneNumber': phoneController.text.isNotEmpty
+                      ? phoneController.text
+                      : buyer.phoneNumber,
+                  'address': addressController.text.isNotEmpty
+                      ? addressController.text
+                      : buyer.address,
+                };
+                await buyerController.updateUserInfo(data);
+                await buyerController.uploadProfilePic();
+                await buyerController.fetchBuyer();
+                Get.back(
+                  result: 'success',
+                  canPop: false,
+                );
+                buyerController.update();
               },
               title: 'Simpan',
             )

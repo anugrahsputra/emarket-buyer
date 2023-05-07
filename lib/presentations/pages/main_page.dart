@@ -9,7 +9,6 @@ class MainPage extends StatelessWidget {
 
   final int initialIndex;
 
-  final BottomNavbarController controller = Get.put(BottomNavbarController());
   final CheckoutController checkoutController = Get.put(CheckoutController());
 
   final List<Widget> pageList = [
@@ -35,7 +34,7 @@ class MainPage extends StatelessWidget {
       ),
     ];
     return GetBuilder<BottomNavbarController>(
-      builder: (_) {
+      builder: (controller) {
         return Scaffold(
           body: controller.currentPage,
           bottomNavigationBar: NavigationBar(

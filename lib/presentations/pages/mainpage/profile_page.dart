@@ -19,6 +19,7 @@ class Profilepage extends StatelessWidget {
         title: const Text('Profil'),
       ),
       body: GetBuilder<BuyerController>(
+        init: buyerController,
         initState: (_) async {
           buyerController.buyer =
               await database.getBuyer(authController.user!.uid);

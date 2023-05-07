@@ -1,15 +1,18 @@
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
-import 'package:emarket_buyer/services/database.dart';
+import 'package:emarket_buyer/services/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class BuyerController extends GetxController {
   final Rx<BuyerModel> _buyer = const BuyerModel().obs;
   final Database database = Database();
-
   final loading = false.obs;
+  RxDouble uploadProgress = 0.0.obs;
+
+  Rx<XFile?> newProfilePicture = Rx<XFile?>(null);
 
   BuyerModel get buyer => _buyer.value;
 
@@ -22,9 +25,14 @@ class BuyerController extends GetxController {
   }
 
   @override
-  void onReady() {
-    super.onReady();
+  void onInit() {
+    super.onInit();
     fetchBuyer();
+  }
+
+  setLoading(bool value) {
+    loading.value = value;
+    update();
   }
 
   fetchBuyer() async {
@@ -62,6 +70,42 @@ class BuyerController extends GetxController {
       await database.updateBuyerInfo(id, data);
     } catch (e) {
       debugPrint('Error updating buyer info: $e');
+      rethrow;
+    }
+  }
+
+  selectNewProfilePicture() async {
+    try {
+      final XFile? image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
+      if (image != null) {
+        newProfilePicture.value = image;
+      }
+    } catch (e) {
+      debugPrint('Error selecting new profile picture: $e');
+    }
+  }
+
+  Future<void> uploadProfilePic() async {
+    try {
+      if (newProfilePicture == null) {
+        debugPrint('No new profile picture selected');
+        return;
+      } else {
+        setLoading(true);
+        final storage = Storage();
+        final url = await storage.uploadProfileImage(newProfilePicture.value!,
+            (progress) => uploadProgress.value = progress);
+        Map<String, dynamic> photoUrl = {
+          'photoUrl': newProfilePicture.value == null ? buyer.photoUrl : url,
+        };
+        updateUserInfo(photoUrl);
+        update();
+        setLoading(false);
+      }
+    } catch (e) {
+      debugPrint('Error uploading profile picture: $e');
       rethrow;
     }
   }
