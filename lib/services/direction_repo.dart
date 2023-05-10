@@ -22,7 +22,7 @@ class DirectionRepo {
       'origins': '${origin.latitude},${origin.longitude}',
       'destinations': '${destination.latitude},${destination.longitude}',
       'units': 'metric',
-      'key': google_api_key,
+      'key': googleApiKey,
     };
 
     final response = await _dio.get(_baseUrl, queryParameters: params);

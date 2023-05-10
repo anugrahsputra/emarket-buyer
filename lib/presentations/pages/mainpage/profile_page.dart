@@ -7,10 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 class Profilepage extends StatelessWidget {
   Profilepage({Key? key}) : super(key: key);
 
-  final AuthController authController = Get.put(AuthController());
-  final BuyerController buyerController = Get.put(BuyerController());
-  final CheckoutController checkoutController = Get.put(CheckoutController());
-  Database database = Database();
+  final authController = Get.put(AuthController());
+  final buyerController = Get.put(BuyerController());
+  final checkoutController = Get.put(CheckoutController());
+  final database = Database();
 
   @override
   Widget build(BuildContext context) {

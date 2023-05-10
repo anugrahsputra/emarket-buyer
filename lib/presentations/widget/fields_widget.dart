@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Fields extends StatelessWidget {
-  Fields(
+  const Fields(
       {super.key,
       required this.controller,
       required this.keyboardType,
@@ -13,7 +13,7 @@ class Fields extends StatelessWidget {
   final TextInputType keyboardType;
   final String hintText;
   final Icon prefixIcon;
-  bool obscureText;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {

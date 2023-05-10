@@ -11,12 +11,12 @@ class EditProfilePage extends StatelessWidget {
   EditProfilePage({Key? key, required this.buyer}) : super(key: key);
 
   final BuyerModel buyer;
-  Storage storage = Storage();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  final storage = Storage();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final addressController = TextEditingController();
 
-  final BuyerController buyerController = Get.put(BuyerController());
+  final buyerController = Get.put(BuyerController());
 
   @override
   Widget build(BuildContext context) {

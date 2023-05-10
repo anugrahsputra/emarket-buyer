@@ -1,5 +1,4 @@
 import 'package:emarket_buyer/models/model.dart';
-import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +16,6 @@ class OrderHistoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CheckoutController checkoutController = Get.put(CheckoutController());
     return GestureDetector(
       onTap: () {
         if (checkout.isProcessing) {
