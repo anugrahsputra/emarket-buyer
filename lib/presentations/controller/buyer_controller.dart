@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 class BuyerController extends GetxController {
   final Rx<BuyerModel> _buyer = const BuyerModel().obs;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final Database database = Database();
   final loading = false.obs;
   RxDouble uploadProgress = 0.0.obs;
@@ -71,6 +72,26 @@ class BuyerController extends GetxController {
     } catch (e) {
       debugPrint('Error updating buyer info: $e');
       rethrow;
+    }
+  }
+
+  updateUserAccoount(String email, String password) async {
+    try {
+      setLoading(true);
+      final user = _auth.currentUser!;
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: password,
+      );
+      await user.reauthenticateWithCredential(credential);
+      await user.updateEmail(email);
+      await updateUserInfo({'email': email.isEmpty ? buyer.email : email});
+      update();
+    } catch (e) {
+      debugPrint('Error updating account: $e');
+      rethrow;
+    } finally {
+      setLoading(false);
     }
   }
 

@@ -45,7 +45,9 @@ class Profilepage extends StatelessWidget {
                       height: 0,
                       thickness: 1,
                     ),
-                    cards('Akun', Icons.account_box, () {}),
+                    cards('Akun', Icons.account_box, () {
+                      Get.toNamed('/edit-account-page');
+                    }),
                   ]),
                   const SizedBox(height: 25),
                   title('Lainnya'),

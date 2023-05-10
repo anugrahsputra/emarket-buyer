@@ -44,6 +44,10 @@ class Routes {
       ),
     ),
     GetPage(
+      name: '/edit-account-page',
+      page: () => EditAccountPage(),
+    ),
+    GetPage(
       name: '/signin',
       page: () => SigninPage(),
     ),
