@@ -24,6 +24,13 @@ class EditProfilePage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Edit profil'),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+            buyerController.newProfilePicture.value = null;
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
