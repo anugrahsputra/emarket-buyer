@@ -51,20 +51,9 @@ class Database {
   }
 
   // product stream
-  Stream<List<Product>> fetchAllProducts() {
+  Stream<List<Product>> fetchProducts() {
     return _firestore.collectionGroup('products').snapshots().map((snapshot) =>
         snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
-  }
-
-  // product spesific seller
-  Stream<List<Product>> getProduct(String id) {
-    return _firestore
-        .collection('sellers')
-        .doc(id)
-        .collection('products')
-        .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
   }
 
   Future<bool?> updateProduct(
@@ -90,13 +79,19 @@ class Database {
   // cart
 
   // checkout
-  Future<void> newCheckout(CheckoutModel checkout, String id) {
-    return _firestore
-        .collection('buyers')
-        .doc(id)
-        .collection('checkout')
-        .doc(checkout.id)
-        .set(checkout.toMap());
+  Future<void> newCheckout(CheckoutModel checkout, String id) async {
+    try {
+      await _firestore
+          .collection('buyers')
+          .doc(id)
+          .collection('checkout')
+          .doc(checkout.id)
+          .set(checkout.toMap());
+      log('New checkout created to database');
+    } catch (e) {
+      log('Error creating new checkout to database: ${e.toString()}');
+      rethrow;
+    }
   }
 
   Stream<List<CheckoutModel>> fetchCheckout(String id) {

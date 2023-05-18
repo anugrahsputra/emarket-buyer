@@ -21,7 +21,9 @@ class _MapWIdgetState extends State<MapWIdget> {
   late GoogleMapController mapController;
 
   void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+    setState(() {
+      mapController = controller;
+    });
   }
 
   @override

@@ -1,7 +1,8 @@
+import 'dart:developer';
+
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
-import 'package:emarket_buyer/services/database.dart';
-import 'package:emarket_buyer/services/local_database.dart';
+import 'package:emarket_buyer/services/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -69,6 +70,7 @@ class CheckoutController extends GetxController {
         total: total,
       );
       await database.newCheckout(newCheckout, id);
+      log('newCheckout controller');
     }
     await localDatabase.deleteProduct();
     update();

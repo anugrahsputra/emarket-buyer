@@ -1,5 +1,4 @@
 import 'package:emarket_buyer/presentations/controller/controller.dart';
-import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -73,12 +72,11 @@ class LocalNotificationHelper {
     );
   }
 
-  void configureSelectionNotificationSubject(String route) {
+  void configureSelectionNotificationSubject(
+      BuildContext context, String route) {
     selectNotificationSubject.stream.listen(
       (String? payload) async {
-        Get.to(() => MainPage(
-              initialIndex: 1,
-            ));
+        await Get.toNamed(route);
       },
     );
   }

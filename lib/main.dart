@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
       title: 'Emarket Buyer',
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: const Color(0xffa1cca5),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFa1cca5)),
+        // colorSchemeSeed: const Color(0xffa1cca5),
         textTheme: GoogleFonts.plusJakartaSansTextTheme(),
         filledButtonTheme: FilledButtonThemeData(
           style: ButtonStyle(
@@ -56,14 +57,16 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const Root(),
+      home: Root(),
       getPages: Routes.routes,
     );
   }
 }
 
 class Root extends GetWidget<AuthController> {
-  const Root({super.key});
+  Root({super.key});
+
+  final LocationController locationController = Get.put(LocationController());
 
   @override
   Widget build(BuildContext context) {
@@ -72,12 +75,28 @@ class Root extends GetWidget<AuthController> {
         Get.put<BuyerController>(BuyerController());
       },
       builder: (_) {
-        return controller.user?.uid != null
-            ? Get.find<NetworkController>().connectionStatus == 1 ||
-                    Get.find<NetworkController>().connectionStatus == 2
-                ? MainPage(initialIndex: 0)
-                : const NoConnectionPage()
-            : SigninPage();
+        return locationController.isInsideGeoFence
+            ? controller.user?.uid != null
+                ? Get.find<NetworkController>().connectionStatus == 1 ||
+                        Get.find<NetworkController>().connectionStatus == 2
+                    ? const MainPage(initialIndex: 0)
+                    : const NoConnectionPage()
+                : SigninPage()
+            : Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.white,
+                child: const Center(
+                  child: Text(
+                    'Anda berada di luar area layanan kami',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
       },
     );
   }

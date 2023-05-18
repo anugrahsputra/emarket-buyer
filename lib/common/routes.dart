@@ -5,7 +5,7 @@ class Routes {
   static final routes = [
     GetPage(
       name: '/main-page',
-      page: () => MainPage(
+      page: () => const MainPage(
         initialIndex: 0,
       ),
     ),

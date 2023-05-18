@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.2 <3.7.3'
+  sdk: '>=3.0.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -28,10 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  android_alarm_manager_plus: ^2.1.1
+  android_alarm_manager_plus: ^3.0.0
   badges: ^3.0.2
   cloud_firestore: ^4.4.3
-  connectivity_plus: ^3.0.3
+  connectivity_plus: ^4.0.0
   cupertino_icons: ^1.0.2
   dio: ^5.1.1
   equatable: ^2.0.5
@@ -42,7 +42,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.0
-  flutter_local_notifications: ^12.0.2
+  flutter_local_notifications: ^14.0.0+2
   fluttertoast: ^8.2.1
   geocoding: ^2.1.0
   geolocator: ^9.0.2
@@ -50,7 +50,7 @@ dependencies:
   google_fonts: ^4.0.3
   google_maps_flutter: ^2.1.1
   image_picker: ^0.8.7+4
-  intl: ^0.17.0
+  intl: ^0.18.1
   material_design_icons_flutter: ^6.0.7096
   rxdart: ^0.27.7
   sqflite: ^2.2.5

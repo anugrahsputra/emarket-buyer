@@ -1,4 +1,4 @@
-import 'package:emarket_buyer/services/database.dart';
+import 'package:emarket_buyer/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +13,7 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchProducts();
+    getProducts();
   }
 
   void setLoading(bool value) {
@@ -21,10 +21,10 @@ class ProductController extends GetxController {
     update();
   }
 
-  void fetchProducts() async {
+  void getProducts() async {
     try {
       setLoading(true);
-      product.bindStream(database.fetchAllProducts());
+      product.bindStream(database.fetchProducts());
       setLoading(false);
     } catch (e) {
       setLoading(false);

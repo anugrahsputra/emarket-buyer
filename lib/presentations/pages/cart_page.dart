@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Cartpage extends StatelessWidget {
+  static const String routeName = '/cart-page';
   final CartController cartController = Get.put(CartController());
 
   Cartpage({Key? key}) : super(key: key);

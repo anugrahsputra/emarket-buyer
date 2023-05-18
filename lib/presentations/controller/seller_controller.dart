@@ -1,5 +1,5 @@
 import 'package:emarket_buyer/models/seller_model.dart';
-import 'package:emarket_buyer/services/database.dart';
+import 'package:emarket_buyer/services/services.dart';
 import 'package:get/get.dart';
 
 class SellerController extends GetxController {

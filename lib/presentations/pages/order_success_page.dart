@@ -31,7 +31,7 @@ class OrderSuccessPage extends StatelessWidget {
             FilledButton(
               onPressed: () {
                 Get.offAll(
-                  () => MainPage(initialIndex: 1),
+                  () => const MainPage(initialIndex: 1),
                   predicate: (route) => false,
                 );
                 cartController.cartProducts.clear();

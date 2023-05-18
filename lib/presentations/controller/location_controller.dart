@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:emarket_buyer/helper/helper.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -8,7 +10,9 @@ import 'package:get/get.dart';
 
 class LocationController extends GetxController {
   Geolocator geolocator = Geolocator();
+  GeofencingHelper geofencingHelper = GeofencingHelper();
   late Rx<LocationModel> location;
+  bool isInsideGeoFence = true;
 
   Position? currentPosition;
 
@@ -97,6 +101,13 @@ class LocationController extends GetxController {
           latitude: position.latitude,
           longitude: position.longitude,
         );
+        final bool isInside =
+            GeofencingHelper.isPositionInsideGeofence(position);
+        if (isInside != isInsideGeoFence) {
+          isInsideGeoFence = isInside;
+          log('isInsideGeoFence: $isInsideGeoFence');
+          update();
+        }
       });
     } catch (e) {
       debugPrint(e.toString());

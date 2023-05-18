@@ -18,11 +18,11 @@ class CartController extends GetxController {
 
   @override
   void onInit() {
-    getCartProducts();
+    getCartItems();
     super.onInit();
   }
 
-  getCartProducts() async {
+  getCartItems() async {
     cartProducts.assignAll(await _localDatabase.getAllProducts());
     getTotal();
     cartNotif();
@@ -85,7 +85,7 @@ class CartController extends GetxController {
 
       Fluttertoast.showToast(msg: '${cartModel.name} berhasil ditambahkan');
       await _localDatabase.insertProduct(cartModel);
-      await getCartProducts();
+      await getCartItems();
     }
   }
 
@@ -134,14 +134,14 @@ class CartController extends GetxController {
       );
       getTotal();
       getItemPrice(index);
-      await getCartProducts();
+      await getCartItems();
       update();
     }
   }
 
   void removeProduct(String productId) async {
     await _localDatabase.removeProduct(productId);
-    await getCartProducts();
+    await getCartItems();
     update();
   }
 

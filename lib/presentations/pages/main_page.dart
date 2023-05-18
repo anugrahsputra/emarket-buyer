@@ -1,13 +1,35 @@
+import 'package:emarket_buyer/helper/helper.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MainPage extends StatelessWidget {
+import '../../main.dart';
+
+class MainPage extends StatefulWidget {
   static const String routeName = '/main-page';
-  MainPage({Key? key, required this.initialIndex}) : super(key: key);
+  const MainPage({Key? key, required this.initialIndex}) : super(key: key);
 
   final int initialIndex;
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  final LocalNotificationHelper localNotificationHelper =
+      LocalNotificationHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      localNotificationHelper
+          .initNotifications(flutterLocalNotificationsPlugin);
+      localNotificationHelper.configureSelectionNotificationSubject(
+          context, Cartpage.routeName);
+    });
+  }
 
   final CheckoutController checkoutController = Get.put(CheckoutController());
 
