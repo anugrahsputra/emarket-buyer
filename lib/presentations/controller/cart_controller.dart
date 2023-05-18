@@ -55,7 +55,7 @@ class CartController extends GetxController {
           increaseQuantity(cartProducts.indexOf(element));
           break;
         } else {
-          bool replaceItem = await _showBottomSheet(cartModel);
+          bool replaceItem = await showBottomSheesh(cartModel, Get.context!);
           if (replaceItem) {
             cartProducts.remove(element);
             await _localDatabase.deleteProduct();
@@ -71,7 +71,7 @@ class CartController extends GetxController {
           element.productId != cartModel.productId);
 
       if (hasItemsFromOtherSeller) {
-        bool replaceItem = await _showBottomSheet(cartModel);
+        bool replaceItem = await showBottomSheesh(cartModel, Get.context!);
         if (replaceItem) {
           var itemToRemove = cartProducts.firstWhere((element) =>
               element.sellerId != cartModel.sellerId &&
@@ -156,62 +156,69 @@ class CartController extends GetxController {
     update();
   }
 
-  _showBottomSheet(CartModel cart) async {
-    return await Get.bottomSheet(
-      Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
-          color: Colors.white,
+  showBottomSheesh(CartModel cart, BuildContext context) {
+    return showModalBottomSheet(
+        isDismissible: false,
+        transitionAnimationController: AnimationController(
+          vsync: Navigator.of(context),
+          duration: const Duration(milliseconds: 500),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: Center(
-                child: Text(
-                  'Mau pesan dari penjual ini?',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 200,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Center(
+                    child: Text(
+                      'Mau pesan dari penjual ini?',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text(
-                'Boleeeh, tapi kita harus mengganti item yang sudah ada di keranjang pembelian kamu terlebih dahulu.',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FilledButton(
-                  onPressed: () {
-                    Get.back(result: false);
-                  },
-                  child: const Text('Batalkan'),
+                const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                    'Boleeeh, tapi kita harus mengganti item yang sudah ada di keranjang pembelian kamu terlebih dahulu.',
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
-                FilledButton(
-                  onPressed: () {
-                    Get.back(result: true);
-                    Fluttertoast.showToast(
-                        msg: '${cart.name} berhasil ditambahkan');
-                  },
-                  child: const Text('Ganti'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FilledButton(
+                      onPressed: () {
+                        Get.back(result: false);
+                      },
+                      child: const Text('Batalkan'),
+                    ),
+                    FilledButton(
+                      onPressed: () {
+                        Get.back(result: true);
+                        Fluttertoast.showToast(
+                            msg: '${cart.name} berhasil ditambahkan');
+                      },
+                      child: const Text('Ganti'),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-      isDismissible: false,
-    );
+          );
+        });
   }
 }
