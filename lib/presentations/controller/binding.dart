@@ -6,6 +6,7 @@ class Binding extends Bindings {
   @override
   void dependencies() {
     Get.put<AuthController>(AuthController(), permanent: true);
+    Get.put<FcmController>(FcmController(), permanent: true);
     Get.lazyPut(() => ProductController(), fenix: true);
     Get.lazyPut(() => CartController(), fenix: true);
     Get.lazyPut(() => SellerController(), fenix: true);

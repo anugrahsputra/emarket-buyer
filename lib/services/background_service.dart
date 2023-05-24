@@ -20,8 +20,15 @@ class BackgroundService {
 
   void initializeIsolate() {
     IsolateNameServer.registerPortWithName(port.sendPort, _isolateName);
+    port.listen(_handleMessage);
   }
 
+  static void _handleMessage(dynamic data) {
+    _uiSendPort ??= IsolateNameServer.lookupPortByName(_isolateName);
+    _uiSendPort?.send(null);
+  }
+
+  @pragma('vm:entry-point')
   static Future<void> callback() async {
     debugPrint('Notification coming');
     final LocalNotificationHelper notificationHelper =

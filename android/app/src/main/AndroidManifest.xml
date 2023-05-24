@@ -43,6 +43,11 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="geo" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <service
             android:name="dev.fluttercommunity.plus.androidalarmmanager.AlarmService"
@@ -65,6 +70,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAzEiYFRIekMxyA4XhsljuZu0g5TpbzSZA"/>
+            android:value="AIzaSyC1USX68l9qfjwJ43jvUzkvNMC4uqUJKQY"/>
     </application>
 </manifest>

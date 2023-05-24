@@ -17,17 +17,18 @@ class DirectionController extends GetxController {
     getDuration();
   }
 
-  getDuration() async {
+  Future<void> getDuration() async {
     try {
       final response = await _directionRepo.getDirections(
         origin: origin.value,
         destination: destination.value,
       );
-
       distance.value = response.distance;
       duration.value = response.duration;
     } catch (e) {
       debugPrint('dircontroller: $e');
+      distance.value = 0;
+      duration.value = 0;
     }
   }
 }

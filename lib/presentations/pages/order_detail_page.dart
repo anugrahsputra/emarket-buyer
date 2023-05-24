@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailPage extends StatelessWidget {
@@ -68,12 +69,14 @@ class OrderDetailPage extends StatelessWidget {
                 const Spacer(),
                 IconButton(
                   onPressed: () async {
-                    final int index = checkout.cart
-                        .indexWhere((element) => element.sellerId == seller.id);
-                    launchWhatsapp(
-                      seller.phoneNumber,
-                      'Halo ${seller.displayName}, tadi saya memesan ${checkout.cart[index].name} item dari toko ${seller.storeName} di eMarket. Mohon konfirmasi pesanan saya.\n \n Terima kasih.',
-                    );
+                    // final int index = checkout.cart
+                    //     .indexWhere((element) => element.sellerId == seller.id);
+                    // launchWhatsapp(
+                    //   seller.phoneNumber,
+                    //   'Halo ${seller.displayName}, tadi saya memesan ${checkout.cart[index].name} item dari toko ${seller.storeName} di eMarket. Mohon konfirmasi pesanan saya.\n \n Terima kasih.',
+                    // );
+                    MapsLauncher.launchCoordinates(
+                        seller.location.latitude, seller.location.longitude);
                   },
                   icon: Container(
                     height: 50,

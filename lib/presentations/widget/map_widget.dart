@@ -1,6 +1,11 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:emarket_buyer/common/common.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -18,20 +23,45 @@ class MapWIdget extends StatefulWidget {
 }
 
 class _MapWIdgetState extends State<MapWIdget> {
-  late GoogleMapController mapController;
+  final Completer<GoogleMapController> _controller = Completer();
 
-  void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      mapController = controller;
-    });
+  List<LatLng> polylineCoordinates = [];
+
+  void getPolyline() async {
+    try {
+      PolylinePoints polylinePoints = PolylinePoints();
+
+      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        googleApiKey,
+        PointLatLng(
+            widget.buyer.location.latitude, widget.buyer.location.longitude),
+        PointLatLng(
+            widget.seller.location.latitude, widget.seller.location.longitude),
+        travelMode: TravelMode.driving,
+      );
+      if (result.points.isNotEmpty) {
+        for (var point in result.points) {
+          polylineCoordinates.add(
+            LatLng(point.latitude, point.longitude),
+          );
+        }
+        log('Polyline coordinates: $polylineCoordinates');
+        setState(() {});
+      }
+    } catch (e) {
+      // Handle any errors that occur during the polyline retrieval process
+      log('Error retrieving polyline: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    getPolyline();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('buyer latitude: ${widget.buyer.location.latitude}');
-    debugPrint('buyer longtitude: ${widget.buyer.location.longitude}');
-    debugPrint('seller latittude: ${widget.seller.location.latitude}');
-    debugPrint('seller latittude: ${widget.seller.location.longitude}');
     return Container(
       margin: const EdgeInsets.all(24),
       height: 420,
@@ -44,7 +74,9 @@ class _MapWIdgetState extends State<MapWIdget> {
           return ClipRRect(
             borderRadius: BorderRadius.circular(14),
             child: GoogleMap(
-              onMapCreated: _onMapCreated,
+              onMapCreated: (controller) {
+                _controller.complete(controller);
+              },
               initialCameraPosition: CameraPosition(
                 target: LatLng(
                   (widget.buyer.location.latitude +
@@ -54,7 +86,7 @@ class _MapWIdgetState extends State<MapWIdget> {
                           widget.seller.location.longitude) /
                       2,
                 ),
-                zoom: 14.4746,
+                zoom: 12,
               ),
               markers: {
                 Marker(
@@ -78,6 +110,14 @@ class _MapWIdgetState extends State<MapWIdget> {
                     title: widget.seller.displayName,
                     snippet: widget.seller.address,
                   ),
+                ),
+              },
+              polylines: {
+                Polyline(
+                  polylineId: const PolylineId("route"),
+                  points: polylineCoordinates,
+                  color: const Color(0xFF7B61FF),
+                  width: 6,
                 ),
               },
             ),

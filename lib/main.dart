@@ -1,18 +1,20 @@
 // ignore_for_file: unrelated_type_equality_checks
 
+import 'dart:developer';
+
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:emarket_buyer/common/common.dart';
+import 'package:emarket_buyer/firebase_options.dart';
 import 'package:emarket_buyer/helper/local_notification_helper.dart';
+import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:emarket_buyer/services/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'common/common.dart';
-import 'firebase_options.dart';
-import 'presentations/controller/controller.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -22,6 +24,35 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    log('Got a message whilst in the foreground!');
+    log('Message data: ${message.data}');
+
+    if (message.notification != null) {
+      log('Message also contained a notification: ${message.notification}');
+    }
+  });
+  log('User granted premission: ${settings.authorizationStatus}');
+
+  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //   Map<String, dynamic> data = message.data;
+
+  //   SellerModel seller = SellerModel.fromSnapshot(jsonDecode(data['seller']!));
+  //   BuyerModel buyer = BuyerModel.fromSnapshot(jsonDecode(data['buyer']!));
+  //   log('New product available from ${seller.storeName} for buyer !');
+  // });
+
   final LocalNotificationHelper localNotificationHelper =
       LocalNotificationHelper();
   final BackgroundService service = BackgroundService();

@@ -76,7 +76,17 @@ class Database {
     }
   }
 
-  // cart
+  Future<bool?> saveToken(String buyerId, String token) async {
+    try {
+      await _firestore.collection('buyers').doc(buyerId).update({
+        'tokens': FieldValue.arrayUnion([token])
+      });
+      return true;
+    } catch (e) {
+      debugPrint('save token error: ${e.toString()}');
+      return false;
+    }
+  }
 
   // checkout
   Future<void> newCheckout(CheckoutModel checkout, String id) async {

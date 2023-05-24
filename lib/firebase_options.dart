@@ -53,10 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDe1Wi7kaHuU8tBQ7k2a3f0rc3U7QCTgPU',
+    apiKey: 'AIzaSyB6U3dJfJ1S1WkvMOYAvEUO4UKz9GwLIQg',
     appId: '1:812067313674:android:6f3d0102299f86d739a7f3',
     messagingSenderId: '812067313674',
     projectId: 'database-emarket',
+    databaseURL: 'https://database-emarket-default-rtdb.firebaseio.com',
     storageBucket: 'database-emarket.appspot.com',
   );
 }

@@ -5,6 +5,7 @@ export 'buyer_controller.dart';
 export 'cart_controller.dart';
 export 'checkout_controller.dart';
 export 'direction_controller.dart';
+export 'fcm_controller.dart';
 export 'local_notification_controller.dart';
 export 'location_controller.dart';
 export 'network_controller.dart';
