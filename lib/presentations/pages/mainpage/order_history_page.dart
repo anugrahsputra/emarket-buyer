@@ -3,6 +3,7 @@ import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class OrderHistoryPage extends StatelessWidget {
   OrderHistoryPage({Key? key}) : super(key: key);
@@ -15,6 +16,18 @@ class OrderHistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Riwayat Pesanan'),
+        actions: [
+          Obx(
+            () => GestureDetector(
+                onTap: () {
+                  checkoutController.sortByDate.toggle();
+                  checkoutController.fetchCheckout();
+                },
+                child: Icon(checkoutController.sortByDate.isTrue
+                    ? MdiIcons.sortBoolAscending
+                    : MdiIcons.sortBoolDescending)),
+          )
+        ],
       ),
       body: GetBuilder<CheckoutController>(
         init: checkoutController,
@@ -32,6 +45,13 @@ class OrderHistoryPage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else {
+            if (checkoutController.sortByDate.isFalse) {
+              checkoutController.checkouts
+                  .sort((a, b) => a.date.compareTo(b.date));
+            } else {
+              checkoutController.checkouts
+                  .sort((a, b) => b.date.compareTo(a.date));
+            }
             return ListView.builder(
               itemCount: checkoutController.checkouts.length,
               itemBuilder: (context, index) {

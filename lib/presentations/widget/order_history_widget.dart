@@ -18,12 +18,16 @@ class OrderHistoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (checkout.isProcessing) {
-          Get.to(() => OrderDetailPage(
-                checkout: checkout,
-                seller: seller,
-              ));
-        }
+        // if (checkout.isProcessing) {
+        //   Get.to(() => OrderDetailPage(
+        //         checkout: checkout,
+        //         seller: seller,
+        //       ));
+        // }
+        Get.to(() => OrderDetailPage(
+              checkout: checkout,
+              seller: seller,
+            ));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(
@@ -52,16 +56,16 @@ class OrderHistoryWidget extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    checkout.isCancelled
+                    checkout.isCancelled == true
                         ? const Text('Cancelled')
-                        : checkout.isDelivered
+                        : checkout.isDelivered == true
                             ? Text(
                                 'Sudah diterima',
                                 style: GoogleFonts.plusJakartaSans(
                                   fontSize: 14,
                                 ),
                               )
-                            : checkout.isProcessing
+                            : checkout.isProcessing == true
                                 ? const Text('Diproses')
                                 : const Text('Pesanan Masuk'),
                   ],

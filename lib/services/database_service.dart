@@ -129,8 +129,7 @@ class Database {
 
   Future<void> updateCheckoutStatus(
     CheckoutModel checkout,
-    String field,
-    bool newValue,
+    Map<String, dynamic> data,
   ) async {
     return _firestore
         .collection('buyers')
@@ -138,8 +137,7 @@ class Database {
         .collection('checkout')
         .where('id', isEqualTo: checkout.id)
         .get()
-        .then((querySnaphot) =>
-            querySnaphot.docs.first.reference.update({field: newValue}));
+        .then((querySnaphot) => querySnaphot.docs.first.reference.update(data));
   }
 
   Future<void> updateUserLocation(BuyerModel buyer, LocationModel location,

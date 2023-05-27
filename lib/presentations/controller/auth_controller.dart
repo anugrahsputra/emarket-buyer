@@ -28,7 +28,7 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-  void signUp(
+  Future<void> signUp(
     String displayName,
     String email,
     String photoUrl,
@@ -76,7 +76,7 @@ class AuthController extends GetxController {
     }
   }
 
-  void signIn(String email, String password) async {
+  Future<void> signIn(String email, String password) async {
     try {
       loading.value = true;
       UserCredential credential = await _auth.signInWithEmailAndPassword(
@@ -95,7 +95,7 @@ class AuthController extends GetxController {
     }
   }
 
-  void signOut() async {
+  Future<void> signOut() async {
     try {
       await _auth.signOut();
       Get.find<BuyerController>().clear();

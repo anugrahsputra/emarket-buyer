@@ -11,7 +11,6 @@ class CartController extends GetxController {
   final _localDatabase = LocalDatabase();
   final cartProducts = RxList<CartModel>([]);
   final localNotificationHelper = LocalNotificationHelper();
-
   final total = RxInt(0);
   final itemPrice = RxInt(0);
   RxBool isExist = false.obs;
@@ -22,14 +21,14 @@ class CartController extends GetxController {
     super.onInit();
   }
 
-  getCartItems() async {
+  Future<void> getCartItems() async {
     cartProducts.assignAll(await _localDatabase.getAllProducts());
     getTotal();
     cartNotif();
     update();
   }
 
-  cartNotif() async {
+  Future<bool> cartNotif() async {
     if (cartProducts.isNotEmpty) {
       debugPrint('Notification active');
       return await AndroidAlarmManager.periodic(
@@ -42,12 +41,11 @@ class CartController extends GetxController {
       );
     } else {
       debugPrint('Notification inactive');
-
       return await AndroidAlarmManager.cancel(1);
     }
   }
 
-  addProduct(CartModel cartModel) async {
+  Future<void> addProduct(CartModel cartModel) async {
     for (var element in cartProducts) {
       if (element.productId == cartModel.productId) {
         if (element.sellerId == cartModel.sellerId) {
@@ -55,7 +53,7 @@ class CartController extends GetxController {
           increaseQuantity(cartProducts.indexOf(element));
           break;
         } else {
-          bool replaceItem = await showBottomSheesh(cartModel, Get.context!);
+          bool replaceItem = await showBottomSheet(cartModel, Get.context!);
           if (replaceItem) {
             cartProducts.remove(element);
             await _localDatabase.deleteProduct();
@@ -71,7 +69,7 @@ class CartController extends GetxController {
           element.productId != cartModel.productId);
 
       if (hasItemsFromOtherSeller) {
-        bool replaceItem = await showBottomSheesh(cartModel, Get.context!);
+        bool replaceItem = await showBottomSheet(cartModel, Get.context!);
         if (replaceItem) {
           var itemToRemove = cartProducts.firstWhere((element) =>
               element.sellerId != cartModel.sellerId &&
@@ -89,7 +87,7 @@ class CartController extends GetxController {
     }
   }
 
-  increaseQuantity(int index) async {
+  Future<void> increaseQuantity(int index) async {
     cartProducts[index].quantity++;
     final productIndex = Get.find<ProductController>();
     final product = productIndex.product;
@@ -109,7 +107,7 @@ class CartController extends GetxController {
     update();
   }
 
-  decreaseQuantity(int index) async {
+  Future<void> decreaseQuantity(int index) async {
     if (cartProducts[index].quantity != 0) {
       cartProducts[index].quantity--;
       await _localDatabase.update(cartProducts[index]);
@@ -139,8 +137,14 @@ class CartController extends GetxController {
     }
   }
 
-  void removeProduct(String productId) async {
+  Future<void> removeProduct(String productId) async {
     await _localDatabase.removeProduct(productId);
+    await getCartItems();
+    update();
+  }
+
+  Future<void> clearCart() async {
+    await _localDatabase.deleteProduct();
     await getCartItems();
     update();
   }
@@ -156,7 +160,7 @@ class CartController extends GetxController {
     update();
   }
 
-  showBottomSheesh(CartModel cart, BuildContext context) {
+  showBottomSheet(CartModel cart, BuildContext context) {
     return showModalBottomSheet(
         isDismissible: false,
         transitionAnimationController: AnimationController(

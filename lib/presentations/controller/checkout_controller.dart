@@ -13,6 +13,7 @@ class CheckoutController extends GetxController {
   final BuyerController buyerController = Get.find<BuyerController>();
   final BuyerModel buyer = const BuyerModel();
   final SellerModel seller = const SellerModel();
+  RxBool sortByDate = false.obs;
   RxBool isLoading = false.obs;
   RxBool isCancelled = false.obs;
   RxBool isDelivered = false.obs;
@@ -29,18 +30,18 @@ class CheckoutController extends GetxController {
     super.onInit();
   }
 
-  void setLoading(bool value) {
+  setLoading(bool value) {
     isLoading.value = value;
     update();
   }
 
-  fetchCheckout() async {
+  Future<void> fetchCheckout() async {
     String id = Get.find<AuthController>().user!.uid;
     checkouts.bindStream(database.fetchCheckout(id));
     update();
   }
 
-  newCheckout(CheckoutModel checkoutModel) async {
+  Future<void> newCheckout(CheckoutModel checkoutModel) async {
     String id = Get.find<AuthController>().user!.uid;
 
     Map<String, List<CartModel>> cartToSeller = {};
@@ -76,21 +77,8 @@ class CheckoutController extends GetxController {
     update();
   }
 
-  updateCheckoutStatusDelivered(CheckoutModel checkoutId, bool value) async {
-    await database.updateCheckoutStatus(checkoutId, 'isDelivered', value);
-    isDelivered.value = value;
-    update();
-  }
-
-  updateCheckoutStatusProcessing(CheckoutModel checkoutId, bool value) async {
-    await database.updateCheckoutStatus(checkoutId, 'isProcessing', value);
-    isProcessing.value = value;
-    update();
-  }
-
-  updateCheckoutStatusCancelled(CheckoutModel checkoutId, bool value) async {
-    await database.updateCheckoutStatus(checkoutId, 'isCancelled', value);
-    isCancelled.value = value;
+  Future<void> updateStatus(CheckoutModel id, Map<String, dynamic> data) async {
+    await database.updateCheckoutStatus(id, data);
     update();
   }
 }

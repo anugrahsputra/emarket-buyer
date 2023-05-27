@@ -38,7 +38,7 @@ class BuyerController extends GetxController {
     update();
   }
 
-  fetchBuyer() async {
+  Future<void> fetchBuyer() async {
     try {
       loading.value = true;
       final User user = FirebaseAuth.instance.currentUser!;
@@ -51,7 +51,8 @@ class BuyerController extends GetxController {
     }
   }
 
-  updateUserLocation(LocationModel location, String address) async {
+  Future<void> updateUserLocation(
+      LocationModel location, String address) async {
     try {
       buyer = buyer.copyWith(location: location, address: address);
       await database.updateUserLocation(
@@ -67,7 +68,7 @@ class BuyerController extends GetxController {
     }
   }
 
-  updateUserInfo(Map<String, dynamic> data) async {
+  Future<void> updateUserInfo(Map<String, dynamic> data) async {
     String id = Get.find<AuthController>().user!.uid;
     try {
       await database.updateBuyerInfo(id, data);
@@ -77,7 +78,7 @@ class BuyerController extends GetxController {
     }
   }
 
-  updateUserAccoount(String email, String password) async {
+  Future<void> updateUserAccoount(String email, String password) async {
     try {
       setLoading(true);
       final user = _auth.currentUser!;
@@ -97,7 +98,7 @@ class BuyerController extends GetxController {
     }
   }
 
-  selectNewProfilePicture() async {
+  Future<void> selectNewProfilePicture() async {
     try {
       final XFile? image = await ImagePicker().pickImage(
         source: ImageSource.gallery,
