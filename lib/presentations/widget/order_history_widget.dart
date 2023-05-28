@@ -3,6 +3,7 @@ import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class OrderHistoryWidget extends StatelessWidget {
   const OrderHistoryWidget({
@@ -65,17 +66,33 @@ class OrderHistoryWidget extends StatelessWidget {
                                   fontSize: 14,
                                 ),
                               )
-                            : checkout.isProcessing == true
-                                ? const Text('Diproses')
-                                : const Text('Pesanan Masuk'),
+                            : checkout.isShipping == true
+                                ? Text(
+                                    'Sedang dikirim',
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 14,
+                                    ),
+                                  )
+                                : checkout.isProcessing == true
+                                    ? const Text('Diproses')
+                                    : const Text('Pesanan Masuk'),
                   ],
                 ),
-                Text(
-                  seller.storeName,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  children: [
+                    const Icon(
+                      MdiIcons.store,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 2.5),
+                    Text(
+                      seller.storeName,
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

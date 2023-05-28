@@ -118,6 +118,7 @@ class ChekcoutPage extends StatelessWidget {
                           isProcessing: checkoutController.isProcessing.value,
                           isDelivered: checkoutController.isDelivered.value,
                           isCancelled: checkoutController.isCancelled.value,
+                          isShipping: checkoutController.isShipping.value,
                           displayName: buyerController.buyer.displayName,
                           cart: cartController.cartProducts,
                           note: noteController.text,

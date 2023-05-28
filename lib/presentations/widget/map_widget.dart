@@ -64,7 +64,7 @@ class _MapWIdgetState extends State<MapWIdget> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(24),
-      height: 420,
+      height: 350,
       decoration: BoxDecoration(
         color: Colors.grey,
         borderRadius: BorderRadius.circular(14),
@@ -86,7 +86,7 @@ class _MapWIdgetState extends State<MapWIdget> {
                           widget.seller.location.longitude) /
                       2,
                 ),
-                zoom: 12,
+                zoom: 17,
               ),
               markers: {
                 Marker(

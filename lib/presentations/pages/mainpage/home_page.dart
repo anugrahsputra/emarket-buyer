@@ -12,6 +12,7 @@ class Homepage extends StatelessWidget {
   Homepage({Key? key}) : super(key: key);
 
   final AuthController controller = Get.put(AuthController());
+  final BuyerController buyerController = Get.put(BuyerController());
   final ProductController productController = Get.put(ProductController());
   final SellerController sellerController = Get.put(SellerController());
   final CartController cartController = Get.put(CartController());
@@ -84,5 +85,20 @@ class Homepage extends StatelessWidget {
         }
       }),
     );
+  }
+
+  String greeting(BuyerModel? buyer) {
+    var hour = DateTime.now().hour;
+    var name = buyer?.displayName;
+    if (hour < 12) {
+      return 'Good Morning, $name';
+    }
+    if (hour < 15) {
+      return 'Good Afternoon, $name';
+    }
+    if (hour < 18) {
+      return 'Good Evening, $name';
+    }
+    return 'Good Evening, $name';
   }
 }

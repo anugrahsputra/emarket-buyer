@@ -11,6 +11,7 @@ class CheckoutController extends GetxController {
   final Database database = Database();
   final LocalDatabase localDatabase = LocalDatabase();
   final BuyerController buyerController = Get.find<BuyerController>();
+  final CartController cartController = Get.find<CartController>();
   final BuyerModel buyer = const BuyerModel();
   final SellerModel seller = const SellerModel();
   RxBool sortByDate = false.obs;
@@ -18,6 +19,7 @@ class CheckoutController extends GetxController {
   RxBool isCancelled = false.obs;
   RxBool isDelivered = false.obs;
   RxBool isProcessing = false.obs;
+  RxBool isShipping = false.obs;
   var uuid = const Uuid();
   DateTime date = DateTime.now();
   RxString formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
@@ -66,6 +68,7 @@ class CheckoutController extends GetxController {
         isProcessing: checkoutModel.isProcessing,
         isDelivered: isDelivered.value,
         isCancelled: isCancelled.value,
+        isShipping: isShipping.value,
         date: checkoutModel.date,
         cart: cartToSeller[sellerId]!,
         total: total,
@@ -74,6 +77,7 @@ class CheckoutController extends GetxController {
       log('newCheckout controller');
     }
     await localDatabase.deleteProduct();
+    await cartController.getCartItems();
     update();
   }
 

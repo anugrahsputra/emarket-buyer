@@ -10,6 +10,7 @@ class CheckoutModel extends Equatable {
   final bool isProcessing;
   final bool isDelivered;
   final bool isCancelled;
+  final bool isShipping;
   final List<CartModel> cart;
   final int total;
   final String date;
@@ -22,6 +23,7 @@ class CheckoutModel extends Equatable {
     required this.isProcessing,
     required this.isDelivered,
     required this.isCancelled,
+    required this.isShipping,
     required this.cart,
     required this.total,
     required this.date,
@@ -36,6 +38,7 @@ class CheckoutModel extends Equatable {
     bool? isProcessing,
     bool? isDelivered,
     bool? isCancelled,
+    bool? isShipping,
     String? displayName,
     List<CartModel>? cart,
     int? total,
@@ -49,6 +52,7 @@ class CheckoutModel extends Equatable {
       isProcessing: isProcessing ?? this.isProcessing,
       isCancelled: isCancelled ?? this.isCancelled,
       isDelivered: isDelivered ?? this.isDelivered,
+      isShipping: isShipping ?? this.isShipping,
       displayName: displayName ?? this.displayName,
       cart: cart ?? this.cart,
       total: total ?? this.total,
@@ -66,6 +70,7 @@ class CheckoutModel extends Equatable {
       'isProcessing': isProcessing,
       'isCancelled': isCancelled,
       'isDelivered': isDelivered,
+      'isShipping': isShipping,
       'cart': cart.map((x) => x.toMap()).toList(),
       'total': total,
       'date': date,
@@ -82,6 +87,7 @@ class CheckoutModel extends Equatable {
       isProcessing: map['isProcessing'] ?? false,
       isDelivered: map['isDelivered'] ?? false,
       isCancelled: map['isCancelled'] ?? false,
+      isShipping: map['isShipping'] ?? false,
       cart: List<CartModel>.from(map['cart']?.map((x) => CartModel.fromMap(x))),
       total: map['total']?.toInt() ?? 0,
       date: map['date'],
@@ -97,6 +103,7 @@ class CheckoutModel extends Equatable {
       isProcessing,
       isDelivered,
       isCancelled,
+      isShipping,
       note,
       cart,
       total,
