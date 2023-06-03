@@ -15,7 +15,6 @@ class EditProfilePage extends StatelessWidget {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final addressController = TextEditingController();
-
   final buyerController = Get.put(BuyerController());
 
   @override
@@ -48,8 +47,7 @@ class EditProfilePage extends StatelessWidget {
                       : CircleAvatar(
                           radius: 50,
                           backgroundImage:
-                              NetworkImage(buyerController.buyer.photoUrl),
-                        );
+                              NetworkImage(buyerController.buyer.photoUrl));
                 }),
                 onTap: () {
                   buyerController.selectNewProfilePicture();
@@ -57,23 +55,43 @@ class EditProfilePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Fields(
+            TextField(
               controller: nameController,
               keyboardType: TextInputType.name,
-              hintText: buyer.displayName,
-              prefixIcon: const Icon(
-                Icons.person,
-                color: Color(0xff495057),
+              decoration: InputDecoration(
+                hintText: buyer.displayName,
+                prefixIcon: const Icon(
+                  Icons.person,
+                  color: Color(0xff495057),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    style: BorderStyle.none,
+                    width: 0,
+                  ),
+                ),
+                filled: true,
               ),
             ),
             const SizedBox(height: 20),
-            Fields(
+            TextField(
               controller: phoneController,
               keyboardType: TextInputType.phone,
-              hintText: buyer.phoneNumber,
-              prefixIcon: const Icon(
-                Icons.phone,
-                color: Color(0xff495057),
+              decoration: InputDecoration(
+                hintText: buyer.phoneNumber,
+                prefixIcon: const Icon(
+                  Icons.phone,
+                  color: Color(0xff495057),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    style: BorderStyle.none,
+                    width: 0,
+                  ),
+                ),
+                filled: true,
               ),
             ),
             const SizedBox(height: 20),

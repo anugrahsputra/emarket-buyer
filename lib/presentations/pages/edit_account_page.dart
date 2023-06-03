@@ -24,13 +24,21 @@ class EditAccountPage extends StatelessWidget {
               Get.defaultDialog(
                   title: 'Masukan password',
                   content: Fields(
-                    controller: passwordController,
                     keyboardType: TextInputType.visiblePassword,
                     hintText: 'Password',
                     prefixIcon: const Icon(
                       Icons.lock,
                       color: Color(0xff495057),
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Password tidak boleh kosong';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      passwordController.text = value!;
+                    },
                   ),
                   textConfirm: 'Konfirmasi',
                   onConfirm: () async {
@@ -65,9 +73,20 @@ class EditAccountPage extends StatelessWidget {
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Fields(
-                controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 hintText: buyerController.buyer.email,
+                initialValue: buyerController.buyer.email,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Email tidak boleh kosong';
+                  } else if (!value.isEmail) {
+                    return 'Email tidak valid';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  emailController.text = value!;
+                },
                 prefixIcon: const Icon(
                   Icons.email,
                   color: Color(0xff495057),

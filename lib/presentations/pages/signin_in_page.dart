@@ -5,8 +5,7 @@ import 'package:get/get.dart';
 
 class SigninPage extends GetWidget<AuthController> {
   SigninPage({Key? key}) : super(key: key);
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +23,30 @@ class SigninPage extends GetWidget<AuthController> {
                   children: [
                     const SizedBox(height: 180),
                     Form(
+                      key: _formKey,
                       child: Column(
                         children: [
                           Fields(
-                            controller: emailController,
                             keyboardType: TextInputType.emailAddress,
                             hintText: 'Alamat Email',
                             prefixIcon: const Icon(
                               Icons.email,
                               color: Color(0xff495057),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Email tidak boleh kosong';
+                              } else if (!value.isEmail) {
+                                return 'Email tidak valid';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              controller.email = value!;
+                            },
                           ),
                           const SizedBox(height: 15),
                           Fields(
-                            controller: passwordController,
                             obscureText: true,
                             keyboardType: TextInputType.visiblePassword,
                             hintText: 'Password',
@@ -45,14 +54,25 @@ class SigninPage extends GetWidget<AuthController> {
                               Icons.lock,
                               color: Color(0xff495057),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Password tidak boleh kosong';
+                              } else if (value.length < 6) {
+                                return 'Password minimal 6 karakter';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              controller.password = value!;
+                            },
                           ),
                           const SizedBox(height: 10),
                           ButtonWidget(
                             onPressed: () {
-                              controller.signIn(
-                                emailController.text,
-                                passwordController.text,
-                              );
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                controller.signIn();
+                              }
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                             title: 'Masuk',

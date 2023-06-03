@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 
 class Fields extends StatelessWidget {
-  const Fields(
-      {super.key,
-      required this.controller,
-      required this.keyboardType,
-      required this.hintText,
-      required this.prefixIcon,
-      this.obscureText = false});
+  const Fields({
+    super.key,
+    this.controller,
+    required this.keyboardType,
+    required this.hintText,
+    required this.prefixIcon,
+    this.obscureText = false,
+    this.initialValue = '',
+    this.validator,
+    this.onSaved,
+  });
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType keyboardType;
   final String hintText;
   final Icon prefixIcon;
   final bool obscureText;
+  final String initialValue;
+  final String? Function(String?)? validator;
+  final Function(String?)? onSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +29,9 @@ class Fields extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
+      validator: validator,
+      initialValue: initialValue,
+      onSaved: onSaved,
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: prefixIcon,

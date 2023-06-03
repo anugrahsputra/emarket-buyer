@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignUpPage extends GetWidget<AuthController> {
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final phoneNumberController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   final LocationController locationController = Get.put(LocationController());
 
@@ -31,46 +28,76 @@ class SignUpPage extends GetWidget<AuthController> {
                       height: 180,
                     ),
                     Form(
+                      key: _formKey,
                       child: Column(
                         children: [
                           Fields(
-                            controller: nameController,
                             keyboardType: TextInputType.name,
                             hintText: 'Nama Lengkap',
                             prefixIcon: const Icon(
                               Icons.person,
                               color: Color(0xff495057),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Nama tidak boleh kosong';
+                              } else if (value.length < 3) {
+                                return 'Nama tidak valid';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              controller.displayname = value!;
+                            },
                           ),
                           const SizedBox(
                             height: 15,
                           ),
                           Fields(
-                            controller: emailController,
                             keyboardType: TextInputType.emailAddress,
                             hintText: 'Alamat Email',
                             prefixIcon: const Icon(
                               Icons.email,
                               color: Color(0xff495057),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Email tidak boleh kosong';
+                              } else if (!value.contains('@')) {
+                                return 'Email tidak valid';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              controller.email = value!;
+                            },
                           ),
                           const SizedBox(
                             height: 15,
                           ),
                           Fields(
-                            controller: phoneNumberController,
                             keyboardType: TextInputType.phone,
                             hintText: 'Nomor Telepon',
                             prefixIcon: const Icon(
                               Icons.phone,
                               color: Color(0xff495057),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Nomor Telepon tidak boleh kosong';
+                              } else if (value.length < 10) {
+                                return 'Nomor Telepon minimal 10 karakter';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              controller.phoneNumber = value!;
+                            },
                           ),
                           const SizedBox(
                             height: 15,
                           ),
                           Fields(
-                            controller: passwordController,
                             obscureText: true,
                             keyboardType: TextInputType.emailAddress,
                             hintText: 'Password',
@@ -78,19 +105,27 @@ class SignUpPage extends GetWidget<AuthController> {
                               Icons.lock,
                               color: Color(0xff495057),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Password tidak boleh kosong';
+                              } else if (value.length < 6) {
+                                return 'Password minimal 6 karakter';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              controller.password = value!;
+                            },
                           ),
                           const SizedBox(
                             height: 10,
                           ),
                           ButtonWidget(
                             onPressed: () async {
-                              controller.signUp(
-                                nameController.text,
-                                emailController.text,
-                                'https://ui-avatars.com/api/?name=${nameController.text}',
-                                passwordController.text,
-                                phoneNumberController.text,
-                              );
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                await controller.signUp();
+                              }
                               await locationController.getCurrentLocation();
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
