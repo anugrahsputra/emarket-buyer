@@ -34,10 +34,14 @@ class _MapWIdgetState extends State<MapWIdget> {
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleApiKey,
         PointLatLng(
-            widget.buyer.location.latitude, widget.buyer.location.longitude),
+          widget.buyer.location.latitude,
+          widget.buyer.location.longitude,
+        ),
         PointLatLng(
-            widget.seller.location.latitude, widget.seller.location.longitude),
-        travelMode: TravelMode.driving,
+          widget.seller.location.latitude,
+          widget.seller.location.longitude,
+        ),
+        travelMode: TravelMode.walking,
       );
       if (result.points.isNotEmpty) {
         for (var point in result.points) {
@@ -86,7 +90,7 @@ class _MapWIdgetState extends State<MapWIdget> {
                           widget.seller.location.longitude) /
                       2,
                 ),
-                zoom: 17,
+                zoom: 15,
               ),
               markers: {
                 Marker(
@@ -116,8 +120,8 @@ class _MapWIdgetState extends State<MapWIdget> {
                 Polyline(
                   polylineId: const PolylineId("route"),
                   points: polylineCoordinates,
-                  color: const Color(0xFF7B61FF),
-                  width: 6,
+                  color: Colors.greenAccent,
+                  width: 4,
                 ),
               },
             ),
