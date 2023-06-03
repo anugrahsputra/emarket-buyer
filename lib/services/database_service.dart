@@ -50,6 +50,16 @@ class Database {
         snapshot.docs.map((doc) => SellerModel.fromSnapshot(doc)).toList());
   }
 
+  Stream<List<Product>> fetchProductsBySellers(String sellerId) {
+    return _firestore
+        .collection('sellers')
+        .doc(sellerId)
+        .collection('products')
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
+  }
+
   // product stream
   Stream<List<Product>> fetchProducts() {
     return _firestore.collectionGroup('products').snapshots().map((snapshot) =>

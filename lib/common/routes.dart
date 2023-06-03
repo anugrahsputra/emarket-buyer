@@ -48,6 +48,12 @@ class Routes {
       page: () => EditAccountPage(),
     ),
     GetPage(
+      name: '/seller-page',
+      page: () => SellerPage(
+        seller: Get.arguments,
+      ),
+    ),
+    GetPage(
       name: '/signin',
       page: () => SigninPage(),
     ),

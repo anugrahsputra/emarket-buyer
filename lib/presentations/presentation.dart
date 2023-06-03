@@ -23,3 +23,4 @@ export 'widget/map_widget.dart';
 export 'widget/order_history_widget.dart';
 export 'widget/product_card_widget.dart';
 export 'widget/recommend_card_widget.dart';
+export 'pages/seller_page.dart';

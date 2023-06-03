@@ -89,7 +89,9 @@ class DetailPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Get.toNamed('/seller-page', arguments: seller);
+                          },
                         ),
                       ],
                     )
