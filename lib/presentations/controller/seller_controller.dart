@@ -4,8 +4,15 @@ import 'package:get/get.dart';
 
 class SellerController extends GetxController {
   final Database database = Database();
+  final Rx<SellerModel> seller = const SellerModel().obs;
 
-  var seller = <SellerModel>[].obs;
+  SellerModel get sellerModel => seller.value;
+
+  set sellerModel(SellerModel value) {
+    seller.value = value;
+  }
+
+  var sellers = <SellerModel>[].obs;
 
   @override
   void onInit() {
@@ -14,7 +21,7 @@ class SellerController extends GetxController {
   }
 
   void fetchSellers() async {
-    seller.bindStream(database.fetchAllSellers());
+    sellers.bindStream(database.fetchAllSellers());
     update();
   }
 }

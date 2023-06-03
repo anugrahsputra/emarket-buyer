@@ -30,6 +30,7 @@ environment:
 dependencies:
   android_alarm_manager_plus: ^3.0.0
   badges: ^3.0.2
+  cached_network_image: ^3.2.3
   carbon_icons: ^0.0.1+2
   cloud_firestore: ^4.4.3
   connectivity_plus: ^4.0.0

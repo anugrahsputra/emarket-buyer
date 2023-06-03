@@ -72,21 +72,24 @@ class DetailPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.store,
-                              size: 16,
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              seller.storeName,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.store,
+                                size: 16,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 5),
+                              Text(
+                                seller.storeName,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          onTap: () {},
                         ),
                       ],
                     )
@@ -120,13 +123,15 @@ class DetailPage extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  Text(
-                    'Produk lainnya dari ${seller.storeName}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  controller.product.length < 2
+                      ? const SizedBox()
+                      : Text(
+                          'Produk lainnya dari ${seller.storeName}',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                 ],
               ),
             ),

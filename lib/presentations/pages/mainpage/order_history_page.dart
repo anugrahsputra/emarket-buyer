@@ -57,7 +57,7 @@ class OrderHistoryPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 const defaultSeller = SellerModel();
                 final checkout = checkoutController.checkouts[index];
-                final seller = sellerController.seller.firstWhere(
+                final seller = sellerController.sellers.firstWhere(
                   (element) => element.id == checkout.sellerId,
                   orElse: () => defaultSeller,
                 );

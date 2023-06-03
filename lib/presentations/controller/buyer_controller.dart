@@ -105,6 +105,8 @@ class BuyerController extends GetxController {
       );
       if (image != null) {
         newProfilePicture.value = image;
+      } else {
+        debugPrint('No image selected');
       }
     } catch (e) {
       debugPrint('Error selecting new profile picture: $e');

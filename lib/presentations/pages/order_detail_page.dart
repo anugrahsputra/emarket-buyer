@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
@@ -23,28 +25,41 @@ class OrderDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    directionController.destination.value = LatLng(
+      seller.location.latitude,
+      seller.location.longitude,
+    );
     directionController.origin.value = LatLng(
-        buyerController.buyer.location.latitude,
-        buyerController.buyer.location.longitude);
-    directionController.destination.value =
-        LatLng(seller.location.latitude, seller.location.longitude);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Detail Pesanan'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: checkout.isShipping == true
-                ? checkout.isDelivered == true
-                    ? Container()
-                    : button(context)
-                : Container(),
+      buyerController.buyer.location.latitude,
+      buyerController.buyer.location.longitude,
+    );
+    log('seller: ${seller.location.latitude} ${seller.location.longitude}');
+    log('buyer: ${buyerController.buyer.location.latitude} ${buyerController.buyer.location.longitude}');
+    return GetBuilder<DirectionController>(
+      init: directionController,
+      initState: (_) {
+        directionController.getDuration();
+      },
+      builder: (_) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Detail Pesanan'),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: checkout.isShipping == true
+                    ? checkout.isDelivered == true
+                        ? Container()
+                        : button(context)
+                    : Container(),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: buildOrderContents(),
-      ),
+          body: SingleChildScrollView(
+            child: buildOrderContents(),
+          ),
+        );
+      },
     );
   }
 
@@ -163,6 +178,11 @@ class OrderDetailPage extends StatelessWidget {
   }
 
   buildOrderContents() {
+    log('origin: ${directionController.origin.value}');
+    log('destination: ${directionController.destination.value}');
+    final durationFormatted = directionController.duration.value >= 3600
+        ? '${(directionController.duration.value ~/ 3600)} jam ${(directionController.duration.value % 3600) ~/ 60} menit'
+        : '${(directionController.duration.value ~/ 60)} menit';
     return Column(
       children: [
         MapWIdget(
@@ -184,13 +204,11 @@ class OrderDetailPage extends StatelessWidget {
                     fontSize: 16, fontWeight: FontWeight.w500),
               ),
               const Spacer(),
-              Obx(
-                () => Text(
-                  '${directionController.duration.value} menit',
-                  style: GoogleFonts.plusJakartaSans(
-                      fontSize: 16, fontWeight: FontWeight.w500),
-                ),
-              ),
+              Text(
+                durationFormatted,
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 16, fontWeight: FontWeight.w500),
+              )
             ],
           ),
         ),

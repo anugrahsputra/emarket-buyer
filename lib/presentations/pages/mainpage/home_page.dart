@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart' as badges;
+import 'package:emarket_buyer/common/formatter.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
@@ -16,75 +17,168 @@ class Homepage extends StatelessWidget {
   final ProductController productController = Get.put(ProductController());
   final SellerController sellerController = Get.put(SellerController());
   final CartController cartController = Get.put(CartController());
+  final List<String> categories = ['Makanan', 'Minuman'];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Homepage'),
-        actions: [
-          IconButton(
-            icon: Obx(
-              () => badges.Badge(
-                badgeContent: Text(
-                  cartController.cartProducts.length.toString(),
-                  style: const TextStyle(color: Colors.white),
+    return DefaultTabController(
+        length: categories.length,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Homepage'),
+            bottom: TabBar(
+              tabs: categories.map((category) {
+                if (category == 'Makanan') {
+                  return const Tab(
+                    icon: Icon(Icons.food_bank),
+                  );
+                } else if (category == 'Minuman') {
+                  return const Tab(
+                    icon: Icon(Icons.local_drink),
+                  );
+                }
+                return Tab(text: category);
+              }).toList(),
+            ),
+            actions: [
+              IconButton(
+                icon: Obx(
+                  () => badges.Badge(
+                    badgeContent: Text(
+                      cartController.cartProducts.length.toString(),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    showBadge:
+                        cartController.cartProducts.isNotEmpty ? true : false,
+                    badgeAnimation: const badges.BadgeAnimation.rotation(
+                      animationDuration: Duration(seconds: 1),
+                      colorChangeAnimationDuration: Duration(seconds: 1),
+                      loopAnimation: false,
+                      curve: Curves.fastOutSlowIn,
+                      colorChangeAnimationCurve: Curves.easeInCubic,
+                    ),
+                    child: const Icon(Icons.shopping_bag_rounded),
+                  ),
                 ),
-                showBadge:
-                    cartController.cartProducts.isNotEmpty ? true : false,
-                badgeAnimation: const badges.BadgeAnimation.rotation(
-                  animationDuration: Duration(seconds: 1),
-                  colorChangeAnimationDuration: Duration(seconds: 1),
-                  loopAnimation: false,
-                  curve: Curves.fastOutSlowIn,
-                  colorChangeAnimationCurve: Curves.easeInCubic,
+                onPressed: () {
+                  Get.toNamed('/cart-page');
+                },
+              ),
+            ],
+          ),
+          body: TabBarView(
+            children: categories
+                .map((category) => buildProductGrid(category))
+                .toList(),
+          ),
+        ));
+  }
+
+  buildSellerList() {
+    return Obx(() {
+      return ListView.builder(
+        itemCount: sellerController.sellers.length,
+        itemBuilder: (context, index) {
+          return Text(sellerController.sellers[index].displayName);
+        },
+      );
+    });
+  }
+
+  Widget buildProductGrid(String filter) {
+    return Obx(() {
+      final filteredList = productController.product
+          .where((product) => product.category == filter)
+          .toList();
+      return GridView.builder(
+        padding: const EdgeInsets.all(10),
+        itemCount: filteredList.length,
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 150,
+          childAspectRatio: 2 / 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+        ),
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () async {
+              Get.to(
+                () => DetailPage(
+                  product: filteredList[index],
+                  seller: sellerController.sellers.firstWhere(
+                    (element) => element.id == filteredList[index].sellerId,
+                    orElse: () => const SellerModel(),
+                  ),
                 ),
-                child: const Icon(Icons.shopping_bag_rounded),
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: GridTile(
+                key: ValueKey(filteredList[index].id),
+                footer: GridTileBar(
+                  backgroundColor: Colors.black54,
+                  title: Text(
+                    filteredList[index].name,
+                    textAlign: TextAlign.center,
+                  ),
+                  subtitle: Text(
+                    Formatter.priceFormat(filteredList[index].price),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                child: Image.network(
+                  filteredList[index].imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            onPressed: () {
-              Get.toNamed('/cart-page');
-            },
-          ),
-        ],
-      ),
-      body: Obx(() {
-        if (productController.product.isEmpty) {
-          return const Center(
-            child: Text('Tidak ada produk'),
           );
-        } else if (productController.loading.value) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          return ListView.builder(
-            itemCount: productController.product.length,
-            itemBuilder: (context, index) {
-              const defaultSeller = SellerModel();
-              final product = productController.product[index];
-              final seller = sellerController.seller.firstWhere(
-                (element) => element.id == product.sellerId,
-                orElse: () => defaultSeller,
-              );
-              return GestureDetector(
-                onTap: () async {
-                  Get.to(
-                    () => DetailPage(
-                      product: product,
-                      seller: seller,
-                    ),
-                  );
-                },
-                child: ProductCard(
-                  product: productController.product[index],
-                ),
-              );
-            },
-          );
-        }
-      }),
-    );
+        },
+      );
+    });
+  }
+
+  buildProductList() {
+    return Obx(() {
+      if (productController.product.isEmpty) {
+        return const Center(
+          child: Text('Tidak ada produk'),
+        );
+      } else if (productController.loading.value) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      } else {
+        return ListView.builder(
+          itemCount: productController.product.length,
+          itemBuilder: (context, index) {
+            const defaultSeller = SellerModel();
+            final product = productController.product[index];
+            final seller = sellerController.sellers.firstWhere(
+              (element) => element.id == product.sellerId,
+              orElse: () => defaultSeller,
+            );
+            return GestureDetector(
+              onTap: () async {
+                Get.to(
+                  () => DetailPage(
+                    product: product,
+                    seller: seller,
+                  ),
+                );
+              },
+              child: ProductCard(
+                product: productController.product[index],
+              ),
+            );
+          },
+        );
+      }
+    });
   }
 
   String greeting(BuyerModel? buyer) {

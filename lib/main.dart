@@ -45,13 +45,8 @@ Future<void> main() async {
   });
   log('User granted premission: ${settings.authorizationStatus}');
 
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //   Map<String, dynamic> data = message.data;
-
-  //   SellerModel seller = SellerModel.fromSnapshot(jsonDecode(data['seller']!));
-  //   BuyerModel buyer = BuyerModel.fromSnapshot(jsonDecode(data['buyer']!));
-  //   log('New product available from ${seller.storeName} for buyer !');
-  // });
+  await messaging.subscribeToTopic('newProducts');
+  await messaging.subscribeToTopic('newStores');
 
   final LocalNotificationHelper localNotificationHelper =
       LocalNotificationHelper();

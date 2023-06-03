@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/services.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +80,8 @@ class Profilepage extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundImage: NetworkImage(buyerController.buyer.photoUrl),
+            backgroundImage:
+                CachedNetworkImageProvider(buyerController.buyer.photoUrl),
           ),
           const SizedBox(
             width: 10,
