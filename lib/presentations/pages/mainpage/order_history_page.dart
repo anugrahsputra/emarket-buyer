@@ -19,13 +19,14 @@ class OrderHistoryPage extends StatelessWidget {
         actions: [
           Obx(
             () => GestureDetector(
-                onTap: () {
-                  checkoutController.sortByDate.toggle();
-                  checkoutController.fetchCheckout();
-                },
-                child: Icon(checkoutController.sortByDate.isTrue
-                    ? MdiIcons.sortBoolAscending
-                    : MdiIcons.sortBoolDescending)),
+              onTap: () {
+                checkoutController.sortByDate.toggle();
+                checkoutController.fetchCheckout();
+              },
+              child: Icon(checkoutController.sortByDate.isTrue
+                  ? MdiIcons.sortBoolAscending
+                  : MdiIcons.sortBoolDescending),
+            ),
           )
         ],
       ),

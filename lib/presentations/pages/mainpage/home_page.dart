@@ -22,11 +22,23 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    (String, String) category = ('Makanan', 'Minuman');
     return DefaultTabController(
       length: categories.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Homepage'),
+          centerTitle: true,
+          leading: Obx(() {
+            return IconButton(
+              icon: productController.isGrid.value
+                  ? const Icon(Icons.grid_view)
+                  : const Icon(Icons.list),
+              onPressed: () {
+                productController.isGrid.toggle();
+              },
+            );
+          }),
           bottom: TabBar(
             tabs: categories.map((category) {
               if (category == 'Makanan') {
@@ -89,121 +101,156 @@ class Homepage extends StatelessWidget {
   }
 
   Widget buildProductGrid(String filter) {
-    return Obx(() {
-      final filteredList = productController.product
-          .where((product) => product.category == filter)
-          .toList();
-      return GridView.builder(
-        padding: const EdgeInsets.all(10),
-        itemCount: filteredList.length,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 150,
-          childAspectRatio: 2 / 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () async {
-              Get.to(
-                () => DetailPage(
-                  product: filteredList[index],
-                  seller: sellerController.sellers.firstWhere(
-                    (element) => element.id == filteredList[index].sellerId,
-                    orElse: () => const SellerModel(),
-                  ),
+    return Obx(
+      () {
+        final filteredList = productController.product
+            .where((product) => product.category == filter)
+            .toList();
+        return productController.isGrid.value
+            ? GridView.builder(
+                padding: const EdgeInsets.all(10),
+                itemCount: filteredList.length,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 150,
+                  childAspectRatio: 2 / 2,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
                 ),
-              );
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: GridTile(
-                key: ValueKey(filteredList[index].id),
-                footer: GridTileBar(
-                    backgroundColor: Colors.black54,
-                    title: Text(
-                      filteredList[index].name,
-                      textAlign: TextAlign.center,
-                    ),
-                    subtitle: Text(
-                      Formatter.priceFormat(filteredList[index].price),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () async {
+                      Get.to(
+                        () => DetailPage(
+                          product: filteredList[index],
+                          seller: sellerController.sellers.firstWhere(
+                            (element) =>
+                                element.id == filteredList[index].sellerId,
+                            orElse: () => const SellerModel(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: GridTile(
+                        key: ValueKey(filteredList[index].id),
+                        footer: GridTileBar(
+                            backgroundColor: Colors.black54,
+                            title: Text(
+                              filteredList[index].name,
+                              textAlign: TextAlign.center,
+                            ),
+                            subtitle: Text(
+                              Formatter.priceFormat(filteredList[index].price),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.shopping_cart_rounded),
+                              onPressed: () {
+                                var storeName = sellerController.sellers
+                                    .firstWhere(
+                                        (element) =>
+                                            element.id ==
+                                            filteredList[index].sellerId,
+                                        orElse: () => const SellerModel())
+                                    .storeName;
+                                cartController.addProduct(
+                                  CartModel(
+                                    productId: filteredList[index].id,
+                                    name: filteredList[index].name,
+                                    price: filteredList[index].price,
+                                    imageUrl: filteredList[index].imageUrl,
+                                    sellerId: filteredList[index].sellerId,
+                                    storeName: storeName,
+                                  ),
+                                );
+                              },
+                            )),
+                        child: CachedNetworkImage(
+                          imageUrl: filteredList[index].imageUrl,
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.shopping_cart_rounded),
-                      onPressed: () {
-                        cartController.addProduct(CartModel(
-                            productId: filteredList[index].id,
-                            name: filteredList[index].name,
-                            price: filteredList[index].price,
-                            imageUrl: filteredList[index].imageUrl,
-                            sellerId: filteredList[index].sellerId,
-                            storeName: sellerController.sellers
-                                .firstWhere(
-                                  (element) =>
-                                      element.id ==
-                                      filteredList[index].sellerId,
-                                  orElse: () => const SellerModel(),
-                                )
-                                .storeName));
-                      },
-                    )),
-                child: CachedNetworkImage(
-                  imageUrl: filteredList[index].imageUrl,
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          );
-        },
-      );
-    });
+                  );
+                },
+              )
+            : ListView.builder(
+                itemCount: filteredList.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () async {
+                      Get.to(
+                        () => DetailPage(
+                          product: filteredList[index],
+                          seller: sellerController.sellers.firstWhere(
+                            (element) =>
+                                element.id == filteredList[index].sellerId,
+                            orElse: () => const SellerModel(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: ProductCard(
+                      key: ValueKey(filteredList[index].id),
+                      seller: sellerController.sellers.firstWhere(
+                        (element) => element.id == filteredList[index].sellerId,
+                        orElse: () => const SellerModel(),
+                      ),
+                      product: filteredList[index],
+                    ),
+                  );
+                },
+              );
+      },
+    );
   }
 
-  buildProductList() {
-    return Obx(() {
-      if (productController.product.isEmpty) {
-        return const Center(
-          child: Text('Tidak ada produk'),
-        );
-      } else if (productController.loading.value) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      } else {
-        return ListView.builder(
-          itemCount: productController.product.length,
-          itemBuilder: (context, index) {
-            const defaultSeller = SellerModel();
-            final product = productController.product[index];
-            final seller = sellerController.sellers.firstWhere(
-              (element) => element.id == product.sellerId,
-              orElse: () => defaultSeller,
-            );
-            return GestureDetector(
-              onTap: () async {
-                Get.to(
-                  () => DetailPage(
-                    product: product,
-                    seller: seller,
-                  ),
-                );
-              },
-              child: ProductCard(
-                product: productController.product[index],
-              ),
-            );
-          },
-        );
-      }
-    });
-  }
+  // Widget buildProductList(String filter) {
+  //   final filteredList = productController.product
+  //       .where((product) => product.category == filter)
+  //       .toList();
+  //   return Obx(() {
+  //     if (productController.product.isEmpty) {
+  //       return const Center(
+  //         child: Text('Tidak ada produk'),
+  //       );
+  //     } else if (productController.loading.value) {
+  //       return const Center(
+  //         child: CircularProgressIndicator(),
+  //       );
+  //     } else {
+  //       return ListView.builder(
+  //         itemCount: filteredList.length,
+  //         itemBuilder: (context, index) {
+  //           return GestureDetector(
+  //             onTap: () async {
+  //               Get.to(
+  //                 () => DetailPage(
+  //                   product: filteredList[index],
+  //                   seller: sellerController.sellers.firstWhere(
+  //                     (element) => element.id == filteredList[index].sellerId,
+  //                     orElse: () => const SellerModel(),
+  //                   ),
+  //                 ),
+  //               );
+  //             },
+  //             child: ProductCard(
+  //               key: ValueKey(filteredList[index].id),
+  //               product: filteredList[index],
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     }
+  //   });
+  // }
 
   String greeting(BuyerModel? buyer) {
     var hour = DateTime.now().hour;

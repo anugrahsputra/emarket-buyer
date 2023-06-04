@@ -8,6 +8,7 @@ import '../../models/model.dart';
 class ProductController extends GetxController {
   final Database database = Database();
   RxBool loading = false.obs;
+  RxBool isGrid = false.obs;
 
   final product = RxList<Product>([]);
   final productBySeller = RxList<Product>([]);
