@@ -66,6 +66,19 @@ class Database {
         snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
   }
 
+  Future<void> searchProducts(String searchText) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collectionGroup('products')
+          .where('name', isGreaterThanOrEqualTo: searchText)
+          .where('name', isLessThanOrEqualTo: '$searchText\uf8ff')
+          .get();
+      snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   Future<bool?> updateProduct(
     String sellerId,
     String productId,

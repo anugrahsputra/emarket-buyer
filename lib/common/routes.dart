@@ -14,6 +14,10 @@ class Routes {
       page: () => Homepage(),
     ),
     GetPage(
+      name: '/search-page',
+      page: () => SearchPage(),
+    ),
+    GetPage(
       name: '/cart-page',
       page: () => Cartpage(),
     ),

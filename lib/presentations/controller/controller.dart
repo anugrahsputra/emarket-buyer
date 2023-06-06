@@ -8,6 +8,8 @@ export 'direction_controller.dart';
 export 'fcm_controller.dart';
 export 'local_notification_controller.dart';
 export 'location_controller.dart';
+export 'map_controller.dart';
 export 'network_controller.dart';
 export 'product_controller.dart';
+export 'query_controller.dart';
 export 'seller_controller.dart';

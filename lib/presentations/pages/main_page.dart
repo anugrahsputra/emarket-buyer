@@ -27,17 +27,13 @@ class _MainPageState extends State<MainPage> {
       localNotificationHelper
           .initNotifications(flutterLocalNotificationsPlugin);
       localNotificationHelper.configureSelectionNotificationSubject(
-          context, Cartpage.routeName);
+        context,
+        Cartpage.routeName,
+      );
     });
   }
 
-  final CheckoutController checkoutController = Get.put(CheckoutController());
-
-  final List<Widget> pageList = [
-    Homepage(),
-    OrderHistoryPage(),
-    Profilepage(),
-  ];
+  final CheckoutController checkoutController = Get.find<CheckoutController>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +43,12 @@ class _MainPageState extends State<MainPage> {
         label: 'Beranda',
       ),
       const NavigationDestination(
+        icon: Icon(Icons.search_rounded),
+        label: 'Cari',
+      ),
+      const NavigationDestination(
         icon: Icon(Icons.receipt_long),
-        label: 'Riwayat',
+        label: 'Riwayat Pesanan',
       ),
       const NavigationDestination(
         icon: Icon(Icons.person),

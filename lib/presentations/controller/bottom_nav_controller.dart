@@ -16,10 +16,14 @@ class BottomNavbarController extends GetxController {
         update();
         break;
       case 1:
-        currentPage = OrderHistoryPage();
+        currentPage = SearchPage();
         update();
         break;
       case 2:
+        currentPage = OrderHistoryPage();
+        update();
+        break;
+      case 3:
         currentPage = Profilepage();
         update();
         break;

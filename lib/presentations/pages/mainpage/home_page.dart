@@ -22,7 +22,6 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    (String, String) category = ('Makanan', 'Minuman');
     return DefaultTabController(
       length: categories.length,
       child: Scaffold(
@@ -83,7 +82,7 @@ class Homepage extends StatelessWidget {
         ),
         body: TabBarView(
           children:
-              categories.map((category) => buildProductGrid(category)).toList(),
+              categories.map((category) => buildProduct(category)).toList(),
         ),
       ),
     );
@@ -100,7 +99,7 @@ class Homepage extends StatelessWidget {
     });
   }
 
-  Widget buildProductGrid(String filter) {
+  Widget buildProduct(String filter) {
     return Obx(
       () {
         final filteredList = productController.product
@@ -211,46 +210,6 @@ class Homepage extends StatelessWidget {
       },
     );
   }
-
-  // Widget buildProductList(String filter) {
-  //   final filteredList = productController.product
-  //       .where((product) => product.category == filter)
-  //       .toList();
-  //   return Obx(() {
-  //     if (productController.product.isEmpty) {
-  //       return const Center(
-  //         child: Text('Tidak ada produk'),
-  //       );
-  //     } else if (productController.loading.value) {
-  //       return const Center(
-  //         child: CircularProgressIndicator(),
-  //       );
-  //     } else {
-  //       return ListView.builder(
-  //         itemCount: filteredList.length,
-  //         itemBuilder: (context, index) {
-  //           return GestureDetector(
-  //             onTap: () async {
-  //               Get.to(
-  //                 () => DetailPage(
-  //                   product: filteredList[index],
-  //                   seller: sellerController.sellers.firstWhere(
-  //                     (element) => element.id == filteredList[index].sellerId,
-  //                     orElse: () => const SellerModel(),
-  //                   ),
-  //                 ),
-  //               );
-  //             },
-  //             child: ProductCard(
-  //               key: ValueKey(filteredList[index].id),
-  //               product: filteredList[index],
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     }
-  //   });
-  // }
 
   String greeting(BuyerModel? buyer) {
     var hour = DateTime.now().hour;
