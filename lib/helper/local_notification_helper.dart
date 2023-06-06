@@ -39,6 +39,7 @@ class LocalNotificationHelper {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
   ) async {
     final CartController cartController = Get.put(CartController());
+    cartController.getCartItems();
 
     var channelId = "1";
     var channelName = "channel_01";
@@ -61,14 +62,14 @@ class LocalNotificationHelper {
     var titleNotification = "<b>Kamu belum checkout?</b>";
 
     var bodyNotification =
-        'Masih Ada ${cartController.cartProducts.length} item di keranjang kamu';
+        'Masih Ada ${cartController.getCartItems().toString().length.toString()} item di keranjang kamu, lho!';
 
     await flutterLocalNotificationsPlugin.show(
       0,
       titleNotification,
       bodyNotification,
       platformChannel,
-      payload: cartController.cartProducts.length.toString(),
+      payload: cartController.getCartItems().toString().length.toString(),
     );
   }
 

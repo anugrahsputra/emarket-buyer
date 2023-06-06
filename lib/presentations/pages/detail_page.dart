@@ -11,6 +11,7 @@ class DetailPage extends StatelessWidget {
     required this.product,
     required this.seller,
   }) : super(key: key);
+  static const String routeName = '/detail-page';
   final Product product;
   final SellerModel seller;
 
@@ -216,8 +217,6 @@ class DetailPage extends StatelessWidget {
                 imageUrl: product.imageUrl,
               ),
             );
-
-            debugPrint('Cart: ${cartController.cartProducts.length}');
           },
           icon: const Icon(
             Icons.shopping_bag,

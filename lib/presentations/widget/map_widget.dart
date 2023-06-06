@@ -53,7 +53,6 @@ class _MapWIdgetState extends State<MapWIdget> {
         setState(() {});
       }
     } catch (e) {
-      // Handle any errors that occur during the polyline retrieval process
       log('Error retrieving polyline: $e');
     }
   }
@@ -78,6 +77,11 @@ class _MapWIdgetState extends State<MapWIdget> {
           return ClipRRect(
             borderRadius: BorderRadius.circular(14),
             child: GoogleMap(
+              zoomControlsEnabled: false,
+              zoomGesturesEnabled: false,
+              scrollGesturesEnabled: false,
+              rotateGesturesEnabled: false,
+              tiltGesturesEnabled: false,
               onMapCreated: (controller) {
                 _controller.complete(controller);
               },

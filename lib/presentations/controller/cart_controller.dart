@@ -46,12 +46,13 @@ class CartController extends GetxController {
   }
 
   Future<void> addProduct(CartModel cartModel) async {
+    isExist.value = false;
     for (var element in cartProducts) {
       if (element.productId == cartModel.productId) {
         if (element.sellerId == cartModel.sellerId) {
           isExist.value = true;
           increaseQuantity(cartProducts.indexOf(element));
-          break;
+          Fluttertoast.showToast(msg: '${cartModel.name} berhasil ditambahkan');
         } else {
           bool replaceItem = await showBottomSheet(cartModel, Get.context!);
           if (replaceItem) {
@@ -170,7 +171,7 @@ class CartController extends GetxController {
         context: context,
         builder: (context) {
           return Container(
-            height: 200,
+            height: 500,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
@@ -183,7 +184,7 @@ class CartController extends GetxController {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: 16),
                   child: Center(
                     child: Text(
                       'Mau pesan dari penjual ini?',
@@ -192,6 +193,12 @@ class CartController extends GetxController {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Image.asset(
+                    'assets/illustration/illustration_1.png',
                   ),
                 ),
                 const Padding(
@@ -205,6 +212,10 @@ class CartController extends GetxController {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     FilledButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        backgroundColor: Colors.grey[300],
+                      ),
                       onPressed: () {
                         Get.back(result: false);
                       },
