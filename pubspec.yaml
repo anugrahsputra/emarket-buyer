@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   android_alarm_manager_plus: ^3.0.0
+  animated_text_kit: ^4.2.2
   badges: ^3.0.2
   cached_network_image: ^3.2.3
   carbon_icons: ^0.0.1+2
@@ -54,6 +55,7 @@ dependencies:
   google_fonts: ^4.0.3
   google_maps_flutter: ^2.1.1
   image_picker: ^0.8.7+4
+  infinite_scroll_pagination: ^3.2.0
   intl: ^0.18.1
   maps_launcher: ^2.2.0
   material_design_icons_flutter: ^6.0.7096

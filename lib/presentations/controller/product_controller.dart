@@ -1,4 +1,3 @@
-import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,18 +31,6 @@ class ProductController extends GetxController {
     } catch (e) {
       setLoading(false);
       debugPrint('ProductController.fetchProducts: $e');
-    }
-  }
-
-  Future<void> getProductsBySeller() async {
-    String id = Get.find<AuthController>().user!.uid;
-    try {
-      setLoading(true);
-      productBySeller.bindStream(database.fetchProductsBySellers(id));
-    } catch (e) {
-      debugPrint('ProductController.getProductsBySeller: $e');
-    } finally {
-      setLoading(false);
     }
   }
 
