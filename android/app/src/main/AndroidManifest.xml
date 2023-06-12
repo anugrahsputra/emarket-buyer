@@ -20,7 +20,7 @@
     </queries>
     
    <application
-        android:label="emarket_buyer"
+        android:label="Emarket Buyer"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

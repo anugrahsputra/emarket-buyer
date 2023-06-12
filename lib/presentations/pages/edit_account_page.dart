@@ -1,4 +1,3 @@
-import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,22 +22,13 @@ class EditAccountPage extends StatelessWidget {
             onPressed: () {
               Get.defaultDialog(
                   title: 'Masukan password',
-                  content: Fields(
-                    keyboardType: TextInputType.visiblePassword,
-                    hintText: 'Password',
-                    prefixIcon: const Icon(
-                      Icons.lock,
-                      color: Color(0xff495057),
+                  content: TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      hintText: 'Password',
+                      border: OutlineInputBorder(),
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Password tidak boleh kosong';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      passwordController.text = value!;
-                    },
                   ),
                   textConfirm: 'Konfirmasi',
                   onConfirm: () async {
@@ -54,45 +44,42 @@ class EditAccountPage extends StatelessWidget {
           )
         ],
       ),
-      body: Obx(() => buyerController.loading.value
-          ? Center(
-              child: Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+      body: Obx(
+        () => buyerController.loading.value
+            ? Center(
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.5),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xffe9ecef),
+                    ),
+                  ),
                 ),
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    color: Color(0xffe9ecef),
+              )
+            : Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: TextFormField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    hintText: buyerController.buyer.email,
+                    prefixIcon: const Icon(
+                      Icons.email,
+                      color: Colors.black,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
               ),
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Fields(
-                keyboardType: TextInputType.emailAddress,
-                hintText: buyerController.buyer.email,
-                initialValue: buyerController.buyer.email,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Email tidak boleh kosong';
-                  } else if (!value.isEmail) {
-                    return 'Email tidak valid';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  emailController.text = value!;
-                },
-                prefixIcon: const Icon(
-                  Icons.email,
-                  color: Color(0xff495057),
-                ),
-              ),
-            )),
+      ),
     );
   }
 }

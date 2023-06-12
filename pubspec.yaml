@@ -47,6 +47,8 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   flutter_local_notifications: ^14.0.0+2
   flutter_polyline_points: ^1.0.0
+  flutter_native_splash: ^2.3.1
+  flutter_launcher_icons: ^0.13.1
   fluttertoast: ^8.2.1
   geocoding: ^2.1.0
   geolocator: ^9.0.2
@@ -71,6 +73,18 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.4.1
 
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: false
+  image_path: "assets/icon/launcher_icon.png"
+  min_sdk_android: 21
+
+flutter_native_splash:
+  color: "f8f9fa"
+  image: assets/splash/splash_icons.png
+  android: true
+  ios: false
+  web: false
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.

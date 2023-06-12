@@ -62,14 +62,14 @@ class LocalNotificationHelper {
     var titleNotification = "<b>Kamu belum checkout?</b>";
 
     var bodyNotification =
-        'Masih Ada ${cartController.getCartItems().toString().length.toString()} item di keranjang kamu, lho!';
+        'Masih Ada ${cartController.cartProducts.length} item di keranjang kamu, lho!';
 
     await flutterLocalNotificationsPlugin.show(
       0,
       titleNotification,
       bodyNotification,
       platformChannel,
-      payload: cartController.getCartItems().toString().length.toString(),
+      payload: cartController.cartProducts.length.toString(),
     );
   }
 

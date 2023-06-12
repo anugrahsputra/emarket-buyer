@@ -32,7 +32,7 @@ class CartController extends GetxController {
     if (cartProducts.isNotEmpty) {
       debugPrint('Notification active');
       return await AndroidAlarmManager.periodic(
-        const Duration(seconds: 10),
+        const Duration(hours: 8),
         1,
         BackgroundService.callback,
         exact: true,
