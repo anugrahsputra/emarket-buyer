@@ -13,6 +13,7 @@ class RecommendCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.only(bottom: 5),
       width: 90,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -28,7 +29,6 @@ class RecommendCard extends StatelessWidget {
                 product.imageUrl,
               ),
               width: 80,
-              height: 80,
               fit: BoxFit.cover,
             ),
           ),
@@ -37,6 +37,9 @@ class RecommendCard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 12,
             ),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
           Text(
             'Rp. ${product.price}',

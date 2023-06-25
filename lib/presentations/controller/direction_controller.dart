@@ -33,7 +33,6 @@ class DirectionController extends GetxController {
       update();
     } catch (e) {
       log('dircontroller: $e');
-      rethrow;
     }
   }
 }

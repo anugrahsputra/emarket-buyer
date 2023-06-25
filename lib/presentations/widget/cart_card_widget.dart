@@ -65,7 +65,7 @@ class CartCard extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              const SizedBox(height: 25),
+              const Spacer(),
               Text(
                 Formatter.priceFormat(cartModel.price * cartModel.quantity),
                 style: GoogleFonts.plusJakartaSans(

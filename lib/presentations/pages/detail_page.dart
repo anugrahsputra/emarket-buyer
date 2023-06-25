@@ -25,8 +25,10 @@ class DetailPage extends StatelessWidget {
     debugPrint('Seller: ${seller.storeName}');
     return Scaffold(
       body: CustomScrollView(
+        shrinkWrap: true,
         slivers: [
           SliverAppBar(
+            pinned: true,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
               background: Image.network(
@@ -159,7 +161,7 @@ class DetailPage extends StatelessWidget {
                         right: 24,
                         bottom: 24,
                       ),
-                      height: 125,
+                      height: 150,
                       width: 80,
                       child: ListView.builder(
                         shrinkWrap: true,

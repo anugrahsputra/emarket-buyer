@@ -8,6 +8,8 @@ class ProductController extends GetxController {
   final Database database = Database();
   RxBool loading = false.obs;
   RxBool isGrid = false.obs;
+  final GlobalKey<RefreshIndicatorState> refreshKey =
+      GlobalKey<RefreshIndicatorState>();
 
   final product = RxList<Product>([]);
   final productBySeller = RxList<Product>([]);
@@ -32,6 +34,11 @@ class ProductController extends GetxController {
       setLoading(false);
       debugPrint('ProductController.fetchProducts: $e');
     }
+  }
+
+  Future<void> pullToRefresh() async {
+    await Future.delayed(const Duration(seconds: 2));
+    getProducts();
   }
 
   @override

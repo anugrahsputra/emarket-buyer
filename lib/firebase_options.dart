@@ -53,7 +53,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB6U3dJfJ1S1WkvMOYAvEUO4UKz9GwLIQg',
+    apiKey: 'AIzaSyAPASDaKMFMIrAAnMht4vp1bUIjmef--YE',
     appId: '1:812067313674:android:6f3d0102299f86d739a7f3',
     messagingSenderId: '812067313674',
     projectId: 'database-emarket',

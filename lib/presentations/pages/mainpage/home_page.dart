@@ -26,7 +26,7 @@ class Homepage extends StatelessWidget {
       length: categories.length,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Homepage'),
+          title: const Text('Beranda'),
           centerTitle: true,
           leading: Obx(() {
             return IconButton(
@@ -100,114 +100,117 @@ class Homepage extends StatelessWidget {
   }
 
   Widget buildProduct(String filter) {
-    return Obx(
-      () {
-        final filteredList = productController.product
-            .where((product) => product.category == filter)
-            .toList();
-        return productController.isGrid.value
-            ? GridView.builder(
-                padding: const EdgeInsets.all(10),
-                itemCount: filteredList.length,
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 150,
-                  childAspectRatio: 2 / 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                ),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () async {
-                      Get.to(
-                        () => DetailPage(
-                          product: filteredList[index],
-                          seller: sellerController.sellers.firstWhere(
-                            (element) =>
-                                element.id == filteredList[index].sellerId,
-                            orElse: () => const SellerModel(),
-                          ),
-                        ),
-                      );
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: GridTile(
-                        key: ValueKey(filteredList[index].id),
-                        footer: GridTileBar(
-                            backgroundColor: Colors.black54,
-                            title: Text(
-                              filteredList[index].name,
-                              textAlign: TextAlign.center,
+    return RefreshIndicator(
+      onRefresh: productController.pullToRefresh,
+      child: Obx(
+        () {
+          final filteredList = productController.product
+              .where((product) => product.category == filter)
+              .toList();
+          return productController.isGrid.value
+              ? GridView.builder(
+                  padding: const EdgeInsets.all(10),
+                  itemCount: filteredList.length,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 150,
+                    childAspectRatio: 2 / 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                  ),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () async {
+                        Get.to(
+                          () => DetailPage(
+                            product: filteredList[index],
+                            seller: sellerController.sellers.firstWhere(
+                              (element) =>
+                                  element.id == filteredList[index].sellerId,
+                              orElse: () => const SellerModel(),
                             ),
-                            subtitle: Text(
-                              Formatter.priceFormat(filteredList[index].price),
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
+                          ),
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: GridTile(
+                          key: ValueKey(filteredList[index].id),
+                          footer: GridTileBar(
+                              backgroundColor: Colors.black54,
+                              title: Text(
+                                filteredList[index].name,
+                                textAlign: TextAlign.center,
                               ),
+                              subtitle: Text(
+                                Formatter.priceFormat(filteredList[index].price),
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.shopping_cart_rounded),
+                                onPressed: () {
+                                  var storeName = sellerController.sellers
+                                      .firstWhere(
+                                          (element) =>
+                                              element.id ==
+                                              filteredList[index].sellerId,
+                                          orElse: () => const SellerModel())
+                                      .storeName;
+                                  cartController.addProduct(
+                                    CartModel(
+                                      productId: filteredList[index].id,
+                                      name: filteredList[index].name,
+                                      price: filteredList[index].price,
+                                      imageUrl: filteredList[index].imageUrl,
+                                      sellerId: filteredList[index].sellerId,
+                                      storeName: storeName,
+                                    ),
+                                  );
+                                },
+                              )),
+                          child: CachedNetworkImage(
+                            imageUrl: filteredList[index].imageUrl,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(),
                             ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.shopping_cart_rounded),
-                              onPressed: () {
-                                var storeName = sellerController.sellers
-                                    .firstWhere(
-                                        (element) =>
-                                            element.id ==
-                                            filteredList[index].sellerId,
-                                        orElse: () => const SellerModel())
-                                    .storeName;
-                                cartController.addProduct(
-                                  CartModel(
-                                    productId: filteredList[index].id,
-                                    name: filteredList[index].name,
-                                    price: filteredList[index].price,
-                                    imageUrl: filteredList[index].imageUrl,
-                                    sellerId: filteredList[index].sellerId,
-                                    storeName: storeName,
-                                  ),
-                                );
-                              },
-                            )),
-                        child: CachedNetworkImage(
-                          imageUrl: filteredList[index].imageUrl,
-                          placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              )
-            : ListView.builder(
-                itemCount: filteredList.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () async {
-                      Get.to(
-                        () => DetailPage(
-                          product: filteredList[index],
-                          seller: sellerController.sellers.firstWhere(
-                            (element) =>
-                                element.id == filteredList[index].sellerId,
-                            orElse: () => const SellerModel(),
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      );
-                    },
-                    child: ProductCard(
-                      key: ValueKey(filteredList[index].id),
-                      seller: sellerController.sellers.firstWhere(
-                        (element) => element.id == filteredList[index].sellerId,
-                        orElse: () => const SellerModel(),
                       ),
-                      product: filteredList[index],
-                    ),
-                  );
-                },
-              );
-      },
+                    );
+                  },
+                )
+              : ListView.builder(
+                  itemCount: filteredList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () async {
+                        Get.to(
+                          () => DetailPage(
+                            product: filteredList[index],
+                            seller: sellerController.sellers.firstWhere(
+                              (element) =>
+                                  element.id == filteredList[index].sellerId,
+                              orElse: () => const SellerModel(),
+                            ),
+                          ),
+                        );
+                      },
+                      child: ProductCard(
+                        key: ValueKey(filteredList[index].id),
+                        seller: sellerController.sellers.firstWhere(
+                          (element) => element.id == filteredList[index].sellerId,
+                          orElse: () => const SellerModel(),
+                        ),
+                        product: filteredList[index],
+                      ),
+                    );
+                  },
+                );
+        },
+      ),
     );
   }
 

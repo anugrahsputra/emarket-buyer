@@ -1,20 +1,39 @@
-import 'dart:async';
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:emarket_buyer/common/formatter.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
-import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class SellerPage extends StatelessWidget {
-  SellerPage({Key? key, required this.seller}) : super(key: key);
+class SellerPage extends StatefulWidget {
+  const SellerPage({Key? key, required this.seller}) : super(key: key);
 
   final SellerModel seller;
 
-  final Completer<GoogleMapController> _controller = Completer();
+  @override
+  State<SellerPage> createState() => _SellerPageState();
+}
+
+class _SellerPageState extends State<SellerPage> with TickerProviderStateMixin {
+  late final TabController _tabController;
+  GoogleMapController? _controller;
 
   final ProductController productController = Get.find<ProductController>();
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _controller?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,26 +41,120 @@ class SellerPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Toko'),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 300,
+      body: Column(
+        children: [
+          buildSellerInfo(),
+          const SizedBox(height: 10),
+          Container(
+            // padding: const EdgeInsets.all(10),
+            height: 40,
+            margin: const EdgeInsets.symmetric(horizontal: 24),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.black12,
+            ),
+            child: TabBar(
+              controller: _tabController,
+              splashFactory: NoSplash.splashFactory,
+              dividerColor: Colors.transparent,
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicator: BoxDecoration(
+                color: const Color.fromARGB(255, 68, 151, 76),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              labelColor: Colors.white,
+              tabs: const [
+                Text('Info Toko'),
+                Text('Produk'),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 400,
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                buildStoreInfo(),
+                buildProductList(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  buildStoreInfo() {
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 24,
+        vertical: 14,
+      ),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.black12,
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(
+                  Icons.store,
+                  size: 60,
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.seller.storeName,
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    widget.seller.phoneNumber,
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    widget.seller.address,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                    style: GoogleFonts.plusJakartaSans(
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(
+            height: 250,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
               child: GoogleMap(
                 zoomControlsEnabled: false,
                 zoomGesturesEnabled: false,
                 mapToolbarEnabled: false,
                 onMapCreated: (controller) {
-                  _controller.complete(controller);
+                  setState(() {
+                    _controller = controller;
+                  });
                 },
                 minMaxZoomPreference: const MinMaxZoomPreference(1, 20),
                 rotateGesturesEnabled: false,
                 scrollGesturesEnabled: false,
                 initialCameraPosition: CameraPosition(
                   target: LatLng(
-                    seller.location.latitude,
-                    seller.location.longitude,
+                    widget.seller.location.latitude,
+                    widget.seller.location.longitude,
                   ),
                   zoom: 16.7,
                 ),
@@ -49,123 +162,106 @@ class SellerPage extends StatelessWidget {
                   Marker(
                     markerId: const MarkerId('seller'),
                     position: LatLng(
-                      seller.location.latitude,
-                      seller.location.longitude,
+                      widget.seller.location.latitude,
+                      widget.seller.location.longitude,
                     ),
                   ),
                 },
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          )
+        ],
+      ),
+    );
+  }
+
+  buildSellerInfo() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.black12,
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundImage: CachedNetworkImageProvider(
+              widget.seller.photoUrl,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.seller.displayName,
+                style: GoogleFonts.plusJakartaSans(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
+              ),
+              Text(
+                widget.seller.email,
+                style: GoogleFonts.plusJakartaSans(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  buildProductList() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.black12,
+      ),
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: productController.product.length,
+        itemBuilder: (context, index) {
+          final product = productController.product[index];
+          if (product.sellerId == widget.seller.id) {
+            return Card(
+              child: Row(
                 children: [
-                  Text(
-                    seller.storeName,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: CachedNetworkImage(
+                      imageUrl: product.imageUrl,
+                      width: 80,
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    width: 10,
                   ),
-                  Text(
-                    seller.address,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    seller.phoneNumber,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    seller.email,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.name,
+                        style: GoogleFonts.plusJakartaSans(
+                            fontSize: 18, fontWeight: FontWeight.w500),
+                      ),
+                      Text(Formatter.priceFormat(product.price)),
+                    ],
+                  )
                 ],
               ),
-            ),
-            const Divider(
-              thickness: 1,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              'Products',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: productController.product.length,
-              itemBuilder: (context, index) {
-                final product = productController.product[index];
-                if (product.sellerId == seller.id) {
-                  return ListTile(
-                    onTap: () {
-                      Get.to(() => DetailPage(
-                            product: product,
-                            seller: seller,
-                          ));
-                    },
-                    leading: Image.network(
-                      product.imageUrl,
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(
-                      product.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      product.description,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                    trailing: Text(
-                      'Rp. ${product.price}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              },
-            ),
-          ],
-        ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
       ),
     );
   }
