@@ -38,21 +38,39 @@ class Homepage extends StatelessWidget {
               },
             );
           }),
-          bottom: TabBar(
-            tabs: categories.map((category) {
-              if (category == 'Makanan') {
-                return const Tab(
-                  icon: Icon(Icons.food_bank_rounded),
-                  text: 'Makanan',
-                );
-              } else if (category == 'Minuman') {
-                return const Tab(
-                  icon: Icon(Icons.local_drink_rounded),
-                  text: 'Minuman',
-                );
-              }
-              return Tab(text: category);
-            }).toList(),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(40),
+            child: Container(
+              width: 200,
+              height: 40,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.black12),
+              child: TabBar(
+                labelColor: Colors.white,
+                splashFactory: NoSplash.splashFactory,
+                dividerColor: Colors.transparent,
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color.fromARGB(255, 68, 151, 76),
+                ),
+                tabs: categories.map((category) {
+                  if (category == 'Makanan') {
+                    return const Tab(
+                      icon: Icon(Icons.food_bank_rounded),
+                      // text: 'Makanan',
+                    );
+                  } else if (category == 'Minuman') {
+                    return const Tab(
+                      icon: Icon(Icons.local_drink_rounded),
+                      // text: 'Minuman',
+                    );
+                  }
+                  return Tab(text: category);
+                }).toList(),
+              ),
+            ),
           ),
           actions: [
             IconButton(
@@ -142,7 +160,8 @@ class Homepage extends StatelessWidget {
                                 textAlign: TextAlign.center,
                               ),
                               subtitle: Text(
-                                Formatter.priceFormat(filteredList[index].price),
+                                Formatter.priceFormat(
+                                    filteredList[index].price),
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
@@ -201,7 +220,8 @@ class Homepage extends StatelessWidget {
                       child: ProductCard(
                         key: ValueKey(filteredList[index].id),
                         seller: sellerController.sellers.firstWhere(
-                          (element) => element.id == filteredList[index].sellerId,
+                          (element) =>
+                              element.id == filteredList[index].sellerId,
                           orElse: () => const SellerModel(),
                         ),
                         product: filteredList[index],
