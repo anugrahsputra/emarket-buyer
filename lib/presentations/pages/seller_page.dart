@@ -17,7 +17,7 @@ class SellerPage extends StatefulWidget {
 }
 
 class _SellerPageState extends State<SellerPage> with TickerProviderStateMixin {
-  late final TabController _tabController;
+  late TabController _tabController;
   GoogleMapController? _controller;
 
   final ProductController productController = Get.find<ProductController>();
@@ -46,7 +46,6 @@ class _SellerPageState extends State<SellerPage> with TickerProviderStateMixin {
           buildSellerInfo(),
           const SizedBox(height: 10),
           Container(
-            // padding: const EdgeInsets.all(10),
             height: 40,
             margin: const EdgeInsets.symmetric(horizontal: 24),
             decoration: BoxDecoration(
@@ -133,7 +132,7 @@ class _SellerPageState extends State<SellerPage> with TickerProviderStateMixin {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 15),
           Container(
             height: 250,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),

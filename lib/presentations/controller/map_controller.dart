@@ -45,7 +45,6 @@ class MapController extends GetxController {
         update();
       }
     } catch (e) {
-      // Handle any errors that occur during the polyline retrieval process
       log('Error retrieving polyline: $e');
     }
   }
