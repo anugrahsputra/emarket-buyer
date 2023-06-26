@@ -1,3 +1,4 @@
+import 'package:emarket_buyer/common/formatter.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/services.dart';
@@ -49,7 +50,7 @@ class ChekcoutPage extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Rp. ${cartController.total.toInt()}',
+                      Formatter.priceFormat(cartController.total.toInt()),
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 18,
                       ),
@@ -67,6 +68,23 @@ class ChekcoutPage extends StatelessWidget {
                     const Spacer(),
                     Text(
                       'Gratis',
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Jumlah Pesanan',
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 18,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '${cartController.cartProducts.length} Item',
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 18,
                       ),
@@ -92,23 +110,19 @@ class ChekcoutPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Rp. ${cartController.total.toInt()}',
+                        Formatter.priceFormat(cartController.total.toInt()),
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
-                      Text(
-                        'Pesanan anda (${cartController.cartProducts.length} item)',
-                        style: GoogleFonts.plusJakartaSans(fontSize: 12),
                       ),
                     ],
                   ),
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: 160,
-                  height: 60,
+                  width: 130,
+                  height: 50,
                   child: FilledButton(
                     onPressed: () async {
                       await checkoutController.newCheckout(
@@ -128,7 +142,11 @@ class ChekcoutPage extends StatelessWidget {
                       );
                       Get.toNamed('/order-success-page');
                     },
-                    child: const Text('Pesan Sekarang'),
+                    child: Text('Pesan Sekarang',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.plusJakartaSans(
+                          fontWeight: FontWeight.w600,
+                        )),
                   ),
                 ),
               ],

@@ -54,7 +54,7 @@ class CartCard extends StatelessWidget {
               Text(
                 cartModel.name,
                 style: GoogleFonts.plusJakartaSans(
-                  fontSize: 15,
+                  fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
                 overflow: TextOverflow.ellipsis,
