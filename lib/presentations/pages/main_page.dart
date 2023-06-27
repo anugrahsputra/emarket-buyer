@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
       ),
       const NavigationDestination(
         icon: Icon(Icons.receipt_long),
-        label: 'Riwayat Pesanan',
+        label: 'Pesanan',
       ),
       const NavigationDestination(
         icon: Icon(Icons.person),

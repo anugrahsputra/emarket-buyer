@@ -22,7 +22,7 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 110,
+      // height: 110,
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.only(
         left: 10,
@@ -48,32 +48,38 @@ class CartCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                cartModel.name,
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
+          Flexible(
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  cartModel.name,
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  softWrap: true,
                 ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                cartModel.storeName,
-                style: GoogleFonts.plusJakartaSans(
-                  fontWeight: FontWeight.w400,
+                Text(
+                  cartModel.storeName,
+                  style: GoogleFonts.plusJakartaSans(
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
-              const Spacer(),
-              Text(
-                Formatter.priceFormat(cartModel.price * cartModel.quantity),
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+                const SizedBox(height: 16),
+                Text(
+                  Formatter.priceFormat(cartModel.price * cartModel.quantity),
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           const Spacer(),
           Row(

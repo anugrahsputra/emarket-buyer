@@ -43,6 +43,11 @@ class CheckoutController extends GetxController {
     update();
   }
 
+  Future<void> pullToRefresh() async {
+    await Future.delayed(const Duration(seconds: 2));
+    fetchCheckout();
+  }
+
   Future<void> newCheckout(CheckoutModel checkoutModel) async {
     String id = Get.find<AuthController>().user!.uid;
 

@@ -31,7 +31,7 @@ class OrderHistoryPage extends StatelessWidget {
         ],
       ),
       body: GetBuilder<CheckoutController>(
-        init: checkoutController,
+        // init: checkoutController,
         initState: (_) {
           checkoutController.fetchCheckout();
         },
@@ -53,20 +53,23 @@ class OrderHistoryPage extends StatelessWidget {
               checkoutController.checkouts
                   .sort((a, b) => b.date.compareTo(a.date));
             }
-            return ListView.builder(
-              itemCount: checkoutController.checkouts.length,
-              itemBuilder: (context, index) {
-                const defaultSeller = SellerModel();
-                final checkout = checkoutController.checkouts[index];
-                final seller = sellerController.sellers.firstWhere(
-                  (element) => element.id == checkout.sellerId,
-                  orElse: () => defaultSeller,
-                );
-                return OrderHistoryWidget(
-                  seller: seller,
-                  checkout: checkoutController.checkouts[index],
-                );
-              },
+            return RefreshIndicator(
+              onRefresh: checkoutController.pullToRefresh,
+              child: ListView.builder(
+                itemCount: checkoutController.checkouts.length,
+                itemBuilder: (context, index) {
+                  const defaultSeller = SellerModel();
+                  final checkout = checkoutController.checkouts[index];
+                  final seller = sellerController.sellers.firstWhere(
+                    (element) => element.id == checkout.sellerId,
+                    orElse: () => defaultSeller,
+                  );
+                  return OrderHistoryWidget(
+                    seller: seller,
+                    checkout: checkoutController.checkouts[index],
+                  );
+                },
+              ),
             );
           }
         },

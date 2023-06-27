@@ -129,8 +129,8 @@ class Homepage extends StatelessWidget {
               ? GridView.builder(
                   padding: const EdgeInsets.all(10),
                   itemCount: filteredList.length,
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 150,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
                     childAspectRatio: 2 / 2,
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 20,

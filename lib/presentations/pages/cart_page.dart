@@ -26,6 +26,7 @@ class Cartpage extends StatelessWidget {
                   child: Text('Tidak ada produk'),
                 )
               : ListView.builder(
+                  shrinkWrap: true,
                   itemCount: cartController.cartProducts.length,
                   itemBuilder: (context, index) {
                     return Dismissible(

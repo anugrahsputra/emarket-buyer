@@ -69,7 +69,7 @@ class _SellerPageState extends State<SellerPage> with TickerProviderStateMixin {
             ),
           ),
           SizedBox(
-            height: 400,
+            height: 425,
             child: TabBarView(
               controller: _tabController,
               children: [
@@ -104,31 +104,37 @@ class _SellerPageState extends State<SellerPage> with TickerProviderStateMixin {
                 ),
                 child: const Icon(
                   Icons.store,
-                  size: 60,
+                  size: 70,
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.seller.storeName,
-                    style: GoogleFonts.plusJakartaSans(
-                        fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    widget.seller.phoneNumber,
-                    style: GoogleFonts.plusJakartaSans(
-                        fontSize: 18, fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    widget.seller.address,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: true,
-                    style: GoogleFonts.plusJakartaSans(
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
+              const SizedBox(
+                width: 10,
+              ),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      widget.seller.storeName,
+                      style: GoogleFonts.plusJakartaSans(
+                          fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      widget.seller.phoneNumber,
+                      style: GoogleFonts.plusJakartaSans(
+                          fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      widget.seller.address,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      style: GoogleFonts.plusJakartaSans(
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
