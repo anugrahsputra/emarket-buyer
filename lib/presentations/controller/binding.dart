@@ -14,7 +14,7 @@ class Binding extends Bindings {
     Get.lazyPut(() => LocationController(), fenix: true);
     Get.lazyPut(() => CheckoutController(), fenix: true);
     Get.lazyPut(() => DirectionController(), fenix: true);
-    Get.lazyPut(() => BottomNavbarController(), fenix: true);
+    Get.lazyPut(() => MainPageController(), fenix: true);
     Get.lazyPut(() => NetworkController(), fenix: true);
     Get.lazyPut(() => SellerController(), fenix: true);
     Get.lazyPut(() => LocationController(), fenix: true);

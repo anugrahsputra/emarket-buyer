@@ -34,6 +34,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   final CheckoutController checkoutController = Get.find<CheckoutController>();
+  final NetworkController networkController = Get.find<NetworkController>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class _MainPageState extends State<MainPage> {
         label: 'Profil',
       ),
     ];
-    return GetBuilder<BottomNavbarController>(
+    return GetBuilder<MainPageController>(
       builder: (controller) {
         return Scaffold(
           body: controller.currentPage,
