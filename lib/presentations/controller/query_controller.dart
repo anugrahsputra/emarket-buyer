@@ -8,14 +8,14 @@ class QueryController extends GetxController {
   RxString queryString = ''.obs;
   RxBool loading = false.obs;
   RxBool noResult = false.obs;
-  int pageSize = 10; // number of results per page
-  int currentPage = 1; // current page number
+  int pageSize = 10;
+  int currentPage = 1;
 
   @override
   void onInit() {
     super.onInit();
     debounce(queryString, (value) => query(value),
-        time: const Duration(milliseconds: 500));
+        time: const Duration(milliseconds: 800));
   }
 
   void setLoading(bool value) {

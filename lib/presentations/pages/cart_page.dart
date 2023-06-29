@@ -100,62 +100,64 @@ class Cartpage extends StatelessWidget {
   }
 
   buildCheckout(CartController cartController, BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 5000),
-      curve: Curves.easeInOut,
-      margin: const EdgeInsets.only(
-        left: 20,
-        right: 20,
-        bottom: 20,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: const Color(0xffb5c99a),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Text(
-                'Total:',
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 18,
-                ),
-              ),
-              const SizedBox(width: 5),
-              Text(
-                Formatter.priceFormat(cartController.total.value),
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 18,
-                ),
-              ),
-            ],
-          ),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 2000),
-            curve: Curves.easeInOut,
-            transform: cartController.cartProducts.isEmpty
-                ? Matrix4.translationValues(
-                    100,
-                    0,
-                    0,
-                  )
-                : Matrix4.translationValues(
-                    0,
-                    0,
-                    0,
+    return Obx(
+      () => AnimatedContainer(
+        duration: const Duration(milliseconds: 5000),
+        curve: Curves.easeInOut,
+        margin: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          bottom: 20,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: const Color(0xffb5c99a),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Total:',
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 16,
                   ),
-            child: FilledButton.icon(
-              onPressed: () {
-                Get.toNamed('/checkout-page');
-              },
-              icon: const Icon(Icons.shopping_cart_checkout),
-              label: const Text('Checkout'),
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  Formatter.priceFormat(cartController.total.value),
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 16,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+              transform: cartController.cartProducts.isEmpty
+                  ? Matrix4.translationValues(
+                      100,
+                      0,
+                      0,
+                    )
+                  : Matrix4.translationValues(
+                      0,
+                      0,
+                      0,
+                    ),
+              child: FilledButton.icon(
+                onPressed: () {
+                  Get.toNamed('/checkout-page');
+                },
+                icon: const Icon(Icons.shopping_cart_checkout),
+                label: const Text('Checkout'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

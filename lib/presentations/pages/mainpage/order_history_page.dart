@@ -23,9 +23,14 @@ class OrderHistoryPage extends StatelessWidget {
                 checkoutController.sortByDate.toggle();
                 checkoutController.fetchCheckout();
               },
-              child: Icon(checkoutController.sortByDate.isTrue
-                  ? MdiIcons.sortBoolAscending
-                  : MdiIcons.sortBoolDescending),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Icon(
+                  checkoutController.sortByDate.isTrue
+                      ? MdiIcons.sortBoolAscending
+                      : MdiIcons.sortBoolDescending,
+                ),
+              ),
             ),
           )
         ],

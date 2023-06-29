@@ -1,9 +1,10 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class SearchPage extends GetWidget<QueryController> {
   SearchPage({Key? key}) : super(key: key);
@@ -34,16 +35,27 @@ class SearchPage extends GetWidget<QueryController> {
           Expanded(
             child: Obx(() {
               if (controller.loading.value) {
-                return buildTextLoading();
+                return buildSearchLoading();
               } else {
                 if (controller.queryString.isEmpty) {
-                  return const Center(
-                    child: Text('Cari produk yang kamu mau'),
+                  return Center(
+                    child: Text(
+                      'Cari produk yang kamu mau',
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   );
                 } else if (controller.searchResult.isEmpty) {
                   return Center(
                     child: Text(
-                        'Aduh, ${queryController.text} sepertinya belum ada :('),
+                      'Aduh, ${queryController.text} sepertinya belum ada :(',
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   );
                 } else {
                   return ListView.builder(
@@ -72,24 +84,10 @@ class SearchPage extends GetWidget<QueryController> {
     );
   }
 
-  Center buildTextLoading() {
+  buildSearchLoading() {
     return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('Bentar ya, lagi dicari'),
-          AnimatedTextKit(
-            animatedTexts: [
-              WavyAnimatedText('...'),
-              WavyAnimatedText('...'),
-              WavyAnimatedText('...'),
-            ],
-            isRepeatingAnimation: true,
-            onTap: () {
-              debugPrint("Tap Event");
-            },
-          ),
-        ],
+      child: Lottie.asset(
+        'assets/lottie/search.json',
       ),
     );
   }
