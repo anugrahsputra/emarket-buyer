@@ -34,7 +34,7 @@ class CartCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -49,7 +49,8 @@ class CartCard extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           Flexible(
-            flex: 3,
+            flex: 2,
+            fit: FlexFit.tight,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -81,31 +82,33 @@ class CartCard extends StatelessWidget {
               ],
             ),
           ),
-          const Spacer(),
-          Row(
-            children: [
-              IconButton(
-                onPressed: onPressedMin,
-                icon: const Icon(
-                  Icons.remove,
+          Align(
+            alignment: Alignment.centerRight,
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: onPressedMin,
+                  icon: const Icon(
+                    Icons.remove,
+                  ),
+                  iconSize: 20,
                 ),
-                iconSize: 20,
-              ),
-              Text(
-                cartModel.quantity.toString(),
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+                Text(
+                  cartModel.quantity.toString(),
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              IconButton(
-                onPressed: onPressedPlus,
-                icon: const Icon(
-                  Icons.add,
-                ),
-                iconSize: 20,
-              )
-            ],
+                IconButton(
+                  onPressed: onPressedPlus,
+                  icon: const Icon(
+                    Icons.add,
+                  ),
+                  iconSize: 20,
+                )
+              ],
+            ),
           )
         ],
       ),

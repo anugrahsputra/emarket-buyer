@@ -39,7 +39,7 @@ class Routes {
     ),
     GetPage(
       name: '/order-success-page',
-      page: () => OrderSuccessPage(),
+      page: () => const OrderSuccessPage(),
     ),
     GetPage(
       name: '/edit-profile-page',

@@ -18,89 +18,121 @@ class Homepage extends StatelessWidget {
   final ProductController productController = Get.put(ProductController());
   final SellerController sellerController = Get.put(SellerController());
   final CartController cartController = Get.put(CartController());
+
   final List<String> categories = ['Makanan', 'Minuman'];
 
   @override
   Widget build(BuildContext context) {
+    final MainPageController mainPageController =
+        Get.find<MainPageController>();
     return DefaultTabController(
       length: categories.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Beranda'),
-          centerTitle: true,
-          leading: Obx(() {
-            return IconButton(
-              icon: productController.isGrid.value
-                  ? const Icon(Icons.grid_view)
-                  : const Icon(Icons.list),
-              onPressed: () {
-                productController.isGrid.toggle();
-              },
-            );
-          }),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(40),
-            child: Container(
-              width: 200,
-              height: 40,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.black12),
-              child: TabBar(
-                labelColor: Colors.white,
-                splashFactory: NoSplash.splashFactory,
-                dividerColor: Colors.transparent,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: const Color.fromARGB(255, 68, 151, 76),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    mainPageController.changePage(3);
+                  },
+                  child: Obx(() => CircleAvatar(
+                        radius: 24,
+                        backgroundImage: CachedNetworkImageProvider(
+                            buyerController.buyer.photoUrl),
+                      )),
                 ),
-                tabs: categories.map((category) {
-                  if (category == 'Makanan') {
-                    return const Tab(
-                      icon: Icon(Icons.food_bank_rounded),
-                      // text: 'Makanan',
-                    );
-                  } else if (category == 'Minuman') {
-                    return const Tab(
-                      icon: Icon(Icons.local_drink_rounded),
-                      // text: 'Minuman',
-                    );
-                  }
-                  return Tab(text: category);
-                }).toList(),
+                const SizedBox(
+                  width: 10,
+                ),
+                Obx(() => Text(greeting(buyerController))),
+              ],
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(50),
+              child: Container(
+                width: 200,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.black12),
+                child: TabBar(
+                  labelColor: Colors.white,
+                  splashFactory: NoSplash.splashFactory,
+                  dividerColor: Colors.transparent,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color.fromARGB(255, 68, 151, 76),
+                  ),
+                  tabs: categories.map((category) {
+                    if (category == 'Makanan') {
+                      return const Tab(
+                        icon: Icon(Icons.food_bank_rounded),
+                        // text: 'Makanan',
+                      );
+                    } else if (category == 'Minuman') {
+                      return const Tab(
+                        icon: Icon(Icons.local_drink_rounded),
+                        // text: 'Minuman',
+                      );
+                    }
+                    return Tab(text: category);
+                  }).toList(),
+                ),
               ),
             ),
+            actions: [
+              IconButton(
+                icon: Obx(
+                  () => badges.Badge(
+                    badgeContent: Text(
+                      cartController.cartProducts.length.toString(),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    showBadge:
+                        cartController.cartProducts.isNotEmpty ? true : false,
+                    badgeAnimation: const badges.BadgeAnimation.rotation(
+                      animationDuration: Duration(seconds: 1),
+                      colorChangeAnimationDuration: Duration(seconds: 1),
+                      loopAnimation: false,
+                      curve: Curves.fastOutSlowIn,
+                      colorChangeAnimationCurve: Curves.easeInCubic,
+                    ),
+                    child: const Icon(Icons.shopping_bag_rounded),
+                  ),
+                ),
+                onPressed: () {
+                  Get.toNamed('/cart-page');
+                },
+              ),
+            ],
           ),
-          actions: [
-            IconButton(
-              icon: Obx(
-                () => badges.Badge(
-                  badgeContent: Text(
-                    cartController.cartProducts.length.toString(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  showBadge:
-                      cartController.cartProducts.isNotEmpty ? true : false,
-                  badgeAnimation: const badges.BadgeAnimation.rotation(
-                    animationDuration: Duration(seconds: 1),
-                    colorChangeAnimationDuration: Duration(seconds: 1),
-                    loopAnimation: false,
-                    curve: Curves.fastOutSlowIn,
-                    colorChangeAnimationCurve: Curves.easeInCubic,
-                  ),
-                  child: const Icon(Icons.shopping_bag_rounded),
+          body: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Obx(() {
+                  return IconButton(
+                    icon: productController.isGrid.value
+                        ? const Icon(Icons.grid_view)
+                        : const Icon(Icons.list),
+                    onPressed: () {
+                      productController.isGrid.toggle();
+                    },
+                  );
+                }),
+              ),
+              Expanded(
+                child: TabBarView(
+                  children: categories
+                      .map((category) => buildProduct(category))
+                      .toList(),
                 ),
               ),
-              onPressed: () {
-                Get.toNamed('/cart-page');
-              },
-            ),
-          ],
-        ),
-        body: TabBarView(
-          children:
-              categories.map((category) => buildProduct(category)).toList(),
+            ],
+          ),
         ),
       ),
     );
@@ -127,6 +159,7 @@ class Homepage extends StatelessWidget {
               .toList();
           return productController.isGrid.value
               ? GridView.builder(
+                  shrinkWrap: true,
                   padding: const EdgeInsets.all(10),
                   itemCount: filteredList.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -202,6 +235,7 @@ class Homepage extends StatelessWidget {
                   },
                 )
               : ListView.builder(
+                  shrinkWrap: true,
                   itemCount: filteredList.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
@@ -234,18 +268,18 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  String greeting(BuyerModel? buyer) {
+  String greeting(BuyerController buyer) {
     var hour = DateTime.now().hour;
-    var name = buyer?.displayName;
+    var name = buyer.buyer.displayName;
     if (hour < 12) {
-      return 'Good Morning, $name';
+      return 'Selamat Pagi, \n$name';
     }
     if (hour < 15) {
-      return 'Good Afternoon, $name';
+      return 'Selamat Siang, \n$name';
     }
     if (hour < 18) {
-      return 'Good Evening, $name';
+      return 'Selamat Malam, \n$name';
     }
-    return 'Good Evening, $name';
+    return 'Selamat Malam, \n$name';
   }
 }
