@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -40,7 +41,7 @@ class _OrderSuccessPageState extends State<OrderSuccessPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Lottie.asset('assets/lottie/success.json',
-                width: 200, height: 200, repeat: false),
+                width: 200.w, height: 200.w, repeat: false),
             const SizedBox(height: 20),
             const Text(
               'Order Placed Successfully',

@@ -1,6 +1,7 @@
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -31,9 +32,9 @@ class OrderHistoryWidget extends StatelessWidget {
             ));
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 10,
+        margin: EdgeInsets.symmetric(
+          horizontal: 24.w,
+          vertical: 10.h,
         ),
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
@@ -80,11 +81,11 @@ class OrderHistoryWidget extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       MdiIcons.store,
-                      size: 18,
+                      size: 18.sp,
                     ),
-                    const SizedBox(width: 2.5),
+                    SizedBox(width: 2.5.w),
                     Text(
                       seller.storeName,
                       style: GoogleFonts.plusJakartaSans(
@@ -96,7 +97,7 @@ class OrderHistoryWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             const Divider(
               color: Colors.black,
             ),

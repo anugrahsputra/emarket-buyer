@@ -2,6 +2,7 @@ import 'package:emarket_buyer/common/formatter.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,7 +33,7 @@ class Cartpage extends StatelessWidget {
                     return Dismissible(
                       key: Key(cartController.cartProducts[index].productId),
                       background: Container(
-                        height: 110,
+                        height: 110.h,
                         alignment: Alignment.centerRight,
                         margin: const EdgeInsets.all(10),
                         padding: const EdgeInsets.all(10),
@@ -104,12 +105,12 @@ class Cartpage extends StatelessWidget {
       () => AnimatedContainer(
         duration: const Duration(milliseconds: 5000),
         curve: Curves.easeInOut,
-        margin: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-          bottom: 20,
+        margin: EdgeInsets.only(
+          left: 20.w,
+          right: 20.w,
+          bottom: 20.h,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: const Color(0xffb5c99a),
@@ -125,7 +126,7 @@ class Cartpage extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                const SizedBox(width: 5),
+                SizedBox(width: 5.w),
                 Text(
                   Formatter.priceFormat(cartController.total.value),
                   style: GoogleFonts.plusJakartaSans(

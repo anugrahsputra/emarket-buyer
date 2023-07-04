@@ -1,5 +1,6 @@
 import 'package:emarket_buyer/models/product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RecommendCard extends StatelessWidget {
   const RecommendCard({
@@ -12,9 +13,9 @@ class RecommendCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 10),
-      padding: const EdgeInsets.only(bottom: 5),
-      width: 90,
+      margin: EdgeInsets.only(right: 10.w),
+      padding: EdgeInsets.only(bottom: 5.h),
+      width: 90.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.grey[200],
@@ -28,7 +29,7 @@ class RecommendCard extends StatelessWidget {
               image: NetworkImage(
                 product.imageUrl,
               ),
-              width: 80,
+              width: 80.w,
               fit: BoxFit.cover,
             ),
           ),

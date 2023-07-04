@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -33,7 +34,7 @@ class Profilepage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildProfileCard(),
-                  const SizedBox(height: 25),
+                  SizedBox(height: 25.h),
                   title('Pengaturan Akun'),
                   buildMenuCard([
                     cards('Profil', Icons.person, () {
@@ -50,7 +51,7 @@ class Profilepage extends StatelessWidget {
                       Get.toNamed('/edit-account-page');
                     }),
                   ]),
-                  const SizedBox(height: 25),
+                  SizedBox(height: 25.h),
                   title('Lainnya'),
                   buildMenuCard([
                     cards('Bantuan', Icons.help, () {}),
@@ -83,8 +84,8 @@ class Profilepage extends StatelessWidget {
             backgroundImage:
                 CachedNetworkImageProvider(buyerController.buyer.photoUrl),
           ),
-          const SizedBox(
-            width: 10,
+          SizedBox(
+            width: 10.w,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,8 +97,8 @@ class Profilepage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(
-                height: 5,
+              SizedBox(
+                height: 5.h,
               ),
               Text(
                 buyerController.buyer.phoneNumber,
@@ -138,7 +139,7 @@ class Profilepage extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: const Color(0xfff8f9fa),
@@ -149,8 +150,8 @@ class Profilepage extends StatelessWidget {
               icon,
               color: const Color(0xff212529),
             ),
-            const SizedBox(
-              width: 10,
+            SizedBox(
+              width: 10.w,
             ),
             Text(
               title,
@@ -167,7 +168,7 @@ class Profilepage extends StatelessWidget {
 
   title(String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
       child: Text(
         title,
         style: GoogleFonts.plusJakartaSans(

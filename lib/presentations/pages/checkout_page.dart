@@ -3,6 +3,7 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -28,13 +29,13 @@ class ChekcoutPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            margin: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-              top: 10,
+            margin: EdgeInsets.only(
+              left: 10.w,
+              right: 10.w,
+              top: 10.h,
             ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
+            padding: EdgeInsets.symmetric(
+              horizontal: 10.h,
             ),
             color: ColorScheme.fromSeed(seedColor: const Color(0xffa1cca5))
                 .background,
@@ -96,11 +97,11 @@ class ChekcoutPage extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-              top: 10,
-              bottom: 20,
+            margin: EdgeInsets.only(
+              left: 10.w,
+              right: 10.w,
+              top: 10.h,
+              bottom: 20.h,
             ),
             child: Row(
               children: [
@@ -121,8 +122,8 @@ class ChekcoutPage extends StatelessWidget {
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: 130,
-                  height: 50,
+                  width: 130.w,
+                  height: 50.h,
                   child: FilledButton(
                     onPressed: () async {
                       await checkoutController.newCheckout(
@@ -170,8 +171,8 @@ class ChekcoutPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: 10.h,
               ),
               Row(
                 children: [
@@ -181,8 +182,8 @@ class ChekcoutPage extends StatelessWidget {
                       buyerController.buyer.photoUrl,
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
+                  SizedBox(
+                    width: 10.w,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,8 +205,8 @@ class ChekcoutPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 24,
+              SizedBox(
+                height: 24.h,
               ),
               Text(
                 'Alamat Delivery',
@@ -218,7 +219,7 @@ class ChekcoutPage extends StatelessWidget {
                 children: [
                   Obx(() {
                     return SizedBox(
-                      width: 250,
+                      width: 250.w,
                       child: Text(
                         buyerController.buyer.address,
                         style: GoogleFonts.plusJakartaSans(
@@ -239,7 +240,7 @@ class ChekcoutPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
               Text(
                 'Catatan',
                 style: GoogleFonts.plusJakartaSans(
@@ -247,8 +248,8 @@ class ChekcoutPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: 10.h,
               ),
               TextField(
                 controller: noteController,
@@ -265,8 +266,8 @@ class ChekcoutPage extends StatelessWidget {
                   filled: true,
                 ),
               ),
-              const SizedBox(
-                height: 40,
+              SizedBox(
+                height: 40.h,
               ),
               Text(
                 'Item keranjang',
@@ -291,8 +292,8 @@ class ChekcoutPage extends StatelessWidget {
                       child: Row(
                         children: [
                           Container(
-                            width: 100,
-                            height: 100,
+                            width: 100.w,
+                            height: 100.h,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               image: DecorationImage(
@@ -303,8 +304,8 @@ class ChekcoutPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 10,
+                          SizedBox(
+                            width: 10.w,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,8 +317,8 @@ class ChekcoutPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(
-                                height: 18,
+                              SizedBox(
+                                height: 18.h,
                               ),
                               Text(
                                 'Rp. ${cartController.cartProducts[index].price * cartController.cartProducts[index].quantity}',

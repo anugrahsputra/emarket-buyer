@@ -5,6 +5,7 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -116,13 +117,13 @@ class OrderDetailPage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(width: 24),
+            SizedBox(width: 24.w),
             Row(
               children: [
                 const Icon(MdiIcons.packageUp, color: Colors.green),
                 Container(
-                  width: 60,
-                  height: 2,
+                  width: 60.w,
+                  height: 2.h,
                   color: checkout.isProcessing == true
                       ? Colors.green
                       : Colors.grey,
@@ -138,8 +139,8 @@ class OrderDetailPage extends StatelessWidget {
                       : Colors.grey,
                 ),
                 Container(
-                  width: 60,
-                  height: 2,
+                  width: 60.w,
+                  height: 2.h,
                   color:
                       checkout.isShipping == true ? Colors.green : Colors.grey,
                 ),
@@ -153,8 +154,8 @@ class OrderDetailPage extends StatelessWidget {
                       checkout.isShipping == true ? Colors.green : Colors.grey,
                 ),
                 Container(
-                  width: 60,
-                  height: 2,
+                  width: 60.w,
+                  height: 2.h,
                   color:
                       checkout.isDelivered == true ? Colors.green : Colors.grey,
                 ),
@@ -169,10 +170,10 @@ class OrderDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(width: 24),
+            SizedBox(width: 24.w),
           ],
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
       ],
     );
   }
@@ -191,8 +192,8 @@ class OrderDetailPage extends StatelessWidget {
         ),
         buildProgress(),
         buildSellerInfo(),
-        const SizedBox(
-          height: 10,
+        SizedBox(
+          height: 10.h,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -221,7 +222,7 @@ class OrderDetailPage extends StatelessWidget {
 
   buildSellerInfo() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: 24.h),
       child: Row(
         children: [
           CircleAvatar(
@@ -261,8 +262,8 @@ class OrderDetailPage extends StatelessWidget {
                   seller.location.latitude, seller.location.longitude);
             },
             icon: Container(
-              height: 50,
-              width: 50,
+              height: 50.h,
+              width: 50.w,
               decoration: BoxDecoration(
                 color: const Color(0xffb5c99a),
                 borderRadius: BorderRadius.circular(8),

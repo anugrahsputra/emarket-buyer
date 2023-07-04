@@ -14,6 +14,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -82,27 +83,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialBinding: Binding(),
-      title: 'Emarket Buyer',
-      theme: ThemeData(
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFa1cca5)),
-        textTheme: GoogleFonts.plusJakartaSansTextTheme(),
-        filledButtonTheme: FilledButtonThemeData(
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      builder: (context, child) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialBinding: Binding(),
+          title: 'Emarket Buyer',
+          theme: ThemeData(
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            useMaterial3: true,
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xFFa1cca5)),
+            textTheme: GoogleFonts.plusJakartaSansTextTheme(),
+            filledButtonTheme: FilledButtonThemeData(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
-      home: Root(),
-      getPages: Routes.routes,
+          home: Root(),
+          getPages: Routes.routes,
+        );
+      },
     );
   }
 }

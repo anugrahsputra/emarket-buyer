@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class Loading extends StatelessWidget {
@@ -16,8 +17,8 @@ class Loading extends StatelessWidget {
           () => loading.value
               ? Center(
                   child: Container(
-                    width: 120,
-                    height: 120,
+                    width: 120.w,
+                    height: 120.h,
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.5),
                       borderRadius: const BorderRadius.all(Radius.circular(10)),

@@ -5,6 +5,7 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 // *note: Need a better UX for this page
@@ -27,9 +28,9 @@ class _HomepageState extends State<Homepage> {
 
   final CartController cartController = Get.put(CartController());
 
-  final List<String> categories = ['All', 'Makanan', 'Minuman'];
+  final List<String> categories = ['Semua', 'Makanan', 'Minuman'];
 
-  String selectedCategory = 'All';
+  String selectedCategory = 'Semua';
 
   @override
   Widget build(BuildContext context) {
@@ -109,24 +110,23 @@ class _HomepageState extends State<Homepage> {
                     spacing: 5,
                     children: categories.map((category) {
                       return FilterChip(
+                        showCheckmark: false,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          side: BorderSide.none,
+                        ),
+                        disabledColor: Colors.black12,
                         label: Text(category),
                         selected: selectedCategory == category,
                         onSelected: (isSelected) {
                           setState(() {
-                            selectedCategory = isSelected ? category : 'All';
+                            selectedCategory = isSelected ? category : 'Semua';
                           });
                         },
                       );
                     }).toList()),
               ],
             ),
-            // Expanded(
-            //   child: TabBarView(
-            //     children: categories
-            //         .map((category) => buildProduct(category))
-            //         .toList(),
-            //   ),
-            // ),
             Expanded(
               child: buildProduct(selectedCategory),
             ),
@@ -153,7 +153,8 @@ class _HomepageState extends State<Homepage> {
       child: Obx(
         () {
           final filteredList = productController.product
-              .where((product) => filter == 'All' || product.category == filter)
+              .where(
+                  (product) => filter == 'Semua' || product.category == filter)
               .toList();
           return productController.isGrid.value
               ? GridView.builder(
@@ -193,8 +194,8 @@ class _HomepageState extends State<Homepage> {
                               subtitle: Text(
                                 Formatter.priceFormat(
                                     filteredList[index].price),
-                                style: const TextStyle(
-                                  fontSize: 16,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),

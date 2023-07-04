@@ -2,6 +2,7 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -29,7 +30,7 @@ class DetailPage extends StatelessWidget {
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 300,
+            expandedHeight: 300.h,
             flexibleSpace: FlexibleSpaceBar(
               background: Image.network(
                 product.imageUrl,
@@ -37,13 +38,13 @@ class DetailPage extends StatelessWidget {
               ),
             ),
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(95),
+              preferredSize: Size.fromHeight(95.h),
               child: Container(
-                padding: const EdgeInsets.only(
-                  left: 24,
-                  right: 24,
-                  top: 20,
-                  bottom: 10,
+                padding: EdgeInsets.only(
+                  left: 24.w,
+                  right: 24.w,
+                  top: 20.w,
+                  bottom: 10.w,
                 ),
                 width: double.maxFinite,
                 decoration: BoxDecoration(
@@ -74,7 +75,7 @@ class DetailPage extends StatelessWidget {
                             fontSize: 16,
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         GestureDetector(
                           child: Row(
                             children: [
@@ -82,7 +83,7 @@ class DetailPage extends StatelessWidget {
                                 Icons.store,
                                 size: 16,
                               ),
-                              const SizedBox(width: 5),
+                              SizedBox(width: 5.w),
                               Text(
                                 seller.storeName,
                                 style: const TextStyle(
@@ -105,9 +106,9 @@ class DetailPage extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 10,
+              padding: EdgeInsets.symmetric(
+                horizontal: 24.w,
+                vertical: 10.h,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,14 +120,14 @@ class DetailPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: 10.h,
                   ),
                   ExpandedText(
                     text: product.description,
                   ),
-                  const SizedBox(
-                    height: 15,
+                  SizedBox(
+                    height: 15.h,
                   ),
                   controller.product.length < 2
                       ? const SizedBox()
@@ -156,13 +157,13 @@ class DetailPage extends StatelessWidget {
                     );
                   } else {
                     return Container(
-                      margin: const EdgeInsets.only(
-                        left: 24,
-                        right: 24,
-                        bottom: 24,
+                      margin: EdgeInsets.only(
+                        left: 24.w,
+                        right: 24.w,
+                        bottom: 24.h,
                       ),
-                      height: 150,
-                      width: 80,
+                      height: 150.h,
+                      width: 80.w,
                       child: ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
@@ -198,14 +199,14 @@ class DetailPage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 20,
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+          horizontal: 20.w,
         ),
         child: FilledButton.icon(
           style: ButtonStyle(
             fixedSize: MaterialStateProperty.all(
-              const Size(170, 50),
+              Size(170.w, 50.h),
             ),
           ),
           onPressed: () {

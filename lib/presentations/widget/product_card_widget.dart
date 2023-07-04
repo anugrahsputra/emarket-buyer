@@ -6,6 +6,7 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ProductCard extends StatelessWidget {
@@ -25,10 +26,10 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(
-        left: 10,
-        right: 10,
-        top: 5,
+      margin: EdgeInsets.only(
+        left: 10.w,
+        right: 10.w,
+        top: 5.h,
       ),
       child: Card(
         color: const Color(0xffdee2e6),
@@ -42,14 +43,14 @@ class ProductCard extends StatelessWidget {
                   image: CachedNetworkImageProvider(
                     product.imageUrl,
                   ),
-                  width: 80,
-                  height: 80,
+                  width: 80.w,
+                  height: 80.h,
                   fit: BoxFit.cover,
                 ),
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,8 +62,8 @@ class ProductCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(
-                        height: 18,
+                      SizedBox(
+                        height: 18.h,
                       ),
                       Text(
                         Formatter.priceFormat(product.price),

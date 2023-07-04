@@ -6,6 +6,7 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -67,7 +68,7 @@ class _MapWIdgetState extends State<MapWIdget> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(24),
-      height: 350,
+      height: 350.h,
       decoration: BoxDecoration(
         color: Colors.grey,
         borderRadius: BorderRadius.circular(14),

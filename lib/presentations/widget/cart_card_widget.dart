@@ -1,6 +1,7 @@
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -42,12 +43,12 @@ class CartCard extends StatelessWidget {
               image: NetworkImage(
                 cartModel.imageUrl,
               ),
-              width: 90,
-              height: 90,
+              width: 90.w,
+              height: 90.h,
               fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10.w),
           Flexible(
             flex: 2,
             fit: FlexFit.tight,
@@ -58,7 +59,7 @@ class CartCard extends StatelessWidget {
                 Text(
                   cartModel.name,
                   style: GoogleFonts.plusJakartaSans(
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -71,7 +72,7 @@ class CartCard extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Text(
                   Formatter.priceFormat(cartModel.price * cartModel.quantity),
                   style: GoogleFonts.plusJakartaSans(
@@ -96,7 +97,7 @@ class CartCard extends StatelessWidget {
                 Text(
                   cartModel.quantity.toString(),
                   style: GoogleFonts.plusJakartaSans(
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
