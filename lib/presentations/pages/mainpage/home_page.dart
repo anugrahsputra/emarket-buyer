@@ -8,18 +8,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // *note: Need a better UX for this page
-// todo: Make a list of Sellers instead of a list of Products
 
-class Homepage extends StatelessWidget {
-  Homepage({Key? key}) : super(key: key);
+class Homepage extends StatefulWidget {
+  const Homepage({Key? key}) : super(key: key);
 
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
   final AuthController controller = Get.put(AuthController());
+
   final BuyerController buyerController = Get.put(BuyerController());
+
   final ProductController productController = Get.put(ProductController());
+
   final SellerController sellerController = Get.put(SellerController());
+
   final CartController cartController = Get.put(CartController());
 
-  final List<String> categories = ['Makanan', 'Minuman'];
+  final List<String> categories = ['All', 'Makanan', 'Minuman'];
+
+  String selectedCategory = 'All';
 
   @override
   Widget build(BuildContext context) {
@@ -27,112 +37,100 @@ class Homepage extends StatelessWidget {
         Get.find<MainPageController>();
     return DefaultTabController(
       length: categories.length,
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Row(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  mainPageController.changePage(3);
+                },
+                child: Obx(() => CircleAvatar(
+                      radius: 24,
+                      backgroundImage: CachedNetworkImageProvider(
+                          buyerController.buyer.photoUrl),
+                    )),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Obx(() => Text(greeting(buyerController))),
+            ],
+          ),
+          // bottom: PreferredSize(
+          //   preferredSize: const Size.fromHeight(50),
+          //   child: TextFormField(),
+          // ),
+          actions: [
+            IconButton(
+              icon: Obx(
+                () => badges.Badge(
+                  badgeContent: Text(
+                    cartController.cartProducts.length.toString(),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  showBadge:
+                      cartController.cartProducts.isNotEmpty ? true : false,
+                  badgeAnimation: const badges.BadgeAnimation.rotation(
+                    animationDuration: Duration(seconds: 1),
+                    colorChangeAnimationDuration: Duration(seconds: 1),
+                    loopAnimation: false,
+                    curve: Curves.fastOutSlowIn,
+                    colorChangeAnimationCurve: Curves.easeInCubic,
+                  ),
+                  child: const Icon(Icons.shopping_bag_rounded),
+                ),
+              ),
+              onPressed: () {
+                Get.toNamed('/cart-page');
+              },
+            ),
+          ],
+        ),
+        body: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    mainPageController.changePage(3);
-                  },
-                  child: Obx(() => CircleAvatar(
-                        radius: 24,
-                        backgroundImage: CachedNetworkImageProvider(
-                            buyerController.buyer.photoUrl),
-                      )),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Obx(() {
+                    return IconButton(
+                      icon: productController.isGrid.value
+                          ? const Icon(Icons.grid_view)
+                          : const Icon(Icons.list),
+                      onPressed: () {
+                        productController.isGrid.toggle();
+                      },
+                    );
+                  }),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Obx(() => Text(greeting(buyerController))),
+                Wrap(
+                    spacing: 5,
+                    children: categories.map((category) {
+                      return FilterChip(
+                        label: Text(category),
+                        selected: selectedCategory == category,
+                        onSelected: (isSelected) {
+                          setState(() {
+                            selectedCategory = isSelected ? category : 'All';
+                          });
+                        },
+                      );
+                    }).toList()),
               ],
             ),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(50),
-              child: Container(
-                width: 200,
-                height: 40,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.black12),
-                child: TabBar(
-                  labelColor: Colors.white,
-                  splashFactory: NoSplash.splashFactory,
-                  dividerColor: Colors.transparent,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: const Color.fromARGB(255, 68, 151, 76),
-                  ),
-                  tabs: categories.map((category) {
-                    if (category == 'Makanan') {
-                      return const Tab(
-                        icon: Icon(Icons.food_bank_rounded),
-                        // text: 'Makanan',
-                      );
-                    } else if (category == 'Minuman') {
-                      return const Tab(
-                        icon: Icon(Icons.local_drink_rounded),
-                        // text: 'Minuman',
-                      );
-                    }
-                    return Tab(text: category);
-                  }).toList(),
-                ),
-              ),
+            // Expanded(
+            //   child: TabBarView(
+            //     children: categories
+            //         .map((category) => buildProduct(category))
+            //         .toList(),
+            //   ),
+            // ),
+            Expanded(
+              child: buildProduct(selectedCategory),
             ),
-            actions: [
-              IconButton(
-                icon: Obx(
-                  () => badges.Badge(
-                    badgeContent: Text(
-                      cartController.cartProducts.length.toString(),
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    showBadge:
-                        cartController.cartProducts.isNotEmpty ? true : false,
-                    badgeAnimation: const badges.BadgeAnimation.rotation(
-                      animationDuration: Duration(seconds: 1),
-                      colorChangeAnimationDuration: Duration(seconds: 1),
-                      loopAnimation: false,
-                      curve: Curves.fastOutSlowIn,
-                      colorChangeAnimationCurve: Curves.easeInCubic,
-                    ),
-                    child: const Icon(Icons.shopping_bag_rounded),
-                  ),
-                ),
-                onPressed: () {
-                  Get.toNamed('/cart-page');
-                },
-              ),
-            ],
-          ),
-          body: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Obx(() {
-                  return IconButton(
-                    icon: productController.isGrid.value
-                        ? const Icon(Icons.grid_view)
-                        : const Icon(Icons.list),
-                    onPressed: () {
-                      productController.isGrid.toggle();
-                    },
-                  );
-                }),
-              ),
-              Expanded(
-                child: TabBarView(
-                  children: categories
-                      .map((category) => buildProduct(category))
-                      .toList(),
-                ),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -155,7 +153,7 @@ class Homepage extends StatelessWidget {
       child: Obx(
         () {
           final filteredList = productController.product
-              .where((product) => product.category == filter)
+              .where((product) => filter == 'All' || product.category == filter)
               .toList();
           return productController.isGrid.value
               ? GridView.builder(
