@@ -59,6 +59,21 @@ class QueryController extends GetxController {
     noResult.value = false;
   }
 
+  Future<List<String>> getSuggestion(String pattern) async {
+    final QuerySnapshot snapshot = await _firestore
+        .collectionGroup('products')
+        .orderBy('name')
+        .startAt([pattern])
+        .endAt(['$pattern\uf8ff'])
+        .limit(5)
+        .get();
+
+    List<String> suggestion =
+        snapshot.docs.map((doc) => doc.get('name') as String).toList();
+
+    return suggestion;
+  }
+
   void clear() {
     queryString.value = '';
     searchResult.value = [];

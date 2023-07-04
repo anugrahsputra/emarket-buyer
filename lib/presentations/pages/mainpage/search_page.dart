@@ -3,6 +3,7 @@ import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -21,23 +22,39 @@ class SearchPage extends GetWidget<QueryController> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            padding: EdgeInsets.only(
+              left: 13.w,
+              right: 13.w,
+              bottom: 10.h,
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: TextField(
-                controller: queryController,
-                onChanged: (value) {
-                  controller.updateQuery(value);
-                },
-                decoration: const InputDecoration(
-                  fillColor: Colors.black12,
-                  filled: true,
-                  hintText: 'Cari barang',
-                  border: InputBorder.none,
-                  prefixIcon: Icon(
-                    Icons.search,
+              child: TypeAheadField(
+                textFieldConfiguration: TextFieldConfiguration(
+                  controller: queryController,
+                  onChanged: (value) {
+                    controller.updateQuery(value);
+                  },
+                  decoration: const InputDecoration(
+                    fillColor: Colors.black12,
+                    filled: true,
+                    hintText: 'Cari barang',
+                    border: InputBorder.none,
+                    prefixIcon: Icon(Icons.search),
                   ),
                 ),
+                suggestionsCallback: (pattern) async {
+                  return await controller.getSuggestion(pattern);
+                },
+                itemBuilder: (context, itemData) {
+                  return ListTile(
+                    title: Text(itemData),
+                  );
+                },
+                onSuggestionSelected: (selected) {
+                  queryController.text = selected;
+                  controller.updateQuery(selected);
+                },
               ),
             ),
           ),
