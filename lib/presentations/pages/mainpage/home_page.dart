@@ -107,15 +107,15 @@ class _HomepageState extends State<Homepage> {
                   }),
                 ),
                 Wrap(
-                    spacing: 5,
+                    spacing: 6,
                     children: categories.map((category) {
                       return FilterChip(
                         showCheckmark: false,
+                        side: BorderSide.none,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide.none,
                         ),
-                        disabledColor: Colors.black12,
+                        backgroundColor: Colors.black12,
                         label: Text(category),
                         selected: selectedCategory == category,
                         onSelected: (isSelected) {

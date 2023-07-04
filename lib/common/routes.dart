@@ -11,7 +11,7 @@ class Routes {
     ),
     GetPage(
       name: '/home',
-      page: () => Homepage(),
+      page: () => const Homepage(),
     ),
     GetPage(
       name: '/search-page',

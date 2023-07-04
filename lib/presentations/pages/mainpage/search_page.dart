@@ -2,6 +2,7 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -20,15 +21,23 @@ class SearchPage extends GetWidget<QueryController> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: TextField(
-              controller: queryController,
-              onChanged: (value) {
-                controller.updateQuery(value);
-              },
-              decoration: const InputDecoration(
-                hintText: 'Cari barang',
-                border: OutlineInputBorder(),
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: TextField(
+                controller: queryController,
+                onChanged: (value) {
+                  controller.updateQuery(value);
+                },
+                decoration: const InputDecoration(
+                  fillColor: Colors.black12,
+                  filled: true,
+                  hintText: 'Cari barang',
+                  border: InputBorder.none,
+                  prefixIcon: Icon(
+                    Icons.search,
+                  ),
+                ),
               ),
             ),
           ),
@@ -48,14 +57,19 @@ class SearchPage extends GetWidget<QueryController> {
                     ),
                   );
                 } else if (controller.searchResult.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'Aduh, ${queryController.text} sepertinya belum ada :(',
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Lottie.asset('assets/lottie/no_result.json',
+                          width: 150.w),
+                      Text(
+                        'Aduh, ${queryController.text} sepertinya belum ada :(',
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
+                    ],
                   );
                 } else {
                   return ListView.builder(

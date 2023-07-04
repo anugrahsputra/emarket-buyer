@@ -7,7 +7,7 @@ import '../../models/model.dart';
 class ProductController extends GetxController {
   final Database database = Database();
   RxBool loading = false.obs;
-  RxBool isGrid = false.obs;
+  RxBool isGrid = true.obs;
   final GlobalKey<RefreshIndicatorState> refreshKey =
       GlobalKey<RefreshIndicatorState>();
 

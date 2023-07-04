@@ -34,7 +34,7 @@ class QueryController extends GetxController {
 
     QuerySnapshot snapshot = await _firestore
         .collectionGroup('products')
-        .orderBy('query')
+        .orderBy('name')
         .startAt([query])
         .endAt(['$query\uf8ff'])
         .limit(endIndex)

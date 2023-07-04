@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 class MainPageController extends GetxController {
   final NetworkController networkController = Get.find<NetworkController>();
-  Widget currentPage = Homepage();
+  Widget currentPage = const Homepage();
   var tabIndex = 0.obs;
 
   Widget get getCurrentPage => currentPage;
@@ -21,7 +21,7 @@ class MainPageController extends GetxController {
     tabIndex.value = index;
     switch (index) {
       case 0:
-        currentPage = Homepage();
+        currentPage = const Homepage();
         queryClear;
         update();
         break;
@@ -40,7 +40,7 @@ class MainPageController extends GetxController {
         update();
         break;
       default:
-        currentPage = Homepage();
+        currentPage = const Homepage();
         queryClear;
         update();
     }
