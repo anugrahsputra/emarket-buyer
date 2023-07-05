@@ -40,14 +40,14 @@ class BuyerController extends GetxController {
 
   Future<void> fetchBuyer() async {
     try {
-      loading.value = true;
+      setLoading(true);
       final User user = FirebaseAuth.instance.currentUser!;
       buyer = await database.getBuyer(user.uid);
       update();
     } catch (e) {
       debugPrint(e.toString());
     } finally {
-      loading.value = false;
+      setLoading(false);
     }
   }
 

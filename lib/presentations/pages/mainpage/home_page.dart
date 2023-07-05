@@ -7,6 +7,7 @@ import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 // *note: Need a better UX for this page
 
@@ -46,22 +47,18 @@ class _HomepageState extends State<Homepage> {
                 onTap: () {
                   mainPageController.changePage(3);
                 },
-                child: Obx(() => CircleAvatar(
-                      radius: 24,
-                      backgroundImage: CachedNetworkImageProvider(
-                          buyerController.buyer.photoUrl),
-                    )),
+                child: CircleAvatar(
+                  radius: 24,
+                  backgroundImage: CachedNetworkImageProvider(
+                      buyerController.buyer.photoUrl),
+                ),
               ),
               const SizedBox(
                 width: 10,
               ),
-              Obx(() => Text(greeting(buyerController))),
+              greetingWidgets(buyerController),
             ],
           ),
-          // bottom: PreferredSize(
-          //   preferredSize: const Size.fromHeight(50),
-          //   child: TextFormField(),
-          // ),
           actions: [
             IconButton(
               icon: Obx(
@@ -267,18 +264,71 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  String greeting(BuyerController buyer) {
+  greetingWidgets(BuyerController buyer) {
     var hour = DateTime.now().hour;
     var name = buyer.buyer.displayName;
+
     if (hour < 12) {
-      return 'Selamat Pagi, \n$name';
+      return Obx(
+        () => buyer.loading.isTrue
+            ? _buildLoading()
+            : _buildGreeting(greeting: 'Selamat Pagi', name: name),
+      );
     }
     if (hour < 15) {
-      return 'Selamat Siang, \n$name';
+      return Obx(
+        () => buyer.loading.isTrue
+            ? _buildLoading()
+            : _buildGreeting(greeting: 'Selamat sore', name: name),
+      );
     }
     if (hour < 18) {
-      return 'Selamat Malam, \n$name';
+      return Obx(
+        () => buyer.loading.isTrue
+            ? _buildLoading()
+            : _buildGreeting(greeting: 'Selamat Malam', name: name),
+      );
     }
-    return 'Selamat Malam, \n$name';
+    return Obx(
+      () => buyer.loading.isTrue
+          ? _buildLoading()
+          : _buildGreeting(greeting: 'Selamat Malam', name: name),
+    );
+  }
+
+  _buildGreeting({required String greeting, required String name}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(greeting),
+        Text(name),
+      ],
+    );
+  }
+
+  _buildLoading() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Shimmer.fromColors(
+          baseColor: const Color(0xffa5a5a5),
+          highlightColor: const Color(0xfff8f9fa),
+          child: Container(
+            width: 40.w,
+            height: 20.h,
+            color: const Color(0xff212529),
+          ),
+        ),
+        Shimmer.fromColors(
+          baseColor: const Color(0xffa5a5a5),
+          highlightColor: const Color(0xfff8f9fa),
+          child: Container(
+            width: 25.w,
+            height: 20.h,
+            color: const Color(0xff212529),
+          ),
+        )
+      ],
+    );
   }
 }
