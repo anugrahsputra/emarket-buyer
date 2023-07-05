@@ -7,9 +7,8 @@ import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 
-// *note: Need a better UX for this page
+// *note: Need a better UI for this page
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -37,6 +36,7 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     final MainPageController mainPageController =
         Get.find<MainPageController>();
+    final BuyerController buyerController = Get.find<BuyerController>();
     return DefaultTabController(
       length: categories.length,
       child: Scaffold(
@@ -47,16 +47,16 @@ class _HomepageState extends State<Homepage> {
                 onTap: () {
                   mainPageController.changePage(3);
                 },
-                child: CircleAvatar(
-                  radius: 24,
-                  backgroundImage: CachedNetworkImageProvider(
-                      buyerController.buyer.photoUrl),
-                ),
+                child: Obx(() => CircleAvatar(
+                      radius: 24,
+                      backgroundImage: CachedNetworkImageProvider(
+                          buyerController.buyer.photoUrl),
+                    )),
               ),
-              const SizedBox(
-                width: 10,
+              SizedBox(
+                width: 10.w,
               ),
-              greetingWidgets(buyerController),
+              Obx(() => Text(greeting(buyerController))),
             ],
           ),
           actions: [
@@ -104,13 +104,13 @@ class _HomepageState extends State<Homepage> {
                   }),
                 ),
                 Wrap(
-                    spacing: 6,
+                    spacing: 6.w,
                     children: categories.map((category) {
                       return FilterChip(
                         showCheckmark: false,
                         side: BorderSide.none,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
+                          borderRadius: BorderRadius.circular(20.0.r),
                         ),
                         backgroundColor: Colors.black12,
                         label: Text(category),
@@ -179,7 +179,7 @@ class _HomepageState extends State<Homepage> {
                         );
                       },
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: GridTile(
                           key: ValueKey(filteredList[index].id),
                           footer: GridTileBar(
@@ -191,8 +191,8 @@ class _HomepageState extends State<Homepage> {
                               subtitle: Text(
                                 Formatter.priceFormat(
                                     filteredList[index].price),
-                                style: TextStyle(
-                                  fontSize: 16.sp,
+                                style: const TextStyle(
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -264,71 +264,18 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  greetingWidgets(BuyerController buyer) {
+  String greeting(BuyerController buyer) {
     var hour = DateTime.now().hour;
     var name = buyer.buyer.displayName;
-
     if (hour < 12) {
-      return Obx(
-        () => buyer.loading.isTrue
-            ? _buildLoading()
-            : _buildGreeting(greeting: 'Selamat Pagi', name: name),
-      );
+      return 'Selamat Pagi, \n$name';
     }
     if (hour < 15) {
-      return Obx(
-        () => buyer.loading.isTrue
-            ? _buildLoading()
-            : _buildGreeting(greeting: 'Selamat sore', name: name),
-      );
+      return 'Selamat Siang, \n$name';
     }
     if (hour < 18) {
-      return Obx(
-        () => buyer.loading.isTrue
-            ? _buildLoading()
-            : _buildGreeting(greeting: 'Selamat Malam', name: name),
-      );
+      return 'Selamat Malam, \n$name';
     }
-    return Obx(
-      () => buyer.loading.isTrue
-          ? _buildLoading()
-          : _buildGreeting(greeting: 'Selamat Malam', name: name),
-    );
-  }
-
-  _buildGreeting({required String greeting, required String name}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(greeting),
-        Text(name),
-      ],
-    );
-  }
-
-  _buildLoading() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Shimmer.fromColors(
-          baseColor: const Color(0xffa5a5a5),
-          highlightColor: const Color(0xfff8f9fa),
-          child: Container(
-            width: 40.w,
-            height: 20.h,
-            color: const Color(0xff212529),
-          ),
-        ),
-        Shimmer.fromColors(
-          baseColor: const Color(0xffa5a5a5),
-          highlightColor: const Color(0xfff8f9fa),
-          child: Container(
-            width: 25.w,
-            height: 20.h,
-            color: const Color(0xff212529),
-          ),
-        )
-      ],
-    );
+    return 'Selamat Malam, \n$name';
   }
 }
