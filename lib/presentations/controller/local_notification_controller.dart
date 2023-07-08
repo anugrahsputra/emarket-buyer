@@ -18,7 +18,7 @@ class LocalNotificationController extends GetxController {
   }
 
   startTimer() async {
-    timer = Timer.periodic(const Duration(seconds: 10), (Timer t) {
+    timer = Timer.periodic(const Duration(hours: 6), (Timer t) {
       checkCart();
     });
   }

@@ -22,7 +22,7 @@ class SellerModel extends Equatable {
     this.photoUrl = '',
   });
 
-  factory SellerModel.fromSnapshot(DocumentSnapshot snap) {
+  factory SellerModel.fromDocument(DocumentSnapshot snap) {
     return SellerModel(
       id: snap.id,
       displayName: snap['displayName'],
@@ -35,7 +35,7 @@ class SellerModel extends Equatable {
     );
   }
 
-  Map<String, dynamic> toDocument() {
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'displayName': displayName,

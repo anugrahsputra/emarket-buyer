@@ -77,7 +77,7 @@ class CheckoutModel extends Equatable {
     };
   }
 
-  factory CheckoutModel.fromSnapshot(DocumentSnapshot map) {
+  factory CheckoutModel.fromDocument(DocumentSnapshot map) {
     return CheckoutModel(
       id: map['id'],
       buyerId: map['buyerId'],

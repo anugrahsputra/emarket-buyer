@@ -20,7 +20,7 @@ class BuyerModel extends Equatable {
     this.photoUrl = '',
   });
 
-  factory BuyerModel.fromSnapshot(DocumentSnapshot snapshot) {
+  factory BuyerModel.fromDocument(DocumentSnapshot snapshot) {
     return BuyerModel(
       id: snapshot.id,
       location: LocationModel.fromMap(snapshot['location']),

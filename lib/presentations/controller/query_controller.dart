@@ -53,7 +53,7 @@ class QueryController extends GetxController {
         .sublist(startIndex, endIndex < totalResults ? endIndex : totalResults);
 
     searchResult.value =
-        pageResults.map((doc) => Product.fromSnapshot(doc)).toList();
+        pageResults.map((doc) => Product.fromDocument(doc)).toList();
     currentPage = page;
     setLoading(false);
     noResult.value = false;

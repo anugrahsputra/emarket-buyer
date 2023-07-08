@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
@@ -24,7 +22,7 @@ class Product extends Equatable {
     this.quantity = 0,
   });
 
-  factory Product.fromSnapshot(DocumentSnapshot snap) {
+  factory Product.fromDocument(DocumentSnapshot snap) {
     return Product(
       id: snap.id,
       sellerId: snap['sellerId'],
@@ -83,6 +81,4 @@ class Product extends Equatable {
         price,
         quantity,
       ];
-
-  String toJson() => json.encode(toMap());
 }

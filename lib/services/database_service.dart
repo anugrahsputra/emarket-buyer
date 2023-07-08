@@ -26,7 +26,7 @@ class Database {
     try {
       DocumentSnapshot snapshot =
           await _firestore.collection('buyers').doc(id).get();
-      return BuyerModel.fromSnapshot(snapshot);
+      return BuyerModel.fromDocument(snapshot);
     } catch (e) {
       debugPrint(e.toString());
       return const BuyerModel();
@@ -47,7 +47,7 @@ class Database {
   // seller
   Stream<List<SellerModel>> fetchAllSellers() {
     return _firestore.collection('sellers').snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => SellerModel.fromSnapshot(doc)).toList());
+        snapshot.docs.map((doc) => SellerModel.fromDocument(doc)).toList());
   }
 
   Stream<List<Product>> fetchProductsBySellers(String sellerId) {
@@ -57,13 +57,13 @@ class Database {
         .collection('products')
         .snapshots()
         .map((snapshot) =>
-            snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
+            snapshot.docs.map((doc) => Product.fromDocument(doc)).toList());
   }
 
   // product stream
   Stream<List<Product>> fetchProducts() {
     return _firestore.collectionGroup('products').snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
+        snapshot.docs.map((doc) => Product.fromDocument(doc)).toList());
   }
 
   Future<void> searchProducts(String searchText) async {
@@ -73,7 +73,7 @@ class Database {
           .where('name', isGreaterThanOrEqualTo: searchText)
           .where('name', isLessThanOrEqualTo: '$searchText\uf8ff')
           .get();
-      snapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList();
+      snapshot.docs.map((doc) => Product.fromDocument(doc)).toList();
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -134,7 +134,7 @@ class Database {
         .collection('checkout')
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => CheckoutModel.fromSnapshot(doc))
+            .map((doc) => CheckoutModel.fromDocument(doc))
             .toList());
   }
 
@@ -146,7 +146,7 @@ class Database {
         .where('isDelivered', isEqualTo: isDone)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => CheckoutModel.fromSnapshot(doc))
+            .map((doc) => CheckoutModel.fromDocument(doc))
             .toList());
   }
 

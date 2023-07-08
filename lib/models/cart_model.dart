@@ -40,18 +40,6 @@ class CartModel extends Equatable {
     );
   }
 
-  toMap() {
-    return {
-      'name': name,
-      'sellerId': sellerId,
-      'productId': productId,
-      'price': price,
-      'imageUrl': imageUrl,
-      'storeName': storeName,
-      'quantity': quantity,
-    };
-  }
-
   factory CartModel.fromMap(Map<String, dynamic> map) {
     return CartModel(
       name: map['name'] ?? '',
@@ -62,6 +50,18 @@ class CartModel extends Equatable {
       storeName: map['storeName'] ?? '',
       quantity: int.parse(map['quantity'].toString()),
     );
+  }
+
+  toMap() {
+    return {
+      'name': name,
+      'sellerId': sellerId,
+      'productId': productId,
+      'price': price,
+      'imageUrl': imageUrl,
+      'storeName': storeName,
+      'quantity': quantity,
+    };
   }
 
   @override
