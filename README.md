@@ -2,6 +2,7 @@
 This is a Flutter project developed as a thesis to fulfill the graduation requirements for a Bachelor's degree in Informatics Engineering at Universitas Pasundan (Pasundan University). There are two applications in this project, namely the [E-Market Seller application](https://github.com/anugrahsputra/emarket-seller.git) and the [E-Market Buyer application.](https://github.com/anugrahsputra/emarket-buyer.git)
 
 ## E-Market Buyer Application
+<img src="assets/shot/Dribbble shot - 1.png" alt="Image" style="border-radius:1%"/>
 The E-Market Buyer mobile application is designed for buyers who want to purchase products online from the E-Market platform. This application caters to the needs of people residing in Kecamatan Malingping.
 
 ## Target Users: People in Kecamatan Malingping
@@ -12,6 +13,8 @@ The E-Market Buyer mobile application aims to provide a convenient platform for 
     - [x] Login
     - [x] Register
     - [ ] Forgot Password
+    - [ ] Email Verification
+    - [ ] Phone Verification
 - Browse Available Products
     - [x] List view
     - [x] Grid view
@@ -20,6 +23,8 @@ The E-Market Buyer mobile application aims to provide a convenient platform for 
     - [x] Detail Products
     - [x] Add Product to cart
 - Purchasing Products
+    - [x] Checkout Information Detail
+    - [x] Order History
     - [x] Delivery Tracking
 
 
@@ -47,8 +52,18 @@ The E-Market Buyer mobile application aims to provide a convenient platform for 
 You can see the packages used in this project inside the file [pubspec.yaml](pubspec.yaml).
 
 ## Screenshots
+<p align="center">
+    <img src="assets/screenshot/splash.jpg" alt="Image" width="250"/>
+    <img src="assets/screenshot/homepage.jpg" alt="Image" width="250"/>
+    <img src="assets/screenshot/cart.jpg" alt="Image" width="250"/>
+    <img src="assets/screenshot/order.jpg" alt="Image" width="250"/>
+    <img src="assets/screenshot/profile.jpg" alt="Image" width="250"/>
+    <img src="assets/screenshot/cartscreen.jpg" alt="Image" width="250"/>
+    <img src="assets/screenshot/checkout.jpg" alt="Image" width="250"/>
+    <img src="assets/screenshot/detailorder.jpg" alt="Image" width="250"/>
+    
+</p>
 
-Insert relevant screenshots here to showcase the user interface and key features of your application.
 
 ## Installation and Usage
 
