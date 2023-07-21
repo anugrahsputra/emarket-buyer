@@ -42,18 +42,19 @@ class AuthController extends GetxController {
     );
     BuyerModel buyer = BuyerModel(
       id: credential.user!.uid,
-      displayName: credential.user!.displayName ?? displayname!,
+      displayName: displayname!,
       phoneNumber: Formatter.phoneFormat(phoneNumber!),
       location: location,
       address: address,
-      email: credential.user!.email!,
-      photoUrl: credential.user!.photoURL == null
-          ? 'https://ui-avatars.com/api/?rounded=true?name=$displayname'
-          : "${credential.user!.photoURL!}?width=400",
+      email: email!,
+      photoUrl:
+          'https://ui-avatars.com/api/?background=random&name=$displayname',
     );
     debugPrint(buyer.location.toString());
     await _auth.currentUser!.updateDisplayName(displayname);
     await _auth.currentUser!.updatePhotoURL(photoUrl);
+    Get.find<BuyerController>().buyer = buyer;
+    Get.find<BuyerController>().update();
     await Database().createNewBuyer(buyer);
   }
 
@@ -64,7 +65,7 @@ class AuthController extends GetxController {
           .createUserWithEmailAndPassword(email: email!, password: password!)
           .then((user) => saveUser(user));
 
-      Get.toNamed('/');
+      Get.offNamedUntil('/', (route) => false);
       loading.value = false;
     } catch (e) {
       loading.value = false;

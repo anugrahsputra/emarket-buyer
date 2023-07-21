@@ -18,7 +18,10 @@ class Profilepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profil'),
+        title: Text(
+          'Profil',
+          style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
+        ),
       ),
       body: GetBuilder<BuyerController>(
         init: buyerController,

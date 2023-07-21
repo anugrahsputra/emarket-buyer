@@ -5,10 +5,12 @@ import 'package:emarket_buyer/common/common.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image/image.dart' as IMG;
 
 class MapWIdget extends StatefulWidget {
   const MapWIdget({
@@ -25,8 +27,29 @@ class MapWIdget extends StatefulWidget {
 
 class _MapWIdgetState extends State<MapWIdget> {
   final Completer<GoogleMapController> _controller = Completer();
+  final MapController mapController = Get.find<MapController>();
+  BitmapDescriptor sourceIcon = BitmapDescriptor.defaultMarker;
+  BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
 
   List<LatLng> polylineCoordinates = [];
+  Set<Marker> markers = {};
+
+  Uint8List? resizeImage(Uint8List data, width, height) {
+    Uint8List? resizedData = data;
+    IMG.Image? img = IMG.decodeImage(data);
+    IMG.Image resized = IMG.copyResize(img!, width: width, height: height);
+    resizedData = Uint8List.fromList(IMG.encodePng(resized));
+    return resizedData;
+  }
+
+  void setMarkerIcon() {
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration.empty, 'assets/icon/pin.png')
+        .then((icon) => sourceIcon = icon);
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration.empty, 'assets/icon/user.png')
+        .then((icon) => destinationIcon = icon);
+  }
 
   void getPolyline() async {
     try {
@@ -61,6 +84,7 @@ class _MapWIdgetState extends State<MapWIdget> {
   @override
   void initState() {
     getPolyline();
+    setMarkerIcon();
     super.initState();
   }
 
@@ -95,11 +119,12 @@ class _MapWIdgetState extends State<MapWIdget> {
                           widget.seller.location.longitude) /
                       2,
                 ),
-                zoom: 15,
+                zoom: 14.6,
               ),
               markers: {
                 Marker(
                   markerId: const MarkerId('buyerLoc'),
+                  icon: destinationIcon,
                   position: LatLng(
                     widget.buyer.location.latitude,
                     widget.buyer.location.longitude,
@@ -111,6 +136,7 @@ class _MapWIdgetState extends State<MapWIdget> {
                 ),
                 Marker(
                   markerId: const MarkerId('sellerLoc'),
+                  icon: sourceIcon,
                   position: LatLng(
                     widget.seller.location.latitude,
                     widget.seller.location.longitude,
@@ -125,7 +151,10 @@ class _MapWIdgetState extends State<MapWIdget> {
                 Polyline(
                   polylineId: const PolylineId("route"),
                   points: polylineCoordinates,
-                  color: Colors.greenAccent,
+                  color: Colors.redAccent,
+                  geodesic: true,
+                  jointType: JointType.round,
+                  zIndex: 1,
                   width: 4,
                 ),
               },

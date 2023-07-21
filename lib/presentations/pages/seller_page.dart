@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SellerPage extends StatefulWidget {
   const SellerPage({Key? key, required this.seller}) : super(key: key);
@@ -68,8 +70,8 @@ class _SellerPageState extends State<SellerPage> with TickerProviderStateMixin {
               ],
             ),
           ),
-          SizedBox(
-            height: 425,
+          Flexible(
+            fit: FlexFit.tight,
             child: TabBarView(
               controller: _tabController,
               children: [
@@ -94,84 +96,101 @@ class _SellerPageState extends State<SellerPage> with TickerProviderStateMixin {
         borderRadius: BorderRadius.circular(16),
         color: Colors.black12,
       ),
-      child: Column(
+      child: Stack(
         children: [
-          Row(
+          Column(
             children: [
-              Container(
-                decoration: BoxDecoration(
+              Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Icon(
+                      Icons.store,
+                      size: 70,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          widget.seller.storeName,
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 20, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          widget.seller.phoneNumber,
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          widget.seller.address,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          style: GoogleFonts.plusJakartaSans(
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Expanded(
+                child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Icon(
-                  Icons.store,
-                  size: 70,
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      widget.seller.storeName,
-                      style: GoogleFonts.plusJakartaSans(
-                          fontSize: 20, fontWeight: FontWeight.w600),
+                  child: GoogleMap(
+                    zoomControlsEnabled: false,
+                    zoomGesturesEnabled: false,
+                    mapToolbarEnabled: false,
+                    onMapCreated: (controller) {
+                      setState(() {
+                        _controller = controller;
+                      });
+                    },
+                    minMaxZoomPreference: const MinMaxZoomPreference(1, 20),
+                    rotateGesturesEnabled: false,
+                    scrollGesturesEnabled: false,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        widget.seller.location.latitude,
+                        widget.seller.location.longitude,
+                      ),
+                      zoom: 16.7,
                     ),
-                    Text(
-                      widget.seller.phoneNumber,
-                      style: GoogleFonts.plusJakartaSans(
-                          fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      widget.seller.address,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
-                      style: GoogleFonts.plusJakartaSans(
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId('seller'),
+                        position: LatLng(
+                          widget.seller.location.latitude,
+                          widget.seller.location.longitude,
+                        ),
+                      ),
+                    },
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 15),
-          Container(
-            height: 250,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: GoogleMap(
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: false,
-                mapToolbarEnabled: false,
-                onMapCreated: (controller) {
-                  setState(() {
-                    _controller = controller;
-                  });
-                },
-                minMaxZoomPreference: const MinMaxZoomPreference(1, 20),
-                rotateGesturesEnabled: false,
-                scrollGesturesEnabled: false,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                    widget.seller.location.latitude,
-                    widget.seller.location.longitude,
-                  ),
-                  zoom: 16.7,
-                ),
-                markers: {
-                  Marker(
-                    markerId: const MarkerId('seller'),
-                    position: LatLng(
-                      widget.seller.location.latitude,
-                      widget.seller.location.longitude,
-                    ),
-                  ),
-                },
+          Positioned(
+            bottom: 5,
+            right: 5,
+            child: IconButton.filled(
+              onPressed: () {
+                MapsLauncher.launchCoordinates(
+                  widget.seller.location.latitude,
+                  widget.seller.location.longitude,
+                );
+              },
+              icon: const Icon(
+                Icons.map,
               ),
             ),
           )
@@ -269,5 +288,19 @@ class _SellerPageState extends State<SellerPage> with TickerProviderStateMixin {
         },
       ),
     );
+  }
+}
+
+class MapUtils {
+  MapUtils._();
+
+  static Future<void> openMap(double latitude, double longitude) async {
+    String mapUrl =
+        'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude';
+    if (await canLaunchUrl(Uri.parse(mapUrl))) {
+      await launchUrl(Uri.parse(mapUrl));
+    } else {
+      throw 'Could not open the map.';
+    }
   }
 }

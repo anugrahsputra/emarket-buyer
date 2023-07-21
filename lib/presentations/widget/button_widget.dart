@@ -16,13 +16,14 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
+      height: 50,
       child: FilledButton(
         onPressed: onPressed,
         child: Text(
           title,
           style: GoogleFonts.plusJakartaSans(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w400,
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),

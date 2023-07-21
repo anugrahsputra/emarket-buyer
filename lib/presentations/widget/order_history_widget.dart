@@ -20,12 +20,6 @@ class OrderHistoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // if (checkout.isProcessing) {
-        //   Get.to(() => OrderDetailPage(
-        //         checkout: checkout,
-        //         seller: seller,
-        //       ));
-        // }
         Get.to(() => OrderDetailPage(
               checkout: checkout,
               seller: seller,
@@ -59,7 +53,12 @@ class OrderHistoryWidget extends StatelessWidget {
                     ),
                     const Spacer(),
                     checkout.isCancelled == true
-                        ? const Text('Cancelled')
+                        ? Text(
+                            'Dibatalkan',
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: 14,
+                            ),
+                          )
                         : checkout.isDelivered == true
                             ? Text(
                                 'Sudah diterima',

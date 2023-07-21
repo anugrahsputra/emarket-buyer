@@ -49,6 +49,8 @@ class SearchPage extends GetWidget<QueryController> {
                 itemBuilder: (context, itemData) {
                   return ListTile(
                     title: Text(itemData),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
                   );
                 },
                 onSuggestionSelected: (selected) {

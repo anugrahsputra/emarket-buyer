@@ -64,6 +64,48 @@ class OrderDetailPage extends StatelessWidget {
     );
   }
 
+  buildOrderContents() {
+    log('origin: ${directionController.origin.value}');
+    log('destination: ${directionController.destination.value}');
+    final durationFormatted = directionController.duration.value >= 3600
+        ? '${(directionController.duration.value ~/ 3600)} jam ${(directionController.duration.value % 3600) ~/ 60} menit'
+        : '${(directionController.duration.value ~/ 60)} menit';
+    return Column(
+      children: [
+        MapWIdget(
+          buyer: buyerController.buyer,
+          seller: seller,
+        ),
+        buildProgress(),
+        buildSellerInfo(),
+        SizedBox(
+          height: 10.h,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            children: [
+              Text(
+                'Estimasi Waktu Sampai: ',
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              const Spacer(),
+              Text(
+                durationFormatted,
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 16, fontWeight: FontWeight.w500),
+              )
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
+    );
+  }
+
   button(BuildContext context) {
     return FilledButton.icon(
       onPressed: () {
@@ -174,48 +216,6 @@ class OrderDetailPage extends StatelessWidget {
           ],
         ),
         SizedBox(height: 24.h),
-      ],
-    );
-  }
-
-  buildOrderContents() {
-    log('origin: ${directionController.origin.value}');
-    log('destination: ${directionController.destination.value}');
-    final durationFormatted = directionController.duration.value >= 3600
-        ? '${(directionController.duration.value ~/ 3600)} jam ${(directionController.duration.value % 3600) ~/ 60} menit'
-        : '${(directionController.duration.value ~/ 60)} menit';
-    return Column(
-      children: [
-        MapWIdget(
-          buyer: buyerController.buyer,
-          seller: seller,
-        ),
-        buildProgress(),
-        buildSellerInfo(),
-        SizedBox(
-          height: 10.h,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
-            children: [
-              Text(
-                'Estimasi Waktu Sampai: ',
-                style: GoogleFonts.plusJakartaSans(
-                    fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-              const Spacer(),
-              Text(
-                durationFormatted,
-                style: GoogleFonts.plusJakartaSans(
-                    fontSize: 16, fontWeight: FontWeight.w500),
-              )
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
       ],
     );
   }

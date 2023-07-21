@@ -1,7 +1,9 @@
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SigninPage extends GetWidget<AuthController> {
   SigninPage({Key? key}) : super(key: key);
@@ -15,13 +17,21 @@ class SigninPage extends GetWidget<AuthController> {
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.95,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: Loading(
                 loading: controller.loading,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 180),
+                    SizedBox(height: 100.h),
+                    Text(
+                      'Masuk',
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 60,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    SizedBox(height: 100.h),
                     Form(
                       key: _formKey,
                       child: Column(
@@ -45,7 +55,7 @@ class SigninPage extends GetWidget<AuthController> {
                               controller.email = value!;
                             },
                           ),
-                          const SizedBox(height: 15),
+                          SizedBox(height: 15.h),
                           Fields(
                             obscureText: true,
                             keyboardType: TextInputType.visiblePassword,
@@ -66,27 +76,31 @@ class SigninPage extends GetWidget<AuthController> {
                               controller.password = value!;
                             },
                           ),
-                          const SizedBox(height: 10),
-                          ButtonWidget(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-                                controller.signIn();
-                              }
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            },
-                            title: 'Masuk',
-                          ),
                         ],
                       ),
                     ),
                     const Spacer(),
-                    BottomTextWidget(
-                      onTap: () {
-                        Get.toNamed('/signup');
-                      },
-                      text1: 'Belum Punya Akun?',
-                      text2: 'Daftar',
+                    Column(
+                      children: [
+                        BottomTextWidget(
+                          onTap: () {
+                            Get.toNamed('/signup');
+                          },
+                          text1: 'Belum Punya Akun?',
+                          text2: 'Daftar',
+                        ),
+                        SizedBox(height: 15.h),
+                        ButtonWidget(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              controller.signIn();
+                            }
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          title: 'Masuk',
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -36,7 +36,6 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     final MainPageController mainPageController =
         Get.find<MainPageController>();
-    final BuyerController buyerController = Get.find<BuyerController>();
     return DefaultTabController(
       length: categories.length,
       child: Scaffold(

@@ -31,6 +31,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -75,6 +76,7 @@ Future<void> main() async {
   await AndroidAlarmManager.initialize();
   await localNotificationHelper
       .initNotifications(flutterLocalNotificationsPlugin);
+
   runApp(const MyApp());
 }
 
@@ -92,9 +94,10 @@ class MyApp extends StatelessWidget {
           title: 'Emarket Buyer',
           theme: ThemeData(
             visualDensity: VisualDensity.adaptivePlatformDensity,
+            scaffoldBackgroundColor: const Color(0xFFFFFDFA),
             useMaterial3: true,
             colorScheme:
-                ColorScheme.fromSeed(seedColor: const Color(0xFFa1cca5)),
+                ColorScheme.fromSeed(seedColor: const Color(0xFFFFFDFA)),
             textTheme: GoogleFonts.plusJakartaSansTextTheme(),
             filledButtonTheme: FilledButtonThemeData(
               style: ButtonStyle(
@@ -114,7 +117,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Root extends GetWidget<AuthController> {
+class Root extends StatelessWidget {
   Root({super.key});
 
   final LocationController locationController = Get.put(LocationController());
@@ -122,12 +125,9 @@ class Root extends GetWidget<AuthController> {
   @override
   Widget build(BuildContext context) {
     return GetX<AuthController>(
-      initState: (_) async {
-        Get.put<BuyerController>(BuyerController());
-      },
       builder: (_) {
         return locationController.isInsideGeoFence
-            ? controller.user?.uid != null
+            ? _.user?.uid != null
                 ? Get.find<NetworkController>().connectionStatus == 1 ||
                         Get.find<NetworkController>().connectionStatus == 2
                     ? const MainPage(initialIndex: 0)

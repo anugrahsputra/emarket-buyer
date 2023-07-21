@@ -18,7 +18,7 @@ class MapController extends GetxController {
   }
 
   void getPolyline() async {
-    await buyerController.fetchBuyer();
+    buyerController.fetchBuyer();
     sellerController.fetchSellers();
     try {
       PolylinePoints polylinePoints = PolylinePoints();

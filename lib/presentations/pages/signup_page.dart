@@ -1,7 +1,9 @@
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SignUpPage extends GetWidget<AuthController> {
   final _formKey = GlobalKey<FormState>();
@@ -18,14 +20,22 @@ class SignUpPage extends GetWidget<AuthController> {
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.95,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: Loading(
                 loading: controller.loading,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 180,
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                    Text(
+                      'Daftar',
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 60,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
                     ),
                     Form(
                       key: _formKey,
@@ -50,8 +60,8 @@ class SignUpPage extends GetWidget<AuthController> {
                               controller.displayname = value!;
                             },
                           ),
-                          const SizedBox(
-                            height: 15,
+                          SizedBox(
+                            height: 15.h,
                           ),
                           Fields(
                             keyboardType: TextInputType.emailAddress,
@@ -72,8 +82,8 @@ class SignUpPage extends GetWidget<AuthController> {
                               controller.email = value!;
                             },
                           ),
-                          const SizedBox(
-                            height: 15,
+                          SizedBox(
+                            height: 15.h,
                           ),
                           Fields(
                             keyboardType: TextInputType.phone,
@@ -94,8 +104,8 @@ class SignUpPage extends GetWidget<AuthController> {
                               controller.phoneNumber = value!;
                             },
                           ),
-                          const SizedBox(
-                            height: 15,
+                          SizedBox(
+                            height: 15.h,
                           ),
                           Fields(
                             obscureText: true,
@@ -117,30 +127,35 @@ class SignUpPage extends GetWidget<AuthController> {
                               controller.password = value!;
                             },
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          ButtonWidget(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-                                await controller.signUp();
-                              }
-                              await locationController.getCurrentLocation();
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            },
-                            title: 'Daftar',
-                          ),
                         ],
                       ),
                     ),
                     const Spacer(),
-                    BottomTextWidget(
-                      onTap: () {
-                        Get.back();
-                      },
-                      text1: 'SUdah Punya Akun?',
-                      text2: 'Masuk',
+                    Column(
+                      children: [
+                        BottomTextWidget(
+                          onTap: () {
+                            Get.back();
+                          },
+                          text1: 'SUdah Punya Akun?',
+                          text2: 'Masuk',
+                        ),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        ButtonWidget(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              await locationController.getCurrentLocation();
+                              controller.signUp();
+                            }
+
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          title: 'Daftar',
+                        ),
+                      ],
                     )
                   ],
                 ),

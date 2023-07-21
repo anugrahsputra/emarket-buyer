@@ -3,6 +3,7 @@ import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class OrderHistoryPage extends StatelessWidget {
@@ -15,7 +16,10 @@ class OrderHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Riwayat Pesanan'),
+        title: Text(
+          'Pesanan',
+          style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
+        ),
         actions: [
           Obx(
             () => GestureDetector(
@@ -24,9 +28,9 @@ class OrderHistoryPage extends StatelessWidget {
                 checkoutController.fetchCheckout();
               },
               child: Padding(
-                padding: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.only(right: 20),
                 child: Icon(
-                  checkoutController.sortByDate.isTrue
+                  checkoutController.sortByDate.value
                       ? MdiIcons.sortBoolAscending
                       : MdiIcons.sortBoolDescending,
                 ),
@@ -36,7 +40,6 @@ class OrderHistoryPage extends StatelessWidget {
         ],
       ),
       body: GetBuilder<CheckoutController>(
-        // init: checkoutController,
         initState: (_) {
           checkoutController.fetchCheckout();
         },
