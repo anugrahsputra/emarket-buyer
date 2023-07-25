@@ -12,6 +12,7 @@ export 'pages/mainpage/search_page.dart';
 export 'pages/noconnection_page.dart';
 export 'pages/order_detail_page.dart';
 export 'pages/order_success_page.dart';
+export 'pages/rate_screen.dart';
 export 'pages/seller_page.dart';
 export 'pages/signin_in_page.dart';
 export 'pages/signup_page.dart';

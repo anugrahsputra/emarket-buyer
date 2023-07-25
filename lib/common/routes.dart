@@ -42,6 +42,10 @@ class Routes {
       page: () => const OrderSuccessPage(),
     ),
     GetPage(
+      name: '/thankyou-screen',
+      page: () => const ThankYouScreen(),
+    ),
+    GetPage(
       name: '/edit-profile-page',
       page: () => EditProfilePage(
         buyer: Get.arguments,
@@ -54,6 +58,13 @@ class Routes {
     GetPage(
       name: '/seller-page',
       page: () => SellerPage(
+        seller: Get.arguments,
+      ),
+    ),
+    GetPage(
+      name: '/rate-screen',
+      page: () => RateScreen(
+        checkout: Get.arguments,
         seller: Get.arguments,
       ),
     ),

@@ -11,7 +11,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:rating_dialog/rating_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailPage extends StatelessWidget {
@@ -115,38 +114,6 @@ class OrderDetailPage extends StatelessWidget {
   }
 
   button(BuildContext context) {
-    final dialog = RatingDialog(
-      title: Text(
-        'Beri rating',
-        style: GoogleFonts.plusJakartaSans(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-        textAlign: TextAlign.center,
-      ),
-      message: Text(
-        'Gimana nih, barangnya bagus gak?',
-        style: GoogleFonts.plusJakartaSans(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-        ),
-        textAlign: TextAlign.center,
-      ),
-      starSize: 30,
-      enableComment: false,
-      submitButtonText: 'Kirim',
-      onSubmitted: (response) {
-        for (var cartItem in checkout.cart) {
-          final productId = cartItem.productId;
-          productController.rateProduct(seller.id, productId, response.rating);
-        }
-        // Map<String, dynamic> data = {
-        //   'isDelivered': true,
-        // };
-        // checkoutContoller.updateStatus(checkout, data);
-        Get.back();
-      },
-    );
     return FilledButton.icon(
       onPressed: () {
         showDialog(
@@ -168,11 +135,8 @@ class OrderDetailPage extends StatelessWidget {
                   };
                   checkoutContoller.updateStatus(checkout, data);
                   Get.back();
-                  showDialog(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (context) => dialog,
-                  );
+
+                  Get.off(() => RateScreen(checkout: checkout, seller: seller));
                 },
                 child: Text(
                   'Terima',
