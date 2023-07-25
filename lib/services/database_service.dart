@@ -66,6 +66,24 @@ class Database {
         snapshot.docs.map((doc) => Product.fromDocument(doc)).toList());
   }
 
+  Future<void> productRating(String sellerId, String productId,
+      double newRating, int newNumRating) async {
+    try {
+      await _firestore
+          .collection('sellers')
+          .doc(sellerId)
+          .collection('products')
+          .doc(productId)
+          .update({
+        'rating': newRating,
+        'numRatings': newNumRating,
+      });
+    } catch (e) {
+      debugPrint('Database.updateProductRating: $e');
+      rethrow;
+    }
+  }
+
   Future<void> searchProducts(String searchText) async {
     try {
       QuerySnapshot snapshot = await _firestore

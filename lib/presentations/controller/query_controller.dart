@@ -34,7 +34,7 @@ class QueryController extends GetxController {
 
     QuerySnapshot snapshot = await _firestore
         .collectionGroup('products')
-        .orderBy('name')
+        .orderBy('query')
         .startAt([query])
         .endAt(['$query\uf8ff'])
         .limit(endIndex)
@@ -55,14 +55,16 @@ class QueryController extends GetxController {
     searchResult.value =
         pageResults.map((doc) => Product.fromDocument(doc)).toList();
     currentPage = page;
-    setLoading(false);
     noResult.value = false;
+
+    await getSuggestion(query);
+    setLoading(false);
   }
 
   Future<List<String>> getSuggestion(String pattern) async {
     final QuerySnapshot snapshot = await _firestore
         .collectionGroup('products')
-        .orderBy('name')
+        .orderBy('query')
         .startAt([pattern])
         .endAt(['$pattern\uf8ff'])
         .limit(5)

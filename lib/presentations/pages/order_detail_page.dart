@@ -11,16 +11,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailPage extends StatelessWidget {
-  OrderDetailPage({super.key, required this.checkout, required this.seller});
+  OrderDetailPage({
+    super.key,
+    required this.checkout,
+    required this.seller,
+  });
 
   final CheckoutModel checkout;
   final SellerModel seller;
   final BuyerController buyerController = Get.put(BuyerController());
   final SellerController sellerController = Get.put(SellerController());
   final CheckoutController checkoutContoller = Get.put(CheckoutController());
+  final ProductController productController = Get.put(ProductController());
   final DirectionController directionController =
       Get.put(DirectionController());
 
@@ -36,6 +42,7 @@ class OrderDetailPage extends StatelessWidget {
     );
     log('seller: ${seller.location.latitude} ${seller.location.longitude}');
     log('buyer: ${buyerController.buyer.location.latitude} ${buyerController.buyer.location.longitude}');
+
     return GetBuilder<DirectionController>(
       init: directionController,
       initState: (_) {
@@ -82,7 +89,7 @@ class OrderDetailPage extends StatelessWidget {
           height: 10.h,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(horizontal: 24.h),
           child: Row(
             children: [
               Text(
@@ -102,11 +109,44 @@ class OrderDetailPage extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
+        buildProductList(),
       ],
     );
   }
 
   button(BuildContext context) {
+    final dialog = RatingDialog(
+      title: Text(
+        'Beri rating',
+        style: GoogleFonts.plusJakartaSans(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      message: Text(
+        'Gimana nih, barangnya bagus gak?',
+        style: GoogleFonts.plusJakartaSans(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      starSize: 30,
+      enableComment: false,
+      submitButtonText: 'Kirim',
+      onSubmitted: (response) {
+        for (var cartItem in checkout.cart) {
+          final productId = cartItem.productId;
+          productController.rateProduct(seller.id, productId, response.rating);
+        }
+        // Map<String, dynamic> data = {
+        //   'isDelivered': true,
+        // };
+        // checkoutContoller.updateStatus(checkout, data);
+        Get.back();
+      },
+    );
     return FilledButton.icon(
       onPressed: () {
         showDialog(
@@ -128,7 +168,11 @@ class OrderDetailPage extends StatelessWidget {
                   };
                   checkoutContoller.updateStatus(checkout, data);
                   Get.back();
-                  Get.back();
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (context) => dialog,
+                  );
                 },
                 child: Text(
                   'Terima',
@@ -150,6 +194,42 @@ class OrderDetailPage extends StatelessWidget {
       },
       icon: const Icon(MdiIcons.packageCheck),
       label: const Text('Selesai'),
+    );
+  }
+
+  buildProductList() {
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: checkout.cart.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.h),
+          child: ListTile(
+            leading: Image.network(
+              checkout.cart[index].imageUrl,
+            ),
+            title: Text(
+              checkout.cart[index].name,
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 14,
+              ),
+            ),
+            subtitle: Text(
+              checkout.cart[index].price.toString(),
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 14,
+              ),
+            ),
+            trailing: Text(
+              checkout.cart[index].quantity.toString(),
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 14,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 

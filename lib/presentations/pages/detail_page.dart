@@ -2,6 +2,7 @@ import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -75,6 +76,21 @@ class DetailPage extends StatelessWidget {
                             fontSize: 16,
                           ),
                         ),
+                        Row(
+                          children: [
+                            RatingBarIndicator(
+                              rating: product.rating,
+                              itemBuilder: (context, index) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 20.0,
+                              direction: Axis.horizontal,
+                            ),
+                            Text('(${product.numRatings})'),
+                          ],
+                        ),
                         SizedBox(height: 10.h),
                         GestureDetector(
                           child: Row(
@@ -98,7 +114,7 @@ class DetailPage extends StatelessWidget {
                           },
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

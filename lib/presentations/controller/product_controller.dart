@@ -36,6 +36,23 @@ class ProductController extends GetxController {
     }
   }
 
+  void rateProduct(String sellerId, String productId, double rating) async {
+    try {
+      setLoading(true);
+      final selectedProduct =
+          product.firstWhere((product) => product.id == productId);
+      final newRating =
+          (selectedProduct.rating * selectedProduct.numRatings + rating) /
+              (selectedProduct.numRatings + 1);
+      final newNumRating = selectedProduct.numRatings + 1;
+      await database.productRating(
+          sellerId, productId, newRating, newNumRating);
+      getProducts();
+    } catch (e) {
+      debugPrint('ProductController.rateProduct: $e');
+    }
+  }
+
   Future<void> pullToRefresh() async {
     await Future.delayed(const Duration(seconds: 2));
     getProducts();

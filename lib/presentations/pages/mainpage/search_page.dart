@@ -33,7 +33,8 @@ class SearchPage extends GetWidget<QueryController> {
                 textFieldConfiguration: TextFieldConfiguration(
                   controller: queryController,
                   onChanged: (value) {
-                    controller.updateQuery(value);
+                    String lowerCase = value.toLowerCase();
+                    controller.updateQuery(lowerCase);
                   },
                   decoration: const InputDecoration(
                     fillColor: Colors.black12,
@@ -44,7 +45,8 @@ class SearchPage extends GetWidget<QueryController> {
                   ),
                 ),
                 suggestionsCallback: (pattern) async {
-                  return await controller.getSuggestion(pattern);
+                  String lowerCasePattern = pattern.toLowerCase();
+                  return await controller.getSuggestion(lowerCasePattern);
                 },
                 itemBuilder: (context, itemData) {
                   return ListTile(
@@ -55,7 +57,8 @@ class SearchPage extends GetWidget<QueryController> {
                 },
                 onSuggestionSelected: (selected) {
                   queryController.text = selected;
-                  controller.updateQuery(selected);
+                  String lowerCase = selected.toLowerCase();
+                  controller.updateQuery(lowerCase);
                 },
               ),
             ),
