@@ -10,7 +10,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image/image.dart' as IMG;
+import 'package:image/image.dart' as img;
 
 class MapWIdget extends StatefulWidget {
   const MapWIdget({
@@ -36,9 +36,9 @@ class _MapWIdgetState extends State<MapWIdget> {
 
   Uint8List? resizeImage(Uint8List data, width, height) {
     Uint8List? resizedData = data;
-    IMG.Image? img = IMG.decodeImage(data);
-    IMG.Image resized = IMG.copyResize(img!, width: width, height: height);
-    resizedData = Uint8List.fromList(IMG.encodePng(resized));
+    img.Image? image = img.decodeImage(data);
+    img.Image resized = img.copyResize(image!, width: width, height: height);
+    resizedData = Uint8List.fromList(img.encodePng(resized));
     return resizedData;
   }
 
