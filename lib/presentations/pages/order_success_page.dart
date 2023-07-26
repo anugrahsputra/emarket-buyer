@@ -21,7 +21,7 @@ class _OrderSuccessPageState extends State<OrderSuccessPage> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 6),
+      const Duration(seconds: 4),
       () {
         Get.offAll(
           () => const MainPage(initialIndex: 1),
@@ -40,7 +40,7 @@ class _OrderSuccessPageState extends State<OrderSuccessPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset('assets/lottie/success.json',
+            Lottie.asset('assets/lottie/checkout.json',
                 width: 200.w, height: 200.w, repeat: false),
             const SizedBox(height: 20),
             const Text(

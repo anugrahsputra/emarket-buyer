@@ -201,7 +201,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 3),
+      const Duration(seconds: 4),
       () {
         Get.offAll(() => const MainPage(initialIndex: 1),
             predicate: (route) => false, transition: Transition.upToDown);
@@ -212,7 +212,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.greenAccent[100],
+      backgroundColor: const Color.fromARGB(255, 103, 233, 107),
       body: Center(
           child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -220,7 +220,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Terima Kasih!',
+              'Makasih ya!',
               style: GoogleFonts.plusJakartaSans(
                   fontSize: 30, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,

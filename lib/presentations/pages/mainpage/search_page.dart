@@ -17,7 +17,10 @@ class SearchPage extends GetWidget<QueryController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cari'),
+        title: Text(
+          'Cari',
+          style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Column(
         children: [

@@ -30,9 +30,9 @@ class OrderHistoryPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Icon(
-                  checkoutController.sortByDate.value
-                      ? MdiIcons.sortBoolAscending
-                      : MdiIcons.sortBoolDescending,
+                  checkoutController.sortByDate.isTrue
+                      ? MdiIcons.sortBoolDescendingVariant
+                      : MdiIcons.sortBoolAscendingVariant,
                 ),
               ),
             ),
@@ -54,12 +54,12 @@ class OrderHistoryPage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else {
-            if (checkoutController.sortByDate.isFalse) {
-              checkoutController.checkouts
-                  .sort((a, b) => a.date.compareTo(b.date));
-            } else {
+            if (checkoutController.sortByDate.isTrue) {
               checkoutController.checkouts
                   .sort((a, b) => b.date.compareTo(a.date));
+            } else {
+              checkoutController.checkouts
+                  .sort((a, b) => a.date.compareTo(b.date));
             }
             return RefreshIndicator(
               onRefresh: checkoutController.pullToRefresh,
