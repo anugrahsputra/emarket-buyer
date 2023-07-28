@@ -44,6 +44,15 @@ class Database {
     }
   }
 
+  Stream<List<BuyerModel>> fetchAllBuyers() {
+    return _firestore.collection('buyers').snapshots().map((snapshot) {
+      final buyersList =
+          snapshot.docs.map((doc) => BuyerModel.fromDocument(doc)).toList();
+      log('Fetched buyers: ${buyersList.length}');
+      return buyersList;
+    });
+  }
+
   // seller
   Stream<List<SellerModel>> fetchAllSellers() {
     return _firestore.collection('sellers').snapshots().map((snapshot) =>
@@ -82,6 +91,31 @@ class Database {
       debugPrint('Database.updateProductRating: $e');
       rethrow;
     }
+  }
+
+  Future<bool?> addComment(ProductCommentModel comment) async {
+    try {
+      await _firestore
+          .collection('sellers')
+          .doc(comment.sellerId)
+          .collection('products')
+          .doc(comment.productId)
+          .collection('comment')
+          .doc(comment.id)
+          .set(comment.toDocument());
+      log('database service: comment added');
+      return true;
+    } catch (e) {
+      log('database service: error adding comment $e');
+      return false;
+    }
+  }
+
+  Stream<List<ProductCommentModel>> fetchComment() {
+    return _firestore.collectionGroup('comment').snapshots().map((snapshot) =>
+        snapshot.docs
+            .map((doc) => ProductCommentModel.fromDocument(doc))
+            .toList());
   }
 
   Future<void> searchProducts(String searchText) async {

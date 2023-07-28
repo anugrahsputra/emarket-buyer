@@ -20,9 +20,15 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProductController controller = Get.put(ProductController());
+    final BuyerController buyerController = Get.put(BuyerController());
+
     final sellerProducts = controller.product
         .where((product) => product.sellerId == seller.id)
         .toList();
+    final comments = controller.productComment
+        .where((comment) => comment.productId == product.id)
+        .toList();
+
     final CartController cartController = Get.put(CartController());
     debugPrint('Seller: ${seller.storeName}');
     return Scaffold(
@@ -145,7 +151,7 @@ class DetailPage extends StatelessWidget {
                   SizedBox(
                     height: 15.h,
                   ),
-                  controller.product.length < 2
+                  sellerProducts.length <= 1
                       ? const SizedBox()
                       : Text(
                           'Produk lainnya dari ${seller.storeName}',
@@ -158,60 +164,131 @@ class DetailPage extends StatelessWidget {
               ),
             ),
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              width: double.infinity,
-              child: GetX<ProductController>(
-                builder: (productController) {
-                  if (productController.product.isEmpty) {
-                    return const Center(
-                      child: Text('Tidak ada produk'),
-                    );
-                  } else if (productController.loading.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return Container(
-                      margin: EdgeInsets.only(
-                        left: 24.w,
-                        right: 24.w,
-                        bottom: 24.h,
-                      ),
-                      height: 150.h,
-                      width: 80.w,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: sellerProducts.length,
-                        itemBuilder: (context, index) {
-                          final product = sellerProducts[index];
-                          if (product.id == this.product.id) {
-                            return const SizedBox();
-                          } else {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailPage(
-                                      product: product,
-                                      seller: seller,
-                                    ),
-                                  ),
-                                );
+          sellerProducts.length <= 1
+              ? const SliverToBoxAdapter()
+              : SliverToBoxAdapter(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: GetX<ProductController>(
+                      builder: (productController) {
+                        if (productController.loading.value) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          return Container(
+                            margin: EdgeInsets.only(
+                              left: 24.w,
+                              right: 24.w,
+                              bottom: 24.h,
+                            ),
+                            height: 150.h,
+                            width: 80.w,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: sellerProducts.length,
+                              itemBuilder: (context, index) {
+                                final product = sellerProducts[index];
+                                if (product.id == this.product.id) {
+                                  return const SizedBox();
+                                } else {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DetailPage(
+                                            product: product,
+                                            seller: seller,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: RecommendCard(product: product),
+                                  );
+                                }
                               },
-                              child: RecommendCard(product: product),
-                            );
-                          }
-                        },
-                      ),
-                    );
-                  }
-                },
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 24.w,
+                vertical: 10.h,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Ulasan (${comments.length})',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: comments.length,
+                    itemBuilder: (context, index) {
+                      final comment = comments[index];
+                      final buyer = buyerController.buyers.firstWhere(
+                          (buyer) => buyer.id == comment.buyerId,
+                          orElse: () => const BuyerModel());
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 10.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 52.w,
+                              height: 52.h,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(buyer.photoUrl),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  buyer.displayName,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                RatingBarIndicator(
+                                  rating: comment.rating,
+                                  itemBuilder: (context, index) => const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  itemCount: 5,
+                                  itemSize: 14.0,
+                                  direction: Axis.horizontal,
+                                ),
+                                SizedBox(height: 8.h),
+                                Text(comment.comment),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
-          ),
+          )
         ],
       ),
       bottomNavigationBar: Padding(

@@ -25,21 +25,36 @@ class RateScreen extends StatefulWidget {
 
 class _RateScreenState extends State<RateScreen> {
   final ProductController productController = Get.put(ProductController());
+  final TextEditingController commentController = TextEditingController();
   List<double> productRating = [];
+  final List<TextEditingController> commentControllers = [];
+  final Map<String, String> productComments = {};
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  // Initialize productRatings with default ratings (e.g., 3) for each product
-  //   productRating = List<double>.filled(widget.checkout.cart.length, 0);
-  // }
+  void initializeCommentControllers(int numProducts) {
+    commentControllers.clear();
+    for (int i = 0; i < numProducts; i++) {
+      final cart = widget.checkout.cart[i];
+      const defaultComment = '';
+      productComments[cart.productId] = defaultComment;
+      commentControllers.add(TextEditingController(text: defaultComment));
+    }
+  }
+
+  void setProductComment(String productId, String comment) {
+    productComments[productId] = comment;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initializeCommentControllers(widget.checkout.cart.length);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(top: 10.h),
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Align(
@@ -55,7 +70,7 @@ class _RateScreenState extends State<RateScreen> {
                   icon: const Icon(Icons.close_rounded),
                 ),
               ),
-              SizedBox(height: 15.h),
+              // SizedBox(height: 15.h),
               Lottie.asset('assets/lottie/rate.json', width: 256.w),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
@@ -79,7 +94,7 @@ class _RateScreenState extends State<RateScreen> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: 150.h,
+                height: 208.h,
                 child: ListView.builder(
                   itemCount: widget.checkout.cart.length,
                   scrollDirection: Axis.horizontal,
@@ -148,6 +163,26 @@ class _RateScreenState extends State<RateScreen> {
                                     log(rating.toString());
                                   },
                                 ),
+                                SizedBox(height: 8.h),
+                                TextFormField(
+                                  controller: commentControllers[index],
+                                  onChanged: (comment) {
+                                    final cart = widget.checkout.cart[index];
+                                    setProductComment(cart.productId, comment);
+                                    log(comment);
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: 'Tambah komentar',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        style: BorderStyle.none,
+                                        width: 0,
+                                      ),
+                                    ),
+                                    filled: true,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -163,13 +198,25 @@ class _RateScreenState extends State<RateScreen> {
                     for (int i = 0; i < widget.checkout.cart.length; i++) {
                       final cart = widget.checkout.cart[i];
                       final rating = productRating[i];
+                      final comment = productComments[cart.productId] ?? '';
                       productController.rateProduct(
                         widget.seller.id,
                         cart.productId,
                         rating,
                       );
+                      if (comment.isNotEmpty) {
+                        productController.addProductComment(
+                          sellerId: widget.checkout.sellerId,
+                          buyerId: widget.checkout.buyerId,
+                          buyerName: widget.checkout.displayName,
+                          productId: cart.productId,
+                          newComment: comment,
+                          rating: rating,
+                        );
+                      }
                     }
                     productRating.clear();
+
                     Get.offAll(
                       () => const ThankYouScreen(),
                     );
@@ -180,7 +227,7 @@ class _RateScreenState extends State<RateScreen> {
                   style:
                       GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
                 ),
-              )
+              ),
             ],
           ),
         ),

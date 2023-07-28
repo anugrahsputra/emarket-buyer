@@ -46,11 +46,14 @@ class _HomepageState extends State<Homepage> {
                 onTap: () {
                   mainPageController.changePage(3);
                 },
-                child: Obx(() => CircleAvatar(
-                      radius: 24,
-                      backgroundImage: CachedNetworkImageProvider(
-                          buyerController.buyer.photoUrl),
-                    )),
+                child: Obx(
+                  () => CircleAvatar(
+                    radius: 24,
+                    backgroundImage: CachedNetworkImageProvider(
+                      buyerController.buyer.photoUrl,
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 width: 10.w,

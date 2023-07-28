@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'dart:developer';
+
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/services/services.dart';
@@ -17,6 +19,8 @@ class BuyerController extends GetxController {
 
   Rx<XFile?> newProfilePicture = Rx<XFile?>(null);
 
+  final buyers = RxList<BuyerModel>([]);
+
   BuyerModel get buyer => _buyer.value;
 
   set buyer(BuyerModel value) {
@@ -31,11 +35,23 @@ class BuyerController extends GetxController {
   void onInit() {
     super.onInit();
     fetchBuyer();
+    fetchAllBuyer();
   }
 
   setLoading(bool value) {
     loading.value = value;
     update();
+  }
+
+  Future<void> fetchAllBuyer() async {
+    try {
+      setLoading(true);
+      buyers.bindStream(database.fetchAllBuyers());
+      setLoading(false);
+    } catch (e) {
+      log('Error fetching all buyers: $e');
+      setLoading(false);
+    }
   }
 
   Future<void> fetchBuyer() async {
