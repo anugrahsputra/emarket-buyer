@@ -53,6 +53,7 @@ class AuthController extends GetxController {
     debugPrint(buyer.location.toString());
     await _auth.currentUser!.updateDisplayName(displayname);
     await _auth.currentUser!.updatePhotoURL(photoUrl);
+    Get.find<LocationController>().getCurrentLocation();
     Get.find<BuyerController>().buyer = buyer;
     Get.find<BuyerController>().update();
     await Database().createNewBuyer(buyer);

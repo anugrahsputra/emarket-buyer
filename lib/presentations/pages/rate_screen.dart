@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:emarket_buyer/common/formatter.dart';
 import 'package:emarket_buyer/models/model.dart';
@@ -160,7 +159,6 @@ class _RateScreenState extends State<RateScreen> {
                                     } else {
                                       productRating[index] = rating;
                                     }
-                                    log(rating.toString());
                                   },
                                 ),
                                 SizedBox(height: 8.h),
@@ -169,7 +167,6 @@ class _RateScreenState extends State<RateScreen> {
                                   onChanged: (comment) {
                                     final cart = widget.checkout.cart[index];
                                     setProductComment(cart.productId, comment);
-                                    log(comment);
                                   },
                                   decoration: InputDecoration(
                                     hintText: 'Tambah komentar',

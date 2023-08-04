@@ -13,6 +13,7 @@ class LocationController extends GetxController {
   GeofencingHelper geofencingHelper = GeofencingHelper();
   late Rx<LocationModel> location;
   bool isInsideGeoFence = true;
+  final loading = false.obs;
 
   Position? currentPosition;
 
@@ -24,6 +25,10 @@ class LocationController extends GetxController {
       longitude: 0.0,
     ));
     getCurrentLocation();
+  }
+
+  setLoading(bool value) {
+    loading.value = value;
   }
 
   Future checkPermission() async {
@@ -58,13 +63,16 @@ class LocationController extends GetxController {
   Future<void> getCurrentLocation() async {
     try {
       await checkPermission();
+      setLoading(true);
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
       location.value = LocationModel(
         latitude: position.latitude,
         longitude: position.longitude,
       );
+      setLoading(false);
     } catch (e) {
+      setLoading(false);
       debugPrint(e.toString());
     }
   }

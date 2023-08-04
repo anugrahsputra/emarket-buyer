@@ -252,6 +252,7 @@ class DetailPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: NetworkImage(buyer.photoUrl),
+                                  fit: BoxFit.fitWidth,
                                 ),
                               ),
                             ),

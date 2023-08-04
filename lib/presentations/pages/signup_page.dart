@@ -147,7 +147,7 @@ class SignUpPage extends GetWidget<AuthController> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              await locationController.getCurrentLocation();
+                              // await locationController.getCurrentLocation();
                               controller.signUp();
                             }
 
