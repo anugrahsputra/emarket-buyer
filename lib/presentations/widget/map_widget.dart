@@ -15,10 +15,10 @@ import 'package:image/image.dart' as img;
 class MapWIdget extends StatefulWidget {
   const MapWIdget({
     super.key,
-    required this.buyer,
     required this.seller,
+    required this.checkout,
   });
-  final BuyerModel buyer;
+  final CheckoutModel checkout;
   final SellerModel seller;
 
   @override
@@ -58,8 +58,8 @@ class _MapWIdgetState extends State<MapWIdget> {
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleApiKey,
         PointLatLng(
-          widget.buyer.location.latitude,
-          widget.buyer.location.longitude,
+          widget.checkout.location.latitude,
+          widget.checkout.location.longitude,
         ),
         PointLatLng(
           widget.seller.location.latitude,
@@ -112,10 +112,10 @@ class _MapWIdgetState extends State<MapWIdget> {
               },
               initialCameraPosition: CameraPosition(
                 target: LatLng(
-                  (widget.buyer.location.latitude +
+                  (widget.checkout.location.latitude +
                           widget.seller.location.latitude) /
                       2,
-                  (widget.buyer.location.longitude +
+                  (widget.checkout.location.longitude +
                           widget.seller.location.longitude) /
                       2,
                 ),
@@ -126,12 +126,12 @@ class _MapWIdgetState extends State<MapWIdget> {
                   markerId: const MarkerId('buyerLoc'),
                   icon: destinationIcon,
                   position: LatLng(
-                    widget.buyer.location.latitude,
-                    widget.buyer.location.longitude,
+                    widget.checkout.location.latitude,
+                    widget.checkout.location.longitude,
                   ),
                   infoWindow: InfoWindow(
-                    title: widget.buyer.displayName,
-                    snippet: widget.buyer.address,
+                    title: widget.checkout.displayName,
+                    snippet: widget.checkout.address,
                   ),
                 ),
                 Marker(

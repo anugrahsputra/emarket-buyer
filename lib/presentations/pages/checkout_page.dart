@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emarket_buyer/common/formatter.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
@@ -126,6 +127,7 @@ class ChekcoutPage extends StatelessWidget {
                   height: 50.h,
                   child: FilledButton(
                     onPressed: () async {
+                      DateTime now = DateTime.now();
                       await checkoutController.newCheckout(
                         CheckoutModel(
                           buyerId: auth.user!.uid,
@@ -135,10 +137,13 @@ class ChekcoutPage extends StatelessWidget {
                           isCancelled: checkoutController.isCancelled.value,
                           isShipping: checkoutController.isShipping.value,
                           displayName: buyerController.buyer.displayName,
+                          address: buyerController.buyer.address,
+                          location: buyerController.buyer.location,
                           cart: cartController.cartProducts,
                           note: noteController.text,
                           total: cartController.total.toInt(),
-                          date: DateFormat.yMMMMd().format(DateTime.now()),
+                          date: DateFormat.yMMMMd().add_Hm().format(now),
+                          timestamp: Timestamp.fromDate(now),
                         ),
                       );
                       Get.toNamed('/order-success-page');

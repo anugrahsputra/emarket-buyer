@@ -36,11 +36,11 @@ class OrderDetailPage extends StatelessWidget {
       seller.location.longitude,
     );
     directionController.origin.value = LatLng(
-      buyerController.buyer.location.latitude,
-      buyerController.buyer.location.longitude,
+      checkout.location.latitude,
+      checkout.location.longitude,
     );
     log('seller: ${seller.location.latitude} ${seller.location.longitude}');
-    log('buyer: ${buyerController.buyer.location.latitude} ${buyerController.buyer.location.longitude}');
+    log('buyer: ${checkout.location.latitude} ${checkout.location.longitude}');
 
     return GetBuilder<DirectionController>(
       init: directionController,
@@ -79,7 +79,7 @@ class OrderDetailPage extends StatelessWidget {
     return Column(
       children: [
         MapWIdget(
-          buyer: buyerController.buyer,
+          checkout: checkout,
           seller: seller,
         ),
         buildProgress(),

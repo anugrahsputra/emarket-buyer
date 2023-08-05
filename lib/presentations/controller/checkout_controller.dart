@@ -75,6 +75,9 @@ class CheckoutController extends GetxController {
         isCancelled: isCancelled.value,
         isShipping: isShipping.value,
         date: checkoutModel.date,
+        location: checkoutModel.location,
+        address: checkoutModel.address,
+        timestamp: checkoutModel.timestamp,
         cart: cartToSeller[sellerId]!,
         total: total,
       );
