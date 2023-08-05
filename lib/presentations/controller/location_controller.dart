@@ -3,14 +3,18 @@ import 'dart:developer';
 
 import 'package:emarket_buyer/helper/helper.dart';
 import 'package:emarket_buyer/models/model.dart';
+import 'package:emarket_buyer/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationController extends GetxController {
   Geolocator geolocator = Geolocator();
+  PlacesService placesService = PlacesService();
   GeofencingHelper geofencingHelper = GeofencingHelper();
+  final addressSuggestions = <Map<String, dynamic>>[].obs;
   late Rx<LocationModel> location;
   bool isInsideGeoFence = true;
   final loading = false.obs;
@@ -84,13 +88,34 @@ class LocationController extends GetxController {
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
         String address =
-            "${placemark.street}, ${placemark.subLocality}, ${placemark.locality}";
+            "${placemark.name} ,${placemark.street}, ${placemark.subLocality}, ${placemark.locality}";
         return address;
       } else {
         return "No address found";
       }
     } catch (e) {
       return "Error getting address: $e";
+    }
+  }
+
+  Future<void> autocompleteAddress(String query) async {
+    try {
+      final suggestions = await placesService.placeAutocomplete(query);
+      addressSuggestions.value = suggestions;
+      update();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<LatLng> getCoordinatesFromPlaceId(String placeId) async {
+    try {
+      final coordinates =
+          await placesService.getCoordinatesFromPlaceId(placeId);
+      return coordinates;
+    } catch (e) {
+      debugPrint(e.toString());
+      return const LatLng(0.0, 0.0);
     }
   }
 

@@ -12,8 +12,11 @@ class CheckoutModel extends Equatable {
   final bool isCancelled;
   final bool isShipping;
   final List<CartModel> cart;
+  final String address;
+  final LocationModel location;
   final int total;
   final String date;
+  final Timestamp timestamp;
   final String note;
   const CheckoutModel({
     this.id,
@@ -25,8 +28,11 @@ class CheckoutModel extends Equatable {
     required this.isCancelled,
     required this.isShipping,
     required this.cart,
+    required this.address,
+    required this.location,
     required this.total,
     required this.date,
+    required this.timestamp,
     required this.note,
   });
 
@@ -41,8 +47,11 @@ class CheckoutModel extends Equatable {
     bool? isShipping,
     String? displayName,
     List<CartModel>? cart,
+    LocationModel? location,
+    String? address,
     int? total,
     String? date,
+    Timestamp? timestamp,
   }) {
     return CheckoutModel(
       id: id ?? this.id,
@@ -55,8 +64,11 @@ class CheckoutModel extends Equatable {
       isShipping: isShipping ?? this.isShipping,
       displayName: displayName ?? this.displayName,
       cart: cart ?? this.cart,
+      location: location ?? this.location,
+      address: address ?? this.address,
       total: total ?? this.total,
       date: date ?? this.date,
+      timestamp: timestamp ?? this.timestamp,
     );
   }
 
@@ -72,8 +84,11 @@ class CheckoutModel extends Equatable {
       'isDelivered': isDelivered,
       'isShipping': isShipping,
       'cart': cart.map((x) => x.toMap()).toList(),
+      'location': location.toMap(),
+      'address': address,
       'total': total,
       'date': date,
+      'timestamp': timestamp,
     };
   }
 
@@ -89,8 +104,11 @@ class CheckoutModel extends Equatable {
       isCancelled: map['isCancelled'] ?? false,
       isShipping: map['isShipping'] ?? false,
       cart: List<CartModel>.from(map['cart']?.map((x) => CartModel.fromMap(x))),
+      location: LocationModel.fromMap(map['location']),
+      address: map['address'],
       total: map['total']?.toInt() ?? 0,
       date: map['date'],
+      timestamp: Timestamp.now(),
     );
   }
 
@@ -106,8 +124,11 @@ class CheckoutModel extends Equatable {
       isShipping,
       note,
       cart,
+      location,
+      address,
       total,
       date,
+      timestamp,
     ];
   }
 }
