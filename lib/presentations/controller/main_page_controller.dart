@@ -30,7 +30,7 @@ class MainPageController extends GetxController {
         update();
         break;
       case 2:
-        currentPage = OrderHistoryPage();
+        currentPage = const OrderHistoryPage();
         queryClear;
         update();
         break;

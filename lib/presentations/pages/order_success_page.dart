@@ -44,7 +44,7 @@ class _OrderSuccessPageState extends State<OrderSuccessPage> {
                 width: 200.w, height: 200.w, repeat: false),
             const SizedBox(height: 20),
             const Text(
-              'Order Placed Successfully',
+              'Pesanan berhasil',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

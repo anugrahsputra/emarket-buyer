@@ -31,16 +31,18 @@ class CartController extends GetxController {
   Future<bool> cartNotif() async {
     if (cartProducts.isNotEmpty) {
       debugPrint('Notification active');
+      update();
       return await AndroidAlarmManager.periodic(
         const Duration(hours: 8),
         1,
         BackgroundService.callback,
         exact: true,
         wakeup: true,
-        startAt: DateTime.now(),
+        startAt: DateTimeHelper.format(),
       );
     } else {
       debugPrint('Notification inactive');
+      update();
       return await AndroidAlarmManager.cancel(1);
     }
   }

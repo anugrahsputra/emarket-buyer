@@ -27,7 +27,7 @@ class Routes {
     ),
     GetPage(
       name: '/order-history-page',
-      page: () => OrderHistoryPage(),
+      page: () => const OrderHistoryPage(),
     ),
     GetPage(
       name: '/checkout-page',
