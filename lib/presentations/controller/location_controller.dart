@@ -88,7 +88,7 @@ class LocationController extends GetxController {
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
         String address =
-            "${placemark.name} ,${placemark.street}, ${placemark.subLocality}, ${placemark.locality}";
+            "${placemark.street}, ${placemark.subLocality}, ${placemark.locality}, ${placemark.administrativeArea}";
         return address;
       } else {
         return "No address found";

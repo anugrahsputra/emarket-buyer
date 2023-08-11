@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +31,42 @@ class SignUpPage extends GetWidget<AuthController> {
                     Text(
                       'Daftar',
                       style: GoogleFonts.plusJakartaSans(
-                        fontSize: 60,
+                        fontSize: 50,
                         fontWeight: FontWeight.w900,
                       ),
+                    ),
+                    AnimatedTextKit(
+                      pause: const Duration(milliseconds: 1000),
+                      repeatForever: false,
+                      animatedTexts: [
+                        TyperAnimatedText(
+                          'Untuk Jajan',
+                          textStyle: GoogleFonts.plusJakartaSans(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.red,
+                          ),
+                          speed: const Duration(milliseconds: 100),
+                        ),
+                        TyperAnimatedText(
+                          'Untuk Liat liat',
+                          textStyle: GoogleFonts.plusJakartaSans(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.blue,
+                          ),
+                          speed: const Duration(milliseconds: 100),
+                        ),
+                        TyperAnimatedText(
+                          'Untuk Melanjutkan',
+                          textStyle: GoogleFonts.plusJakartaSans(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.green,
+                          ),
+                          speed: const Duration(milliseconds: 100),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.1,

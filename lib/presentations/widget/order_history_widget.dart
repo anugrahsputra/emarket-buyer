@@ -30,7 +30,7 @@ class OrderHistoryWidget extends StatelessWidget {
           horizontal: 24.w,
           vertical: 10.h,
         ),
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -52,30 +52,38 @@ class OrderHistoryWidget extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    checkout.isCancelled == true
-                        ? Text(
-                            'Dibatalkan',
-                            style: GoogleFonts.plusJakartaSans(
-                              fontSize: 14,
-                            ),
-                          )
-                        : checkout.isDelivered == true
-                            ? Text(
-                                'Sudah diterima',
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14,
-                                ),
-                              )
-                            : checkout.isShipping == true
-                                ? Text(
-                                    'Sedang dikirim',
-                                    style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 14,
-                                    ),
-                                  )
-                                : checkout.isProcessing == true
-                                    ? const Text('Diproses')
-                                    : const Text('Pesanan Masuk'),
+                    Chip(
+                      side: BorderSide.none,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      // Ternary operator to death >:(
+                      backgroundColor: checkout.isCancelled == true
+                          ? Colors.red[200]
+                          : checkout.isDelivered == true
+                              ? Colors.green[200]
+                              : checkout.isShipping == true
+                                  ? Colors.orange[200]
+                                  : checkout.isProcessing == true
+                                      ? Colors.blue[200]
+                                      : Colors.grey[200],
+                      label: Text(
+                        checkout.isCancelled == true
+                            ? 'Dibatalkan'
+                            : checkout.isDelivered == true
+                                ? 'Selesai'
+                                : checkout.isShipping == true
+                                    ? 'Dikirim'
+                                    : checkout.isProcessing == true
+                                        ? 'Diproses'
+                                        : 'Pesanan Masuk',
+                        style: GoogleFonts.poppins(
+                          color: Colors.black87,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 Row(

@@ -3,15 +3,19 @@ import 'package:emarket_buyer/common/common.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PlacesService {
-  static const String _baseUrl = 'https://maps.googleapis.com';
-  static const String _autoComplete = '/maps/api/place/autocomplete/json';
-  static const String _details = '/maps/api/place/details/json';
-
+  final String _baseUrl = Env.baseUrl;
+  final String _autoComplete = Env.autoComplete;
+  final String _details = Env.details;
+  final String googleApiKey = Env.apiKey;
   final Dio _dio;
 
   PlacesService({Dio? dio}) : _dio = dio ?? Dio();
 
   Future<List<Map<String, dynamic>>> placeAutocomplete(String query) async {
+    // latlng in Bandung
+    const latitude = -6.917464;
+    const longitude = 107.619123;
+    const radius = 50000;
     try {
       final response = await _dio.get(
         '$_baseUrl$_autoComplete',
@@ -21,6 +25,9 @@ class PlacesService {
           "types": "establishment",
           "language": "id",
           "components": "country:id",
+          "location": "$latitude,$longitude",
+          "radius": "$radius",
+          "strictbounds": "",
         },
       );
       if (response.statusCode == 200) {

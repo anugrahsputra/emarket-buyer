@@ -18,6 +18,8 @@ class ChekcoutPage extends StatelessWidget {
   final LocationController locationController = Get.put(LocationController());
   final AuthController auth = Get.put(AuthController());
   final TextEditingController noteController = TextEditingController();
+  final TextEditingController additionalAddressController =
+      TextEditingController();
   final Database database = Database();
 
   @override
@@ -42,56 +44,17 @@ class ChekcoutPage extends StatelessWidget {
                 .background,
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Text(
-                      'Total',
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 18,
-                      ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      Formatter.priceFormat(cartController.total.toInt()),
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
+                _buildText(
+                  title: 'Total',
+                  text: Formatter.priceFormat(cartController.total.toInt()),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'Ongkir',
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 18,
-                      ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      'Gratis',
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
+                _buildText(
+                  title: 'Ongkir',
+                  text: 'Gratis',
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'Jumlah Pesanan',
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 18,
-                      ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      '${cartController.cartProducts.length} Item',
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
+                _buildText(
+                  title: 'Jumlah Pesanan',
+                  text: '${cartController.cartProducts.length} Item',
                 ),
                 const Divider(),
               ],
@@ -127,26 +90,55 @@ class ChekcoutPage extends StatelessWidget {
                   height: 50.h,
                   child: FilledButton(
                     onPressed: () async {
-                      DateTime now = DateTime.now();
-                      await checkoutController.newCheckout(
-                        CheckoutModel(
-                          buyerId: auth.user!.uid,
-                          sellerId: checkoutController.seller.id,
-                          isProcessing: checkoutController.isProcessing.value,
-                          isDelivered: checkoutController.isDelivered.value,
-                          isCancelled: checkoutController.isCancelled.value,
-                          isShipping: checkoutController.isShipping.value,
-                          displayName: buyerController.buyer.displayName,
-                          address: buyerController.buyer.address,
-                          location: buyerController.buyer.location,
-                          cart: cartController.cartProducts,
-                          note: noteController.text,
-                          total: cartController.total.toInt(),
-                          date: DateFormat.yMMMMd().add_Hm().format(now),
-                          timestamp: Timestamp.fromDate(now),
+                      Get.dialog(
+                        AlertDialog(
+                          title: const Text('Konfirmasi'),
+                          content: const Text(
+                              'Pastikan alamat dan pesanan sudah benar'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: const Text('Batal'),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                DateTime now = DateTime.now();
+                                await checkoutController.newCheckout(
+                                  CheckoutModel(
+                                    buyerId: auth.user!.uid,
+                                    sellerId: checkoutController.seller.id,
+                                    isProcessing:
+                                        checkoutController.isProcessing.value,
+                                    isDelivered:
+                                        checkoutController.isDelivered.value,
+                                    isCancelled:
+                                        checkoutController.isCancelled.value,
+                                    isShipping:
+                                        checkoutController.isShipping.value,
+                                    displayName:
+                                        buyerController.buyer.displayName,
+                                    address: buyerController.buyer.address,
+                                    location: buyerController.buyer.location,
+                                    additionalAddress:
+                                        additionalAddressController.text,
+                                    cart: cartController.cartProducts,
+                                    note: noteController.text,
+                                    total: cartController.total.toInt(),
+                                    date: DateFormat.yMMMMd()
+                                        .add_Hm()
+                                        .format(now),
+                                    timestamp: Timestamp.fromDate(now),
+                                  ),
+                                );
+                                Get.toNamed('/order-success-page');
+                              },
+                              child: const Text('Ya'),
+                            ),
+                          ],
                         ),
                       );
-                      Get.toNamed('/order-success-page');
                     },
                     child: Text('Pesan Sekarang',
                         textAlign: TextAlign.center,
@@ -244,6 +236,21 @@ class ChekcoutPage extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              TextField(
+                controller: additionalAddressController,
+                maxLines: 2,
+                decoration: InputDecoration(
+                  hintText: 'Alamat tambahan (optional)\ncth: depan toko bunga',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                      style: BorderStyle.none,
+                      width: 0,
+                    ),
+                  ),
+                  filled: true,
+                ),
               ),
               SizedBox(height: 15.h),
               Text(
@@ -351,6 +358,26 @@ class ChekcoutPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  _buildText({required String title, required String text}) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 18,
+          ),
+        ),
+        const Spacer(),
+        Text(
+          text,
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 18,
+          ),
+        ),
+      ],
     );
   }
 }

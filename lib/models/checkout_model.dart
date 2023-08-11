@@ -14,6 +14,7 @@ class CheckoutModel extends Equatable {
   final List<CartModel> cart;
   final String address;
   final LocationModel location;
+  final String additionalAddress;
   final int total;
   final String date;
   final Timestamp timestamp;
@@ -30,6 +31,7 @@ class CheckoutModel extends Equatable {
     required this.cart,
     required this.address,
     required this.location,
+    required this.additionalAddress,
     required this.total,
     required this.date,
     required this.timestamp,
@@ -49,6 +51,7 @@ class CheckoutModel extends Equatable {
     List<CartModel>? cart,
     LocationModel? location,
     String? address,
+    String? additionalAddress,
     int? total,
     String? date,
     Timestamp? timestamp,
@@ -66,6 +69,7 @@ class CheckoutModel extends Equatable {
       cart: cart ?? this.cart,
       location: location ?? this.location,
       address: address ?? this.address,
+      additionalAddress: additionalAddress ?? this.additionalAddress,
       total: total ?? this.total,
       date: date ?? this.date,
       timestamp: timestamp ?? this.timestamp,
@@ -86,6 +90,7 @@ class CheckoutModel extends Equatable {
       'cart': cart.map((x) => x.toMap()).toList(),
       'location': location.toMap(),
       'address': address,
+      'additionalAddress': additionalAddress,
       'total': total,
       'date': date,
       'timestamp': timestamp,
@@ -106,6 +111,7 @@ class CheckoutModel extends Equatable {
       cart: List<CartModel>.from(map['cart']?.map((x) => CartModel.fromMap(x))),
       location: LocationModel.fromMap(map['location']),
       address: map['address'],
+      additionalAddress: map['additionalAddress'] ?? '',
       total: map['total']?.toInt() ?? 0,
       date: map['date'],
       timestamp: Timestamp.now(),
@@ -126,6 +132,7 @@ class CheckoutModel extends Equatable {
       cart,
       location,
       address,
+      additionalAddress,
       total,
       date,
       timestamp,

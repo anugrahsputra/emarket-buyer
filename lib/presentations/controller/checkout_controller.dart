@@ -20,6 +20,8 @@ class CheckoutController extends GetxController {
   RxBool isDelivered = false.obs;
   RxBool isProcessing = false.obs;
   RxBool isShipping = false.obs;
+  RxBool showCompleted = false.obs;
+  RxBool showIncompleted = false.obs;
   var uuid = const Uuid();
   DateTime date = DateTime.now();
   RxString formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now()).obs;
@@ -38,9 +40,14 @@ class CheckoutController extends GetxController {
   }
 
   Future<void> fetchCheckout() async {
-    String id = Get.find<AuthController>().user!.uid;
-    checkouts.bindStream(database.fetchCheckout(id));
-    update();
+    try {
+      String id = Get.find<AuthController>().user!.uid;
+      checkouts.bindStream(database.fetchCheckout(id));
+      log(checkouts.length.toString());
+      update();
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   Future<void> pullToRefresh() async {
@@ -77,6 +84,7 @@ class CheckoutController extends GetxController {
         date: checkoutModel.date,
         location: checkoutModel.location,
         address: checkoutModel.address,
+        additionalAddress: checkoutModel.additionalAddress,
         timestamp: checkoutModel.timestamp,
         cart: cartToSeller[sellerId]!,
         total: total,

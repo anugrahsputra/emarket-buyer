@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
@@ -22,16 +23,55 @@ class SigninPage extends GetWidget<AuthController> {
                 loading: controller.loading,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 100.h),
+                    SizedBox(height: 50.h),
+                    Image.asset(
+                      'assets/icon/launcher_icon.png',
+                      height: 100.h,
+                    ),
+                    SizedBox(height: 15.h),
                     Text(
-                      'Masuk',
+                      'Masuk untuk ',
                       style: GoogleFonts.plusJakartaSans(
-                        fontSize: 60,
-                        fontWeight: FontWeight.w900,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(height: 100.h),
+                    AnimatedTextKit(
+                      pause: const Duration(milliseconds: 1000),
+                      repeatForever: true,
+                      animatedTexts: [
+                        TyperAnimatedText(
+                          'Jajan',
+                          textStyle: GoogleFonts.plusJakartaSans(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.red,
+                          ),
+                          speed: const Duration(milliseconds: 100),
+                        ),
+                        TyperAnimatedText(
+                          'Liat liat',
+                          textStyle: GoogleFonts.plusJakartaSans(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.blue,
+                          ),
+                          speed: const Duration(milliseconds: 100),
+                        ),
+                        TyperAnimatedText(
+                          'Melanjutkan',
+                          textStyle: GoogleFonts.plusJakartaSans(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.green,
+                          ),
+                          speed: const Duration(milliseconds: 100),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 60.h),
                     Form(
                       key: _formKey,
                       child: Column(

@@ -14,54 +14,80 @@ class OrderHistoryPage extends StatefulWidget {
 }
 
 class _OrderHistoryPageState extends State<OrderHistoryPage> {
-  final CheckoutController checkoutController = Get.put(CheckoutController());
-
   final SellerController sellerController = Get.put(SellerController());
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Pesanan',
-          style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          Obx(
-            () => GestureDetector(
-              onTap: () {
-                checkoutController.sortByDate.toggle();
-                checkoutController.fetchCheckout();
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: Icon(
-                  checkoutController.sortByDate.isTrue
-                      ? MdiIcons.sortBoolDescendingVariant
-                      : MdiIcons.sortBoolAscendingVariant,
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Pesanan',
+            style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold),
+          ),
+          actions: [
+            Obx(
+              () => GestureDetector(
+                onTap: () {
+                  Get.find<CheckoutController>().sortByDate.toggle();
+                  Get.find<CheckoutController>().fetchCheckout();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Icon(
+                    Get.find<CheckoutController>().sortByDate.isTrue
+                        ? MdiIcons.sortBoolDescendingVariant
+                        : MdiIcons.sortBoolAscendingVariant,
+                  ),
                 ),
               ),
+            )
+          ],
+        ),
+        body: Column(
+          children: [
+            TabBar(
+              onTap: (index) {
+                Get.find<CheckoutController>().showCompleted.value = index == 1;
+                Get.find<CheckoutController>().showIncompleted.value =
+                    index == 2;
+              },
+              tabs: const [
+                Tab(
+                  text: 'Semua',
+                ),
+                Tab(
+                  text: 'Selesai',
+                ),
+                Tab(
+                  text: 'Belum Selesai',
+                ),
+              ],
             ),
-          )
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: _listOrders(),
-          ),
-        ],
+            Expanded(
+              child: _listOrders(),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   _listOrders() {
-    return GetBuilder<CheckoutController>(
-      initState: (_) {
-        checkoutController.fetchCheckout();
-      },
+    return GetX<CheckoutController>(
+      init: Get.find<CheckoutController>(),
       builder: (controller) {
-        if (controller.checkouts.isEmpty) {
+        List<CheckoutModel> filteredCheckout =
+            controller.checkouts.where((checkout) {
+          if (controller.showCompleted.value) {
+            return checkout.isDelivered;
+          } else if (controller.showIncompleted.value) {
+            return !checkout.isDelivered;
+          }
+          return true;
+        }).toList();
+        if (filteredCheckout.isEmpty) {
           return const Center(
             child: Text('Anda belum memesan apapun!'),
           );
@@ -71,27 +97,25 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
             child: CircularProgressIndicator(),
           );
         } else {
-          if (checkoutController.sortByDate.isTrue) {
-            checkoutController.checkouts
-                .sort((a, b) => b.date.compareTo(a.date));
+          if (controller.sortByDate.isTrue) {
+            filteredCheckout.sort((a, b) => b.date.compareTo(a.date));
           } else {
-            checkoutController.checkouts
-                .sort((a, b) => a.date.compareTo(b.date));
+            filteredCheckout.sort((a, b) => a.date.compareTo(b.date));
           }
           return RefreshIndicator(
-            onRefresh: checkoutController.pullToRefresh,
+            onRefresh: controller.pullToRefresh,
             child: ListView.builder(
-              itemCount: checkoutController.checkouts.length,
+              itemCount: filteredCheckout.length,
               itemBuilder: (context, index) {
                 const defaultSeller = SellerModel();
-                final checkout = checkoutController.checkouts[index];
+                final checkout = filteredCheckout[index];
                 final seller = sellerController.sellers.firstWhere(
                   (element) => element.id == checkout.sellerId,
                   orElse: () => defaultSeller,
                 );
                 return OrderHistoryWidget(
                   seller: seller,
-                  checkout: checkoutController.checkouts[index],
+                  checkout: filteredCheckout[index],
                 );
               },
             ),
