@@ -35,41 +35,44 @@ class SignUpPage extends GetWidget<AuthController> {
                         fontWeight: FontWeight.w900,
                       ),
                     ),
-                    AnimatedTextKit(
-                      pause: const Duration(milliseconds: 1000),
-                      repeatForever: false,
-                      animatedTexts: [
-                        TyperAnimatedText(
-                          'Untuk Jajan',
-                          textStyle: GoogleFonts.plusJakartaSans(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.red,
+                    SizedBox(
+                      height: 40.h,
+                      child: AnimatedTextKit(
+                        pause: const Duration(milliseconds: 1000),
+                        repeatForever: false,
+                        animatedTexts: [
+                          TyperAnimatedText(
+                            'Untuk Jajan',
+                            textStyle: GoogleFonts.plusJakartaSans(
+                              fontSize: 35,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.red,
+                            ),
+                            speed: const Duration(milliseconds: 100),
                           ),
-                          speed: const Duration(milliseconds: 100),
-                        ),
-                        TyperAnimatedText(
-                          'Untuk Liat liat',
-                          textStyle: GoogleFonts.plusJakartaSans(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.blue,
+                          TyperAnimatedText(
+                            'Untuk Liat liat',
+                            textStyle: GoogleFonts.plusJakartaSans(
+                              fontSize: 35,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.blue,
+                            ),
+                            speed: const Duration(milliseconds: 100),
                           ),
-                          speed: const Duration(milliseconds: 100),
-                        ),
-                        TyperAnimatedText(
-                          'Untuk Melanjutkan',
-                          textStyle: GoogleFonts.plusJakartaSans(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.green,
+                          TyperAnimatedText(
+                            'Untuk Melanjutkan',
+                            textStyle: GoogleFonts.plusJakartaSans(
+                              fontSize: 35,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.green,
+                            ),
+                            speed: const Duration(milliseconds: 100),
                           ),
-                          speed: const Duration(milliseconds: 100),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: 40.h,
                     ),
                     Form(
                       key: _formKey,

@@ -52,6 +52,7 @@ dependencies:
   flutter_polyline_points: ^1.0.0
   flutter_rating_bar: ^4.0.1
   flutter_screenutil: ^5.8.4
+  flutter_svg: ^2.0.7
   flutter_typeahead: ^4.6.2
   fluttertoast: ^8.2.1
   geocoding: ^2.1.0
@@ -88,6 +89,7 @@ flutter_launcher_icons:
 flutter_native_splash:
   color: "f8f9fa"
   image: assets/splash/splash_icons.png
+  fullscreen: true
   android: true
   ios: false
   web: false
@@ -107,6 +109,7 @@ flutter:
     - assets/lottie/
     - assets/icon/
     - assets/splash/
+    - assets/logo/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

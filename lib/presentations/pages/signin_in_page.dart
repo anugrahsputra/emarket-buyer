@@ -3,6 +3,7 @@ import 'package:emarket_buyer/presentations/controller/controller.dart';
 import 'package:emarket_buyer/presentations/presentation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,50 +27,53 @@ class SigninPage extends GetWidget<AuthController> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: 50.h),
-                    Image.asset(
-                      'assets/icon/launcher_icon.png',
-                      height: 100.h,
+                    SvgPicture.asset(
+                      'assets/logo/logo.svg',
                     ),
                     SizedBox(height: 15.h),
                     Text(
                       'Masuk untuk ',
                       style: GoogleFonts.plusJakartaSans(
-                        fontSize: 30,
+                        fontSize: 45,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    AnimatedTextKit(
-                      pause: const Duration(milliseconds: 1000),
-                      repeatForever: true,
-                      animatedTexts: [
-                        TyperAnimatedText(
-                          'Jajan',
-                          textStyle: GoogleFonts.plusJakartaSans(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.red,
+                    SizedBox(
+                      height: 50.h,
+                      child: AnimatedTextKit(
+                        pause: const Duration(milliseconds: 1000),
+                        repeatForever: false,
+                        totalRepeatCount: 5,
+                        animatedTexts: [
+                          TyperAnimatedText(
+                            'Jajan',
+                            textStyle: GoogleFonts.plusJakartaSans(
+                              fontSize: 45,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.red,
+                            ),
+                            speed: const Duration(milliseconds: 100),
                           ),
-                          speed: const Duration(milliseconds: 100),
-                        ),
-                        TyperAnimatedText(
-                          'Liat liat',
-                          textStyle: GoogleFonts.plusJakartaSans(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.blue,
+                          TyperAnimatedText(
+                            'Liat liat',
+                            textStyle: GoogleFonts.plusJakartaSans(
+                              fontSize: 45,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.blue,
+                            ),
+                            speed: const Duration(milliseconds: 100),
                           ),
-                          speed: const Duration(milliseconds: 100),
-                        ),
-                        TyperAnimatedText(
-                          'Melanjutkan',
-                          textStyle: GoogleFonts.plusJakartaSans(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.green,
+                          TyperAnimatedText(
+                            'Melanjutkan',
+                            textStyle: GoogleFonts.plusJakartaSans(
+                              fontSize: 45,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.green,
+                            ),
+                            speed: const Duration(milliseconds: 100),
                           ),
-                          speed: const Duration(milliseconds: 100),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(height: 60.h),
                     Form(
