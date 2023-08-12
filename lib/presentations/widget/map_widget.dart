@@ -73,7 +73,6 @@ class _MapWIdgetState extends State<MapWIdget> {
             LatLng(point.latitude, point.longitude),
           );
         }
-        log('Polyline coordinates: $polylineCoordinates');
         setState(() {});
       }
     } catch (e) {

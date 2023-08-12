@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:emarket_buyer/models/model.dart';
 import 'package:emarket_buyer/presentations/controller/controller.dart';
@@ -9,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:maps_launcher/maps_launcher.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -39,8 +36,6 @@ class OrderDetailPage extends StatelessWidget {
       checkout.location.latitude,
       checkout.location.longitude,
     );
-    log('seller: ${seller.location.latitude} ${seller.location.longitude}');
-    log('buyer: ${checkout.location.latitude} ${checkout.location.longitude}');
 
     return GetBuilder<DirectionController>(
       init: directionController,
@@ -71,8 +66,6 @@ class OrderDetailPage extends StatelessWidget {
   }
 
   buildOrderContents() {
-    log('origin: ${directionController.origin.value}');
-    log('destination: ${directionController.destination.value}');
     final durationFormatted = directionController.duration.value >= 3600
         ? '${(directionController.duration.value ~/ 3600)} jam ${(directionController.duration.value % 3600) ~/ 60} menit'
         : '${(directionController.duration.value ~/ 60)} menit';
@@ -296,14 +289,12 @@ class OrderDetailPage extends StatelessWidget {
           const Spacer(),
           IconButton(
             onPressed: () async {
-              // final int index = checkout.cart
-              //     .indexWhere((element) => element.sellerId == seller.id);
-              // launchWhatsapp(
-              //   seller.phoneNumber,
-              //   'Halo ${seller.displayName}, tadi saya memesan ${checkout.cart[index].name} item dari toko ${seller.storeName} di eMarket. Mohon konfirmasi pesanan saya.\n \n Terima kasih.',
-              // );
-              MapsLauncher.launchCoordinates(
-                  seller.location.latitude, seller.location.longitude);
+              final int index = checkout.cart
+                  .indexWhere((element) => element.sellerId == seller.id);
+              launchWhatsapp(
+                seller.phoneNumber,
+                'Halo ${seller.displayName}, tadi saya memesan ${checkout.cart[index].name} item dari toko ${seller.storeName} di eMarket. Mohon konfirmasi pesanan saya.\n \n Terima kasih.',
+              );
             },
             icon: Container(
               height: 50.h,
@@ -322,6 +313,7 @@ class OrderDetailPage extends StatelessWidget {
     );
   }
 
+  // TODO: add dynamic link
   void launchWhatsapp(String phoneNumber, String message) async {
     String url = "whatsapp://send?phone=$phoneNumber&text=$message";
 
