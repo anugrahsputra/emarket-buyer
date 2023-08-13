@@ -4,12 +4,29 @@ This is a Flutter project developed as a thesis to fulfill the graduation requir
 
 ## E-Market Buyer Application
 
-<img src="assets/shot/Dribbble shot - 1.png" alt="Image" style="border-radius:1%"/>
+<img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/7d6d2683-09bb-4ab6-b36f-006ee138bb23" alt="Image" style="border-radius:1%"/>
+
 The E-Market Buyer mobile application is designed for buyers who want to purchase products online from the E-Market platform. This application caters to the needs of people residing in Kecamatan Malingping.
 
 ## Target Users: People in Kecamatan Malingping
 
 The E-Market Buyer mobile application aims to provide a convenient platform for buyers in Kecamatan Malingping to browse and purchase products online. By focusing on this specific user group, the application takes into account the unique preferences and requirements of buyers in Kecamatan Malingping, offering tailored features and functionalities to enhance their shopping experience.
+
+## Demo
+
+
+## Screenshots
+<p>
+    <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/7be54ba6-0f2d-44a4-8963-7c156e4e668e" alt="Image" width="250"/>
+    <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/020078dd-ac64-4f45-b78d-35d37b665183" alt="Image" width="250"/>
+    <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/0d7cc486-d34d-445a-aac3-9e96d4aa8253" alt="Image" width="250"/>
+    <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/f0cfc6ea-4529-45ae-8280-3aa328918b5f" alt="Image" width="250"/>
+    <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/f557d106-bab1-4f9e-9fb9-f785d5833884" alt="Image" width="250"/>
+    <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/f17b042b-ba3e-4826-a089-2638098ac273" alt="Image" width="250"/>
+    <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/18f69657-8533-4da9-bcea-270483b436d6" alt="Image" width="250"/>
+    <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/7d802ad4-5c11-420f-b15b-b6c25e364b49" alt="Image" width="250"/>
+    <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/6701e84a-05f6-4b6a-8a35-5049a00ba6b8" alt="Image" width="250"/>
+</p>
 
 ## Features
 
@@ -30,7 +47,10 @@ The E-Market Buyer mobile application aims to provide a convenient platform for 
   - [x] Checkout Information Detail
   - [x] Order History
   - [x] Delivery Tracking
-  - [x]
+- Product Details
+  - [x] Product Information
+  - [x] Product Star Reviews
+  - [x] Product Comments
 
 ## Technologies
 
@@ -53,19 +73,6 @@ The E-Market Buyer mobile application aims to provide a convenient platform for 
 ## Packages
 
 You can see the packages used in this project inside the file [pubspec.yaml](pubspec.yaml).
-
-## Screenshots
-
-<p align="center">
-    <img src="assets/screenshot/splash.jpg" alt="Image" width="250"/>
-    <img src="assets/screenshot/homepage.jpg" alt="Image" width="250"/>
-    <img src="assets/screenshot/cart.jpg" alt="Image" width="250"/>
-    <img src="assets/screenshot/order.jpg" alt="Image" width="250"/>
-    <img src="assets/screenshot/profile.jpg" alt="Image" width="250"/>
-    <img src="assets/screenshot/cartscreen.jpg" alt="Image" width="250"/>
-    <img src="assets/screenshot/checkout.jpg" alt="Image" width="250"/>
-    <img src="assets/screenshot/detailorder.jpg" alt="Image" width="250"/>
-</p>
 
 ## Installation and Usage
 
