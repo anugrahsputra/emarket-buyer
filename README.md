@@ -13,9 +13,10 @@ The E-Market Buyer mobile application aims to provide a convenient platform for 
 
 ## Demo
 
+<img src="assets/screenshot/emarket-buyer.gif" alt="screenrecord" width="320">
 
 ## Screenshots
-<p align="center">
+<p>
     <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/1dae3a49-8072-4737-b575-a00337cfdb41" alt="Image" width="250"/>
     <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/d70150fb-81f1-4cba-9ced-2715b76b1c6a" alt="Image" width="250"/>
     <img src="https://github.com/anugrahsputra/emarket-buyer/assets/71306482/51a651db-ff09-48e9-8d43-82a7653bc941" alt="Image" width="250"/>
@@ -80,15 +81,15 @@ You can see the packages used in this project inside the file [pubspec.yaml](pub
 
 To try the app, you can clone this repository and run it on your local machine:
 
-```
+```bash
 git clone https://github.com/anugrahsputra/emarket-buyer.git
 cd emarket-buyer
 ```
 
 Get all the dependencies:
 
-```
-flutter pub get
+```bash
+dart pub get
 ```
 
 ### Notes 🗒️
