@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
+import 'common/common.dart';
+
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
@@ -53,7 +55,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAPASDaKMFMIrAAnMht4vp1bUIjmef--YE',
+    apiKey: Env.apiKey,
     appId: '1:812067313674:android:6f3d0102299f86d739a7f3',
     messagingSenderId: '812067313674',
     projectId: 'database-emarket',
