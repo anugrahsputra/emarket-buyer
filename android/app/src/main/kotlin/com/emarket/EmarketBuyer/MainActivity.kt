@@ -1,4 +1,4 @@
-package com.example.emarket_buyer
+package com.emarket.EmarketBuyer
 
 import io.flutter.embedding.android.FlutterActivity
 
