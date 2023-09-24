@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emarket_buyer/app/models/model.dart';
 import 'package:equatable/equatable.dart';
+
+import 'model.dart';
 
 class BuyerModel extends Equatable {
   final String? id;
